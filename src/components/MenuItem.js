@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import img1 from '../img/1.png'
 
 const SoupContainer = styled.header`
   height: 40px;
@@ -22,14 +22,14 @@ const SoupTitle = styled.h4`
 `;
 
 const Item = styled.img`
-  height: 20px;
+  height: 200px;
 `;
 
 function MenuItem(props) {
     return (
         <SoupContainer>
             <SoupTitle>{props.title}</SoupTitle>
-            <Item />
+            <Item src={img1} />
         </SoupContainer>
     );
 }
