@@ -5,11 +5,11 @@ import './App.css';
 
 function App() {
 
-  const [loadingPage, setLoading] = useState(false);
+  const [loadingPage, setLoading] = useState(true);
   const [fadeLogo, setFade] = useState(false);
 
-  // setTimeout(() => setLoading(false), 4000);
-  // setTimeout(() => setFade(true), 3000);
+  setTimeout(() => setLoading(false), 4000);
+  setTimeout(() => setFade(true), 3000);
 
   return (
     <div className="App">

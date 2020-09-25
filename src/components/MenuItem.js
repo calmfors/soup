@@ -14,14 +14,21 @@ const SoupContainer = styled.header`
   flex-direction:column;
   margin-top:10px;
   text-align:left;
+  @media (min-width: 600px) {
+    max-width: 290px;
+    margin: 20px;
+  }
 `;
 
 const SoupTitle = styled.p`
   text-transform: uppercase;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
-  padding: 10px;
+  padding: 15px 10px 5px 10px;
   margin:0;
+  @media (min-width: 600px) {
+    padding: 15px 10px 5px 0px;
+  }
 `;
 
 const Item = styled.img`

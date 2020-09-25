@@ -2,8 +2,19 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import MenuItem from '../components/MenuItem';
-import firebase from '../components/firebase';
 import Login from '../components/Login';
+
+const Wrapper = styled.div`
+margin:0 auto;
+width: 100vw;
+@media (min-width: 600px) {
+    display: flex;
+    justify-content: center;
+    max-width: 1350px;
+    flex-wrap: wrap;
+  }
+
+`
 
 function Menu() {
 
@@ -15,13 +26,16 @@ function Menu() {
     { name: "Ramen Soup", price: "100" }]
 
     return (
-        <div>
+        <>
             <Header text="Menu" />
             <Login />
-            {soups.map((item, i) =>
-                <MenuItem title={item.name} src={i} price={item.price + " kr"} />
-            )}
-        </div>
+            <Wrapper>
+
+                {soups.map((item, i) =>
+                    <MenuItem key={i} title={item.name} src={i} price={item.price + " kr"} />
+                )}
+            </Wrapper>
+        </>
     );
 }
 
