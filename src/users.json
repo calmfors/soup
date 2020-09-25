@@ -1,0 +1,54 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Sven Larsson",
+            "age": 24,
+            "email": "erik@erik.se",
+            "street": "",
+            "zip": "",
+            "city": "",
+            "order_history": {}
+        },
+        {
+            "id": 2,
+            "name": "Alex Meraz",
+            "age": 24,
+            "email": "ameraz@email.com",
+            "street": "",
+            "zip": "",
+            "city": "",
+            "order_history": {}
+        },
+        {
+            "id": 3,
+            "name": "Mohammed Rafi",
+            "age": 21,
+            "email": "mrafi@email.com",
+            "street": "",
+            "zip": "",
+            "city": "",
+            "order_history": {}
+        },
+        {
+            "id": 4,
+            "name": "Raja Tamil",
+            "age": 31,
+            "email": "rtamil@email.com",
+            "street": "",
+            "zip": "",
+            "city": "",
+            "order_history": {}
+        },
+        {
+            "id": 5,
+            "name": "Sundar Pichai",
+            "age": 21,
+            "email": "spichai@email.com",
+            "street": "",
+            "zip": "",
+            "city": "",
+            "order_history": {}
+        }
+    ]
+}
