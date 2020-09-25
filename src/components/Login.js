@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import firebase from './firebase';
 
@@ -21,6 +21,19 @@ function Login(props) {
     const [loggedInUser, setLoggedInUser] = useState(null);
 
 
+    useEffect(() => {
+
+        const unregisterAuthObserver = firebase.auth()
+            .onAuthStateChanged(
+                (user) => setLoggedIn(!!user)
+            );
+
+        const user = loggedIn && firebase.auth().currentUser
+        if (user) getUsers(user.uid)
+
+        return unregisterAuthObserver;
+
+    }, [loggedIn]);
 
     function handleRegister() {
         if (!register) setRegister(true);
@@ -60,6 +73,7 @@ function Login(props) {
     function getUsers(id) {
         console.log(id)
         firebase.database().ref('/users/').on('value', (snapshot) => {
+            // console.log(user);
             const userObj = snapshot.val();
             const user = userObj.filter(user => user.id === id)
             setLoggedInUser(user[0]);
@@ -71,8 +85,6 @@ function Login(props) {
     function handlePsw(e) {
         setPsw(e.target.value);
     }
-    console.log(loggedInUser)
-
     return (
         < div >
             { loggedInUser && 'Hello ' + loggedInUser.name}
