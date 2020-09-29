@@ -5,14 +5,15 @@
         "filter": [
             "vegetarian"
         ],
-        "img": "../img/1.png"
+        "img": "img/1.png"
     },
     {
         "name": "Noodle Soup",
         "price": "100",
         "filter": [
             "chicken"
-        ]
+        ],
+        "img": "img/2.png"
     },
     {
         "name": "Broccoli Soup",
@@ -20,13 +21,15 @@
         "filter": [
             "vegetarian",
             "vegan"
-        ]
+        ],
+        "img": "img/3.png"
     },
     {
         "name": "Ramen Soup",
         "price": "100",
         "filter": [
             "meat"
-        ]
+        ],
+        "img": "img/4.png"
     }
 ]

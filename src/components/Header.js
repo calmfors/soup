@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import back from '../graphics/back.svg';
 import profile from '../graphics/profile.svg';
@@ -32,12 +33,13 @@ const HeaderItem = styled.button`
   font-size: 1rem;
   background: none;
   border: 0;
-  padding: 10px;
+  padding: 5px;
   display: flex;
   outline: ${props => props.show ? "1" : "0"};
 `;
 
 const Item = styled.img`
+  margin-top: ${props => props.width === "12" ? "4" : "0"}px;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
   visibility: ${props => props.show ? "visible" : "hidden"};
@@ -65,15 +67,21 @@ function Header(props) {
   function handleClick() {
     setShowLogin(!showLogin);
   }
+  function logOutOrInListener(check) {
+    console.log("From header")
+    console.log(check)
+    props.check(check);
+  }
+
   console.log(showLogin);
 
   return (
 
     <HeaderContainer>
-      <HeaderItem show={props.back} onClick={props.handleClick}>{<Item width="12" height="23" show={props.back} src={back} />}</HeaderItem>
+      <HeaderItem show={props.back} onClick={props.handleClick}>{<Link to="/"><Item width="12" height="23" show={props.back} src={back} /></Link>}</HeaderItem>
       <Logo src={logo} />
       <HeaderItem show={true} onClick={handleClick}><Item width="25" show={true} src={profile} /></HeaderItem>
-      {showLogin && <ProfileMenu><Login /></ProfileMenu>}
+      {showLogin && <ProfileMenu><Login check={logOutOrInListener} /></ProfileMenu>}
     </HeaderContainer>
 
   );

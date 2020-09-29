@@ -2,14 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import soups from '../soups.json';
 
-import img0 from '../img/1.png'
-import img1 from '../img/2.png'
-import img2 from '../img/3.png'
-import img3 from '../img/4.png'
-
-
-const images = [img0, img1, img2, img3];
-
 const LabelBox = styled.section`
   position: absolute;
   left: 10px;
@@ -109,7 +101,7 @@ function MenuItem(props) {
     <SoupButton onClick={props.click}>
       <SoupContainer>
         <SoupTitle>{props.title}</SoupTitle>
-        <Item src={images[props.src]} />
+        <Item src={props.src} />
         <LabelBox>
           {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
         </LabelBox>

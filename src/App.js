@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import Menu from './pages/Menu'
+import Order from './pages/Order'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+
 import './App.css';
 
 function App() {
 
-  const [loadingPage, setLoading] = useState(false);
+  const [loadingPage, setLoading] = useState(true);
   const [fadeLogo, setFade] = useState(false);
 
   setTimeout(() => setLoading(false), 4000);
@@ -13,13 +20,21 @@ function App() {
 
   return (
     <div className="App">
-      {loadingPage ?
-        <header className="App-header">
-          <img src={logo} className={fadeLogo ? "App-logo-fade" : "App-logo"} alt="logo" />
-        </header>
-        :
-        <Menu />
-      }
+
+      <Switch>
+        <Route path="/order">
+          <Order />
+        </Route>
+        <Route path="/">
+          {loadingPage ?
+            <header className="App-header">
+              <img src={logo} className={fadeLogo ? "App-logo-fade" : "App-logo"} alt="logo" />
+            </header>
+            :
+            <Menu />
+          }
+        </Route>
+      </Switch>
     </div>
   )
 }

@@ -66,6 +66,7 @@ function Login(props) {
             setLoggedIn(false);
             setLoggedInUser(null);
             console.log('Logged out!')
+            props.check(false);
         }).catch(function (error) {
             console.log(error.code);
             console.log(error.message);
@@ -77,6 +78,7 @@ function Login(props) {
             setPsw('');
             console.log('Logged in!')
             getUsers(user.uid)
+            props.check(firebase.auth().currentUser);
         }).catch(function (error) {
             // Handle Errors here.
             console.log(error.code);
