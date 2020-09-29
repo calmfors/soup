@@ -5,7 +5,7 @@ import './App.css';
 
 function App() {
 
-  const [loadingPage, setLoading] = useState(true);
+  const [loadingPage, setLoading] = useState(false);
   const [fadeLogo, setFade] = useState(false);
 
   setTimeout(() => setLoading(false), 4000);
