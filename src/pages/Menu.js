@@ -36,9 +36,8 @@ const OrderButton = styled.button`
   @media(min-width: 600px) {
     max-width: 600px;
     bottom: 50px;
-     left: 50%;
+    left: 50%;
     transform: translate(-50%, 0);
-    margin-left: 10px;
   }
 `;
 
