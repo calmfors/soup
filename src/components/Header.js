@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import back from '../graphics/back.svg';
@@ -62,26 +62,22 @@ const Logo = styled.img`
 `
 
 function Header(props) {
-  const [showLogin, setShowLogin] = useState(false);
 
-  function handleClick() {
-    setShowLogin(!showLogin);
-  }
   function logOutOrInListener(check) {
     console.log("From header")
     console.log(check)
     props.check(check);
   }
 
-  console.log(showLogin);
+  console.log("propslogin: " + props.showLogin);
 
   return (
 
     <HeaderContainer>
       <HeaderItem show={props.back} onClick={props.handleClick}>{<Link to="/"><Item width="12" height="23" show={props.back} src={back} /></Link>}</HeaderItem>
       <Logo src={logo} />
-      <HeaderItem show={true} onClick={handleClick}><Item width="25" show={true} src={profile} /></HeaderItem>
-      {showLogin && <ProfileMenu><Login check={logOutOrInListener} /></ProfileMenu>}
+      <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
+      {props.showLogin && <ProfileMenu><Login check={logOutOrInListener} /></ProfileMenu>}
     </HeaderContainer>
 
   );
