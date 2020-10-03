@@ -73,7 +73,7 @@ function Header(props) {
 
   return (
 
-    <HeaderContainer>
+    <HeaderContainer onClick={(e) => { e.stopPropagation() }}>
       <HeaderItem show={props.back} onClick={props.handleClick}>{<Link to="/"><Item width="12" height="23" show={props.back} src={back} /></Link>}</HeaderItem>
       <Logo src={logo} />
       <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
