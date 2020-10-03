@@ -83,18 +83,20 @@ function Customize(props) {
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
 
   function handleClick(i) {
-    updateTopping[i] = !updateTopping[i]
-    setUpdateTopping(updateTopping)
-    if (updateTopping[i]) setOrderMessage(`${toppings[i].name} added`)
-    if (!updateTopping[i]) setOrderMessage(`${toppings[i].name} removed`)
-    let numberOfToppings = 0;
-    updateTopping.map(topping => topping && numberOfToppings++)
-    let message = `Order soup +${numberOfToppings} ${numberOfToppings > 1 ? "toppings" : "topping"}`
-    if (numberOfToppings === 0) message = "Order soup +0 toppings"
-    setTimeout(
-      function () {
-        setOrderMessage(message)
-      }, 1000)
+    if (!props.loginMenu) {
+      updateTopping[i] = !updateTopping[i]
+      setUpdateTopping(updateTopping)
+      if (updateTopping[i]) setOrderMessage(`${toppings[i].name} added`)
+      if (!updateTopping[i]) setOrderMessage(`${toppings[i].name} removed`)
+      let numberOfToppings = 0;
+      updateTopping.map(topping => topping && numberOfToppings++)
+      let message = `Order soup +${numberOfToppings} ${numberOfToppings > 1 ? "toppings" : "topping"}`
+      if (numberOfToppings === 0) message = "Order soup +0 toppings"
+      setTimeout(
+        function () {
+          setOrderMessage(message)
+        }, 1000)
+    }
   }
 
 
@@ -112,7 +114,7 @@ function Customize(props) {
             <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
           </ToppingContainer>
         )}
-        <OrderButton onClick={() => props.handleOrder(updateTopping, toppings)}>{orderMessage}</OrderButton>
+        <OrderButton onClick={() => !props.loginMenu && props.handleOrder(updateTopping, toppings)}>{orderMessage}</OrderButton>
       </CustomizeContainer>
 
     </>
