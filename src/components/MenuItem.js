@@ -57,7 +57,7 @@ const SoupTitle = styled.p`
 const Item = styled.img`
   height: 440px;
   object-fit: cover;
-`;
+ `;
 
 const Price = styled.p`
   position: absolute;

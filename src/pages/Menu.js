@@ -55,7 +55,7 @@ const OrderButton = styled.button`
 
 function Menu() {
 
-    let localSoups = JSON.parse(localStorage.getItem('localSoups')) || [];
+    const [localSoups, setLocalSoups] = useState(JSON.parse(localStorage.getItem('localSoups'))) || [];
 
     const [seeOrder, setSeeOrder] = useState(false);
     const [cart, setCart] = useState(localSoups.length);
@@ -149,6 +149,15 @@ function Menu() {
         loginMenu && setLoginMenu(false)
     }
 
+    function handleCart(value) {
+        setCart(cart - 1)
+        let tempLocalSoups = localSoups
+        tempLocalSoups.splice(value, 1)
+        setLocalSoups(tempLocalSoups)
+        setOrderMessage(`See order (${tempLocalSoups.length})`)
+        localStorage.setItem('localSoups', JSON.stringify(tempLocalSoups))
+    }
+
     return (
         <>
             <Wrapper onClick={closeMenus} customize={customize} orderButton={cart}>
@@ -171,7 +180,7 @@ function Menu() {
 
                         </OrderButton>
 
-                        <OrderSummary position={seeOrder} />
+                        <OrderSummary soups={localSoups} isItemRemoved={(value) => handleCart(value)} position={seeOrder} />
 
                     </OrderButtonContainer> : null}
 
