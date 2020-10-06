@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
@@ -58,14 +58,28 @@ const OrderText = styled.p`
   font-size:0.9rem;
   line-height:1.2rem;
 `
+const Close = styled(OrderText)`
+ font-size:1.2rem;
+ color: red;
+ width: 10px;
+ height:10px; 
+ cursor: pointer;
+ &:hover{
+   font-weight: bold; 
+ }
+`
+
 const PlaceOrder = styled.button`
   margin:0;
   width:60%;
   height: 30px;
-  background-color: #FFCC00cc;
+  background-color: #FFCC00;
   border:none;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 0.8rem;
+   &:hover{
+    background-image: radial-gradient(#ffe066, #FFCC00);
+  }
 `
 
 
@@ -102,9 +116,7 @@ function OrderSummary(props) {
 
   let total = 0
   order.map(orderItem => total += parseInt(orderItem.price))
-  function handleClick(i) {
 
-  }
   function removeItem(i) {
     const clickedSection = document.getElementById(i)
     setCoordinates({
@@ -130,22 +142,29 @@ function OrderSummary(props) {
         <Wrapper position={props.position}>
           <Summary>
             {order.map((orderItem, i) =>
-              <OrderThumb id={i}>
+              <OrderThumb key={i + "a"} id={i}>
                 <OrderImg src={orderItem.img}></OrderImg>
                 <OrderText>{orderItem.name} with {orderItem.toppings.length > 0 ? orderItem.toppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
-                <OrderText style={{ "color": "red", "width": "10px", "cursor": "pointer" }} onClick={() => removeItem(i)}>x</OrderText>
+                <Close onClick={() => removeItem(i)}>×</Close>
               </OrderThumb>
             )}
             <OrderThumb total="true">
 
               <OrderText style={{ "fontWeight": "bold" }}>TOTAL: {total} kr </OrderText>
-              <PlaceOrder><Link to="/delivery">Place order</Link></PlaceOrder>
+              <PlaceOrder><Link to={
+                {
+                  pathname: '/delivery',
+                  state: {
+                    loggedIn: props.loggedIn
+                  }
+                }
+              }>Place order</Link></PlaceOrder>
             </OrderThumb>
           </Summary>
           {popup &&
             <Alert left={coordinates.left - 10} top={coordinates.top - 12}>
               <AlertText>Remove {order[itemToBeRemoved].name}?</AlertText>
-              <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => (setItemToBeRemoved(null), setPopup(false))}>No</AlertButton>
+              <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => { setItemToBeRemoved(null); setPopup(false) }}>No</AlertButton>
             </Alert>
           }
           {/* <OrderButton><Link to="/order" style={{ "textDecoration": "none", "color": "#fff" }}></Link></OrderButton> */}

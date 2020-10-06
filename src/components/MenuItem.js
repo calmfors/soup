@@ -1,6 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import soups from '../soups.json';
+
+
+const Order = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 20px;
+  bottom: 20px;
+  height: 110px;
+  width: 110px;
+  transform:scale(0.9);
+  text-align:center;
+  background: #E05A33CC;
+  padding: 5px;
+  margin: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #5557;
+  transition-duration: 0.2s;
+`
+const OrderText = styled.span`
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 0.8rem;
+  color: #fff;
+`
 
 const LabelBox = styled.section`
   position: absolute;
@@ -38,6 +63,10 @@ const SoupContainer = styled.div`
   display: flex;
   flex-direction:column;
   text-align:left;
+  &:hover ${Order} {
+    background: #f43c;
+    transform: scale(1);
+  }
   @media (min-width: 600px) {
     max-width: 290px;
   }
@@ -71,28 +100,6 @@ const Price = styled.p`
   padding: 5px;
   margin:0;
   border-radius:4px;
-`
-const Order = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  left: 20px;
-  bottom: 20px;
-  height: 110px;
-  width: 110px;
-  text-align:center;
-  background: #E05A33CC;
-  padding: 5px;
-  margin: 0;
-  border-radius: 110px;
-  box-shadow: 0 0 10px #5557;
-`
-const OrderText = styled.span`
-  display: inline-block;
-  text-transform: uppercase;
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 0.8rem;
-  color: #fff;
 `
 
 function MenuItem(props) {

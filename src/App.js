@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import Menu from './pages/Menu'
 import Delivery from './pages/Delivery'
 import {
-  BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
@@ -22,9 +21,7 @@ function App() {
     <div className="App">
 
       <Switch>
-        <Route path="/delivery">
-          <Delivery />
-        </Route>
+        <Route path="/delivery" component={Delivery} />
         <Route path="/">
           {loadingPage ?
             <header className="App-header">

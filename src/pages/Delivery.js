@@ -94,8 +94,7 @@ const Checkbox = styled.input`
 
 function Order(props) {
 
-    let user = firebase.auth().currentUser || "login";
-    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localSoups')));
+    let user = firebase.auth().currentUser;
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [loginMenu, setLoginMenu] = useState(false);
     const [userLoaded, setUserLoaded] = useState(false)
@@ -108,37 +107,41 @@ function Order(props) {
 
     useEffect(() => {
         if (!loggedInUser && user) setLoggedInUser(getUserFromDatabase(user.uid));
-        else if (user === "login") setUserLoaded(true)
+        setTimeout(
+            function () {
+                if (loggedInUser === null && user === null) setUserLoaded(true)
+            }, 4000)
     }, [user, loggedInUser, getUserFromDatabase]
     );
 
+
     function handleLogin() {
         setLoginMenu(!loginMenu);
-        console.log("loginmenu: " + loginMenu)
     }
 
     function getUserFromDatabase(id) {
         let tempUser
-        if (id) {
-            firebase.database().ref('/users/').on('value', (snapshot) => {
-                setUserLoaded(true)
-                let userObj = snapshot.val();
-                tempUser = userObj.filter(user => user.id === id)[0]
-                if (!tempUser) {
-                    tempUser = {
-                        "id": id,
-                        "name": "",
-                        "age": 24,
-                        "email": "",
-                        "street": "",
-                        "zip": "",
-                        "city": "",
-                        "order_history": {}
-                    }
+
+        firebase.database().ref('/users').once('value', (snapshot) => {
+            //firebase.database().ref('/users/').on('value', (snapshot) => {
+            setUserLoaded(true)
+            let userObj = snapshot.val();
+            tempUser = userObj.filter(user => user.id === id)[0]
+
+            if (!tempUser) {
+                tempUser = {
+                    "id": id,
+                    "name": "",
+                    "age": 24,
+                    "email": "",
+                    "street": "",
+                    "zip": "",
+                    "city": "",
+                    "order_history": {}
                 }
-                if (tempUser) updateUser(tempUser)
-            })
-        }
+            }
+            if (tempUser) updateUser(tempUser)
+        })
 
         return tempUser
     }
@@ -166,7 +169,6 @@ function Order(props) {
     function handleRadio(r) {
         let id = r.target.value || r.target.id
         setDeliveryOption(id);
-        console.log("ID " + id)
         if (id === "pickup") setInputGrey(true);
         else setInputGrey(false);
     }
@@ -189,7 +191,7 @@ function Order(props) {
         ) :
         (loggedInUser ?
             <><Wrapper>
-                <Header showLogin={loginMenu} check={logOutOrInListener} back={true} handleLogin={handleLogin} text="Menu" />
+                <Header check={logOutOrInListener} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
                 <DeliveryContainer>
                     <InputContainer>
                         <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />

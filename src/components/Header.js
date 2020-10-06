@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import back from '../graphics/back.svg';
@@ -67,8 +67,6 @@ function Header(props) {
     console.log(check)
     props.check(check);
   }
-
-  console.log("propslogin: " + props.showLogin);
 
   return (
 

@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import MenuItem from '../components/MenuItem';
@@ -43,11 +42,12 @@ const OrderButton = styled.button`
   font-size: 1rem;
   border:0;
   color: #fff;
-   height: 100%;
+  height: 100%;
   width: 100%;
- z-index:1;
   background-color: #6094AA;
- 
+  &:hover{
+    background-image: radial-gradient(#81adbf, #6094AA);
+  }
 `;
 
 
@@ -55,7 +55,7 @@ const OrderButton = styled.button`
 function Menu() {
 
     const [localSoups, setLocalSoups] = useState(JSON.parse(localStorage.getItem('localSoups'))) || [];
-
+    const [loggedInUser, setLoggedInUser] = useState(false)
     const [seeOrder, setSeeOrder] = useState(false);
     const [cart, setCart] = useState(localSoups.length);
     const [orderMessage, setOrderMessage] = useState(`See order (${cart})`);
@@ -73,8 +73,12 @@ function Menu() {
     const orderButton = React.createRef();
 
 
-    const user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
-    console.log("From menu: " + user.uid)
+    let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
+
+    useEffect(() => {
+        if (firebase.auth().currentUser) setLoggedInUser(true)
+
+    })
 
     function handleClick(i) {
         if (i !== 99) {
@@ -138,6 +142,17 @@ function Menu() {
             }, 1000)
     }
 
+    function logOutOrInListener(check) {
+        if (check === false) {
+            setLoginMenu(false)
+            setLoggedInUser(false)
+            user = null;
+        } else {
+            setLoggedInUser(true)
+            user = check;
+        };
+    }
+
     function handleLogin() {
         setLoginMenu(!loginMenu);
         console.log("loginmenu: " + loginMenu)
@@ -161,7 +176,7 @@ function Menu() {
         <>
             <Wrapper onClick={closeMenus} customize={customize} orderButton={cart}>
 
-                <Header showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => !seeOrder && !loginMenu && handleClick(99)} text="Menu" />
+                <Header check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => !seeOrder && !loginMenu && handleClick(99)} text="Menu" />
                 {!customize && <Labels selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize ?
                     soupFilter.filteredSoups.map((item, i) =>
@@ -179,7 +194,7 @@ function Menu() {
 
                         </OrderButton>
 
-                        <OrderSummary soups={localSoups} isItemRemoved={(value) => handleCart(value)} position={seeOrder} />
+                        <OrderSummary loggedIn={loggedInUser} soups={localSoups} isItemRemoved={(value) => handleCart(value)} position={seeOrder} />
 
                     </OrderButtonContainer> : null}
 

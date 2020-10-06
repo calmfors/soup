@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import firebase from './firebase';
 
 const LabelContainer = styled.div`
   position: fixed;
@@ -28,6 +27,9 @@ const Label = styled.button`
   border:0;
   border-radius: 5px;  
   font-size: 0.6rem;
+  :hover{
+    background-color:${props => props.selected ? '#81adbf' : '#ffe066'};
+  }
   @media (min-width: 600px) {
     margin:0 10px 0 10px;
   }
@@ -35,9 +37,15 @@ const Label = styled.button`
 
 function Labels(props) {
   const labelTitles = ['Vegetarian', 'Vegan', 'Chicken', 'Fish', 'Meat']
+  let labelRef = []
+  for (let i = 0; i < labelTitles.length; i++) {
+    labelRef.push(React.createRef());
+  }
+
   return (
     <LabelContainer>
-      {labelTitles.map((title, i) => <Label key={"d" + i} onClick={() => props.handleFilter(i)} selected={i === props.selected}>{title}</Label>)}
+      {labelTitles.map((title, i) =>
+        <Label ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={i === props.selected}>{title}</Label>)}
     </LabelContainer>
   );
 }

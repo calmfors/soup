@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Label = styled.label`
@@ -44,7 +44,6 @@ function DeliveryTime(props) {
         const timeString = new Date().toISOString().slice(0, 10)
         const timeStamp = Math.round(new Date(`${timeString} 21: 15`).getTime());
         const amountOf15Minutes = (timeStamp - roundedStartTime.getTime()) / 1000 / 60 / 15
-        console.log(amountOf15Minutes)
 
         if (amountOf15Minutes > 1 && amountOf15Minutes < 55) {
 
@@ -52,7 +51,6 @@ function DeliveryTime(props) {
             for (let i = 1; i < amountOf15Minutes; i++) {
                 let time = roundedStartTime.getTime() + (i * 15 * 60 * 1000)
                 time = new Date(time)
-                console.log(time.toString().slice(16, 18))
                 if (time.toString().slice(16, 18) > 9)
                     tempTimeArray.push(time.toString().slice(16, 21))
             }

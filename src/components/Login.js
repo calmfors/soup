@@ -33,7 +33,7 @@ function Login(props) {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const mainButton = React.createRef();
 
-
+    console.log("Login mounted")
     useEffect(() => {
 
         const unregisterAuthObserver = firebase.auth()
@@ -44,8 +44,9 @@ function Login(props) {
         const user = loggedIn && firebase.auth().currentUser
         if (user) getUsers(user.uid)
 
-        return unregisterAuthObserver;
-
+        return () => {
+            unregisterAuthObserver();
+        }
     }, [loggedIn]);
 
     function handleRegister() {
@@ -90,7 +91,7 @@ function Login(props) {
 
     function getUsers(id) {
         console.log(id)
-        firebase.database().ref('/users/').on('value', (snapshot) => {
+        firebase.database().ref('/users/').once('value', (snapshot) => {
             // console.log(user);
             const userObj = snapshot.val();
             const user = userObj.filter(user => user.id === id)

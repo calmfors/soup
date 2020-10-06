@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
-import Header from './Header';
-import firebase from './firebase';
-import soups from '../soups.json'
 
 const Description = styled.p`
   box-sizing: border-box;
