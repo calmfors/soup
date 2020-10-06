@@ -67,20 +67,15 @@ const PlaceOrder = styled.button`
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 0.8rem;
 `
-const AlertBackground = styled.div`
+
+
+const Alert = styled.div`
   position:absolute;
   left: ${props => props.left}px;
   top: ${props => props.top}px;
   height: 83px;
   width:calc(100% - 20px);
   background-color: #6094AAdd;  
-`
-
-const Alert = styled.section`
-  font-family: 'Rubik', sans-serif;
-  color:white;
-  width:100%;
-  font-size:1rem;
 `
 const AlertButton = styled.button`
   display:inline-block;
@@ -95,72 +90,70 @@ const AlertText = styled.p`
   margin:15px 10px 10px 10px;
   font-family: 'Rubik', sans-serif;
   color:white;
-  width:100%;
+  width: calc(100% - 20px);
   font-size:1rem;
 `
 
 function OrderSummary(props) {
-    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localSoups')));
-    const [popup, setPopup] = useState(false);
-    const [itemToBeRemoved, setItemToBeRemoved] = useState(null);
-    const [coordinates, setCoordinates] = useState(null);
+  const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localSoups')));
+  const [popup, setPopup] = useState(false);
+  const [itemToBeRemoved, setItemToBeRemoved] = useState(null);
+  const [coordinates, setCoordinates] = useState(null);
 
-    let total = 0
-    order.map(orderItem => total += parseInt(orderItem.price))
-    function handleClick(i) {
+  let total = 0
+  order.map(orderItem => total += parseInt(orderItem.price))
+  function handleClick(i) {
 
-    }
-    function removeItem(i) {
-        const clickedSection = document.getElementById(i)
-        setCoordinates({
-            left: clickedSection.offsetLeft,
-            top: clickedSection.offsetTop
-        })
-        setItemToBeRemoved(i, coordinates)
-        setPopup(true);
-        console.log("Do you really want to remove " + order[i].name + "?")
-    }
+  }
+  function removeItem(i) {
+    const clickedSection = document.getElementById(i)
+    setCoordinates({
+      left: clickedSection.offsetLeft,
+      top: clickedSection.offsetTop
+    })
+    setItemToBeRemoved(i, coordinates)
+    setPopup(true);
+    console.log("Do you really want to remove " + order[i].name + "?")
+  }
 
-    function handleRemove() {
-        setPopup(false);
-        let tempOrder = order;
-        tempOrder.splice(itemToBeRemoved, 1)
-        setOrder(tempOrder);
-        setItemToBeRemoved(null);
-        props.isItemRemoved(itemToBeRemoved)
-    }
-    return (
-        <>
-            <div>
-                <Wrapper position={props.position}>
-                    <Summary>
-                        {order.map((orderItem, i) =>
-                            <OrderThumb id={i}>
-                                <OrderImg src={orderItem.img}></OrderImg>
-                                <OrderText>{orderItem.name} with {orderItem.toppings.length > 0 ? orderItem.toppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
-                                <OrderText style={{ "color": "red", "width": "10px" }} onClick={() => removeItem(i)}>x</OrderText>
-                            </OrderThumb>
-                        )}
-                        <OrderThumb total="true">
+  function handleRemove() {
+    setPopup(false);
+    let tempOrder = order;
+    tempOrder.splice(itemToBeRemoved, 1)
+    setOrder(tempOrder);
+    setItemToBeRemoved(null);
+    props.isItemRemoved(itemToBeRemoved)
+  }
+  return (
+    <>
+      <div>
+        <Wrapper position={props.position}>
+          <Summary>
+            {order.map((orderItem, i) =>
+              <OrderThumb id={i}>
+                <OrderImg src={orderItem.img}></OrderImg>
+                <OrderText>{orderItem.name} with {orderItem.toppings.length > 0 ? orderItem.toppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
+                <OrderText style={{ "color": "red", "width": "10px", "cursor": "pointer" }} onClick={() => removeItem(i)}>x</OrderText>
+              </OrderThumb>
+            )}
+            <OrderThumb total="true">
 
-                            <OrderText style={{ "fontWeight": "bold" }}>TOTAL: {total} kr </OrderText>
-                            <PlaceOrder>Place order</PlaceOrder>
-                        </OrderThumb>
-                    </Summary>
-                    {popup &&
-                        <AlertBackground left={coordinates.left - 10} top={coordinates.top - 12}>
-                            <Alert>
-                                <AlertText>Remove {order[itemToBeRemoved].name}?</AlertText>
-                                <AlertButton onClick={handleRemove} id="yes">Yes</AlertButton><AlertButton onClick={() => (setItemToBeRemoved(null), setPopup(false))} id="no">No</AlertButton>
-                            </Alert>
-                        </AlertBackground>
-                    }
-                    {/* <OrderButton><Link to="/order" style={{ "textDecoration": "none", "color": "#fff" }}></Link></OrderButton> */}
+              <OrderText style={{ "fontWeight": "bold" }}>TOTAL: {total} kr </OrderText>
+              <PlaceOrder><Link to="/delivery">Place order</Link></PlaceOrder>
+            </OrderThumb>
+          </Summary>
+          {popup &&
+            <Alert left={coordinates.left - 10} top={coordinates.top - 12}>
+              <AlertText>Remove {order[itemToBeRemoved].name}?</AlertText>
+              <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => (setItemToBeRemoved(null), setPopup(false))}>No</AlertButton>
+            </Alert>
+          }
+          {/* <OrderButton><Link to="/order" style={{ "textDecoration": "none", "color": "#fff" }}></Link></OrderButton> */}
 
-                </Wrapper>
-            </div>
-        </>
-    );
+        </Wrapper>
+      </div>
+    </>
+  );
 }
 
 export default OrderSummary;

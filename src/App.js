@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import Menu from './pages/Menu'
-import Order from './pages/Order'
+import Delivery from './pages/Delivery'
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,8 +22,8 @@ function App() {
     <div className="App">
 
       <Switch>
-        <Route path="/order">
-          <Order />
+        <Route path="/delivery">
+          <Delivery />
         </Route>
         <Route path="/">
           {loadingPage ?

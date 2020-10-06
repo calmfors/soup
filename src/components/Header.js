@@ -52,7 +52,6 @@ height: 150px;
   position: absolute;
   right:0;
   top:40px;
-  box-shadow: -3px 3px 5px #7775;
   padding:5px;
 `;
 const Logo = styled.img`

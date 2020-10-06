@@ -105,7 +105,7 @@ function Login(props) {
     }
     return (
         < div >
-            <p>{loggedInUser && 'Hello ' + loggedInUser.name}</p>
+            <p>{loggedInUser && 'Hello ' + loggedInUser.name} </p>
             {
                 !loggedIn &&
                 <div>

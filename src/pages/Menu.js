@@ -8,7 +8,6 @@ import Customize from '../components/Customize';
 import Labels from '../components/Labels';
 import soups from '../soups.json';
 import OrderSummary from '../components/OrderSummary';
-import ClickOutside from '../components/ClickOutside';
 
 const Wrapper = styled.div`
   margin: 0 auto;
