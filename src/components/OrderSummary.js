@@ -167,8 +167,6 @@ function OrderSummary(props) {
               <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => { setItemToBeRemoved(null); setPopup(false) }}>No</AlertButton>
             </Alert>
           }
-          {/* <OrderButton><Link to="/order" style={{ "textDecoration": "none", "color": "#fff" }}></Link></OrderButton> */}
-
         </Wrapper>
       </div>
     </>

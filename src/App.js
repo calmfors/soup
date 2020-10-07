@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import Menu from './pages/Menu'
 import Delivery from './pages/Delivery'
+import Payment from './pages/Payment'
 import {
   Switch,
   Route
@@ -22,6 +23,7 @@ function App() {
 
       <Switch>
         <Route path="/delivery" component={Delivery} />
+        <Route path="/payment" component={Payment} />
         <Route path="/">
           {loadingPage ?
             <header className="App-header">

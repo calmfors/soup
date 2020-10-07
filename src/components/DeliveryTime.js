@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Label = styled.label`
   display: inline-block;
   color: ${props => props.disabled ? "#777" : "#fff"};
-  margin:10px 10px 7px 0;
+  margin:7px 10px 7px 0;
 //   @media (min-width: 600px) {
 //     margin:10 10px 7p 10px;
 //   }
@@ -26,6 +26,14 @@ max-height: 200px;
 function DeliveryTime(props) {
     const [closed, setClosed] = useState(false)
     const [timeArray, setTimeArray] = useState(getTimeArray)
+    const [time, setTime] = useState("")
+
+    useEffect(() => {
+        if (!time) {
+            setTime(timeArray[0])
+            props.handleTime(timeArray[0])
+        }
+    })
 
     function roundTimeQuarterHour(time) {
         var timeToReturn = new Date(time);
@@ -61,12 +69,15 @@ function DeliveryTime(props) {
         }
         return tempTimeArray
     }
+    function handleSelect(e) {
+        props.handleTime(e.target.value)
+    }
 
     return (
         <div>
             <div>
                 <Label disabled={props.disabled} htmlFor="deliverytime">Delivery time&#11208;</Label>
-                <Select closed={closed} disabled={props.disabled} id="deliverytime" size="1">
+                <Select onChange={handleSelect} closed={closed} disabled={props.disabled} id="deliverytime" size="1">
                     {timeArray.map((time, i) =>
                         <option key={i} value={time}>{time} </option>
                     )}

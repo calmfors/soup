@@ -57,7 +57,6 @@ height: 150px;
 const Logo = styled.img`
   width: 110px;
   margin-bottom:-15px;
-  margin-left:
 `
 
 function Header(props) {
@@ -72,8 +71,9 @@ function Header(props) {
 
     <HeaderContainer onClick={(e) => { e.stopPropagation() }}>
       <HeaderItem show={props.back} onClick={props.handleClick}>{<Link to="/"><Item width="12" height="23" show={props.back} src={back} /></Link>}</HeaderItem>
-      <Logo src={logo} />
-      <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
+      <Link to="/"><Logo onClick={props.handleClick} src={logo} /></Link>
+      {!props.hideProfile ? <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
+        : <Item width="35" />}
       {props.showLogin && <ProfileMenu><Login check={logOutOrInListener} /></ProfileMenu>}
     </HeaderContainer>
 

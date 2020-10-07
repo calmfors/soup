@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import firebase from '../components/firebase';
@@ -64,25 +65,26 @@ const DeliveryContainer = styled.div`
 const Label = styled.label`
   display:inline-block;
   font-size:0.7 rem;
-  color: #fff;
-  margin: 10px 0 8px 0;
+  color: ${props => props.grey && props.bordert ? "#777" : "#fff"};
+  margin: 7px 0 8px 0;
 `;
 
 const InputContainer = styled.section`
   width:calc(100% - 20px);
   margin-left:10px;
-  margin-bottom: 5px;
-  padding-bottom: ${props => props.border && "10px"}; 
+  margin-bottom: 3px;
+  padding-bottom: ${props => props.border && "7px"}; 
   text-align:left;
   border-bottom: ${props => props.border && "1px solid #fff"};
+  border-top: ${props => props.bordert && "1px solid #fff"};
+  padding-top: ${props => props.bordert && "10px"};
 `;
 const Input = styled.input`
   box-sizing: border-box;
-  padding:7px;
+  padding:11px;
   border: none;
   width:100%;
   border-radius: 5px;
-  height:40px;
   margin-bottom:10px;
   color: ${props => props.grey ? "#777" : "#000"};
 `;
@@ -91,19 +93,63 @@ const Checkbox = styled.input`
   margin-right:10px;
   box-sizing:border-box;
 `
+const Message = styled.textarea`
+  box-sizing:border-box;
+  width: 100%;
+  padding: 7px;
+  border-radius: 7px;
+  resize: none;
+  margin-bottom:12px;
+  `
+const Text = styled.p`
+  font-family: 'Rubik', sans-serif;
+  color: #fff;
+  font-size: 1rem;
+  margin:0 0 15px 0;
+  color: ${props => props.grey ? "#777" : "#fff"};
+`
+const OrderButton = styled.button`
+  position:fixed;
+  bottom: 0;
+  left:0;
+  height: 50px;
+  width: 100%;
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 1rem;
+  border:0;
+  border-top:1px solid #fff;
+  color: #000;
+  background-color: #FFCC00;
 
-function Order(props) {
+  &:hover{
+    background-image: radial-gradient(#ffe066, #FFCC00);
+  }
+   @media(min-width: 600px) {
+    max-width: 600px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+`;
+
+function Delivery(props) {
 
     let user = firebase.auth().currentUser;
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localSoups')));
     const [loginMenu, setLoginMenu] = useState(false);
     const [userLoaded, setUserLoaded] = useState(false)
     const [deliveryOption, setDeliveryOption] = useState("delivery")
     const [inputGrey, setInputGrey] = useState(false)
     const [name, setName] = useState("")
     const [street, setStreet] = useState("")
-    const [zip, setZip] = useState("Zip code")
-    const [city, setCity] = useState("City")
+    const [zip, setZip] = useState("")
+    const [city, setCity] = useState("")
+    const [message, setMessage] = useState("")
+    const [deliveryTime, setDeliveryTime] = useState("")
+    const [checkout, setCheckout] = useState(false)
+
+    const history = useHistory();
+
 
     useEffect(() => {
         if (!loggedInUser && user) setLoggedInUser(getUserFromDatabase(user.uid));
@@ -132,12 +178,12 @@ function Order(props) {
                 tempUser = {
                     "id": id,
                     "name": "",
-                    "age": 24,
+                    "age": "",
                     "email": "",
                     "street": "",
                     "zip": "",
                     "city": "",
-                    "order_history": {}
+                    "orderHistory": []
                 }
             }
             if (tempUser) updateUser(tempUser)
@@ -184,47 +230,98 @@ function Order(props) {
     function handleCity(e) {
         setCity(e.target.value)
     }
+    function handleMessage(e) {
+        if (message.length <= 100) setMessage(e.target.value)
+        if (message.length === 100) setMessage(message.substring(0, 99))
+        if (message.length > 100) setMessage(message.substring(0, 99))
+    }
+
+    function handleTime(time) {
+        setDeliveryTime(time)
+    }
+
+    function handleOrder() {
+        const orderObj = {
+            deliveryTime,
+            delivery: deliveryOption === "delivery" ? {
+                name,
+                street,
+                zip,
+                city,
+            } : {
+                    pickup: true,
+                },
+            message,
+            order,
+        }
+        let tempUser = loggedInUser
+        // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
+        // else tempUser.orderHistory = [{ date, order }]
+        tempUser = { ...tempUser, street, zip, city }
+        console.log(orderObj)
+        console.log(tempUser)
+        localStorage.setItem('localOrder', JSON.stringify(orderObj))
+        localStorage.setItem('localUser', JSON.stringify(tempUser))
+        history.push('/payment');
+    }
 
     return !userLoaded ?
         (
             <LoginContainer color={"#fff"}><LoadingDots>Loading</LoadingDots></LoginContainer>
         ) :
         (loggedInUser ?
-            <><Wrapper>
-                <Header check={logOutOrInListener} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
-                <DeliveryContainer>
-                    <InputContainer>
-                        <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />
-                        <Label onClick={(r) => handleRadio(r)} id="delivery" htmlFor='delivery'>Delivery</Label><br />
-                        {/* <label htmlFor='name'><Label>Name</Label></label> */}
-                        <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter name' required onChange={handleName} value={name}></Input><br />
-                        {/* <label htmlFor='street'><Label>Street</Label></label> */}
-                        <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter street address' required onChange={handleStreet} value={street}></Input><br />
-                        {/* <label htmlFor='zip'><Label>Zip</Label></label> */}
-                        <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Enter zip code' required onChange={handleZip} value={zip}></Input>
-                        {/* <label htmlFor='city'><Label>City</Label></label> */}
-                        <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "75%" }} type='text' placeholder='Enter city' required onChange={handleCity} value={city}></Input><br />
-                    </InputContainer>
-                    <InputContainer>
-                        <DeliveryTime disabled={inputGrey}></DeliveryTime>
-                    </InputContainer>
-                    <InputContainer border={true}>
-                        <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="pickup" checked={deliveryOption === "pickup"} />
-                        <Label onClick={(r) => handleRadio(r)} id="pickup" htmlFor="pickup">Pick up at restaurant</Label><br />
-                    </InputContainer>
+            <>
+                <Wrapper>
+                    <Header check={logOutOrInListener} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
+                    <DeliveryContainer>
+                        <InputContainer>
+                            <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />
+                            <Label onClick={(r) => handleRadio(r)} id="delivery" htmlFor='delivery'>Delivery</Label><br />
+                            {/* <label htmlFor='name'><Label>Name</Label></label> */}
+                            <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter name' required onChange={handleName} value={name}></Input><br />
+                            {/* <label htmlFor='street'><Label>Street</Label></label> */}
+                            <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter street address' required onChange={handleStreet} value={street}></Input><br />
+                            {/* <label htmlFor='zip'><Label>Zip</Label></label> */}
+                            <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Enter zip code' required onChange={handleZip} value={zip}></Input>
+                            {/* <label htmlFor='city'><Label>City</Label></label> */}
+                            <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "75%" }} type='text' placeholder='Enter city' required onChange={handleCity} value={city}></Input><br />
+                        </InputContainer>
+                        <InputContainer>
+                            <DeliveryTime handleTime={handleTime} disabled={inputGrey}></DeliveryTime>
+                        </InputContainer>
+                        <InputContainer>
+                            <Label bordert={true} grey={inputGrey}>Send a soupogram</Label>
+                            <Text grey={inputGrey}>Make someone happy with a soup! Enter a greeting to your friend below. Max 100 char.</Text>
+                            <Message
+                                disabled={inputGrey}
+                                id="message"
+                                value={message}
+                                onChange={handleMessage}
+                                rows={3}
+                            />
 
+                        </InputContainer>
+                        <InputContainer border={true} bordert={true}>
+                            <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="pickup" checked={deliveryOption === "pickup"} />
+                            <Label onClick={(r) => handleRadio(r)} id="pickup" htmlFor="pickup">Pick up at restaurant</Label><br />
+                        </InputContainer>
+                        <OrderButton onClick={handleOrder}>Checkout</OrderButton>
 
-
-                </DeliveryContainer>
-            </Wrapper>
+                    </DeliveryContainer>
+                </Wrapper>
+                {/* :
+                    <LoginContainer style={{ "color": "#fff" }}>
+                        Thank you!
+                    </LoginContainer>
+                } */}
             </>
             :
             <>
-                <LoginContainer>
+                <LoginContainer style={{ "color": "#fff" }}>
                     <Login check={logOutOrInListener} />
                 </LoginContainer>
             </>
         )
 }
 
-export default Order;
+export default Delivery;

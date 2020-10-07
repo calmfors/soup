@@ -54,7 +54,7 @@ const OrderButton = styled.button`
 
 function Menu() {
 
-    const [localSoups, setLocalSoups] = useState(JSON.parse(localStorage.getItem('localSoups'))) || [];
+    let localSoups = JSON.parse(localStorage.getItem('localSoups')) || [];
     const [loggedInUser, setLoggedInUser] = useState(false)
     const [seeOrder, setSeeOrder] = useState(false);
     const [cart, setCart] = useState(localSoups.length);
@@ -77,7 +77,7 @@ function Menu() {
 
     useEffect(() => {
         if (firebase.auth().currentUser) setLoggedInUser(true)
-
+        if (localSoups) setCart(localSoups.length)
     })
 
     function handleClick(i) {
@@ -123,10 +123,10 @@ function Menu() {
         updateTopping.map((topping, i) => {
             if (topping === true) choosenToppings.push(toppings[i].name)
         })
-        console.log(choosenToppings)
         choosenSoup.toppings = choosenToppings
+        // if (!localSoups) localSoups = []
         localSoups.push(choosenSoup)
-        console.log(localSoups)
+        console.log(localSoups.length)
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
         setBack(false)
         setCustomize(false);
@@ -167,9 +167,10 @@ function Menu() {
         setCart(cart - 1)
         let tempLocalSoups = localSoups
         tempLocalSoups.splice(value, 1)
-        setLocalSoups(tempLocalSoups)
+        localSoups = tempLocalSoups
         setOrderMessage(`See order (${tempLocalSoups.length})`)
         localStorage.setItem('localSoups', JSON.stringify(tempLocalSoups))
+        if (tempLocalSoups.length === 0) setSeeOrder(false)
     }
 
     return (
