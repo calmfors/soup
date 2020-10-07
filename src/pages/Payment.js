@@ -163,7 +163,7 @@ function Payment(props) {
 
     function handleOrder() {
         let date = (new Date).toLocaleString()
-        const orderObj = { ...order, date }
+        const orderObj = { ...order, date, paymentOption }
         date = date.substring(0, 10)
         let tempUser = loggedInUser
         if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })

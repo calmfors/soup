@@ -12,7 +12,7 @@ import './App.css';
 
 function App() {
 
-  const [loadingPage, setLoading] = useState(false);
+  const [loadingPage, setLoading] = useState(true);
   const [fadeLogo, setFade] = useState(false);
 
   setTimeout(() => setLoading(false), 4000);

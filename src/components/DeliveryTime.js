@@ -76,7 +76,7 @@ function DeliveryTime(props) {
     return (
         <div>
             <div>
-                <Label disabled={props.disabled} htmlFor="deliverytime">Delivery time&#11208;</Label>
+                <Label disabled={props.disabled} htmlFor="deliverytime">Delivery time</Label>
                 <Select onChange={handleSelect} closed={closed} disabled={props.disabled} id="deliverytime" size="1">
                     {timeArray.map((time, i) =>
                         <option key={i} value={time}>{time} </option>

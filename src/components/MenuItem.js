@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
 const Order = styled.div`
   position: absolute;
   display: flex;
@@ -26,12 +25,10 @@ const OrderText = styled.span`
   font-size: 0.8rem;
   color: #fff;
 `
-
 const LabelBox = styled.section`
   position: absolute;
   left: 10px;
   top: 50px;
-  
 `;
 const Label = styled.span`
   display:inline-block;
@@ -43,23 +40,22 @@ const Label = styled.span`
   border-radius: 5px;  
   font-size: 0.6rem;
 `;
-
 const SoupButton = styled.button`
   border:0;
   padding:0;
-  height: 480px;
+  height: ${props => props.customize ? '340px' : '480px'};
   width:100%;
   background-color: Transparent;
   margin-top:5px;
   @media (min-width: 600px) {
     margin: 20px;
+    height:480px;
     width:auto;
   }
 `;
-
 const SoupContainer = styled.div`
   position: relative;
-  height: 480px;
+  height: 100%;
   display: flex;
   flex-direction:column;
   text-align:left;
@@ -71,7 +67,6 @@ const SoupContainer = styled.div`
     max-width: 290px;
   }
 `;
-
 const SoupTitle = styled.p`
   text-transform: uppercase;
   font-family: 'Rubik Mono One', sans-serif;
@@ -82,12 +77,10 @@ const SoupTitle = styled.p`
     padding: 15px 10px 5px 0px;
   }
 `;
-
 const Item = styled.img`
-  height: 440px;
+  height: calc(100% - 40px);
   object-fit: cover;
  `;
-
 const Price = styled.p`
   position: absolute;
   right: 10px;
@@ -100,13 +93,13 @@ const Price = styled.p`
   padding: 5px;
   margin:0;
   border-radius:4px;
-`
+`;
 
 function MenuItem(props) {
   const labelTitles = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
   return (
-    <SoupButton onClick={props.click}>
-      <SoupContainer>
+    <SoupButton customize={props.customize} onClick={props.click}>
+      <SoupContainer >
         <SoupTitle>{props.title}</SoupTitle>
         <Item src={props.src} />
         <LabelBox>

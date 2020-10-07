@@ -181,7 +181,7 @@ function Menu() {
                 {!customize && <Labels selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize ?
                     soupFilter.filteredSoups.map((item, i) =>
-                        <MenuItem categories={labels.filter(label => item.filter.includes(label))}
+                        <MenuItem customize={customize} categories={labels.filter(label => item.filter.includes(label))}
                             click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " kr"} />
                     )
                     :
