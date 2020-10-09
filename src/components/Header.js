@@ -9,9 +9,9 @@ import Login from './Login';
 
 const HeaderContainer = styled.header`
   margin: 0 auto;
+  padding-left: calc(100vw - 100%);
   height: 40px;
   width: 100%;
-  display: flex;
   position: fixed;
   top: 0;
   z-index: 2;

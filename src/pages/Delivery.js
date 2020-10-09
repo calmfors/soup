@@ -307,7 +307,7 @@ function Delivery(props) {
                             <DeliveryTime handleTime={handleTime} disabled={inputGrey}></DeliveryTime>
                         </InputContainer>
                         <InputContainer>
-                            <Label bordert={true} grey={inputGrey}>Send a soupogram</Label>
+                            <Label bordert={true} grey={inputGrey}>Send a soup❤gram</Label>
                             <Text grey={inputGrey}>Make someone happy with a soup! Enter a greeting to your friend below. Max 100 char.</Text>
                             <Message
                                 disabled={inputGrey}

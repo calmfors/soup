@@ -27,8 +27,12 @@ const Dots = styled.p`
     text-shadow:
       .5em 0 0 black,
       1em 0 0 black;}}
+  @media(min-width: 600px) {
+}
 `
 const LoadingContainer = styled.div`
+  box-sizing: border-box;
+  padding-left: calc(100vw - 100%);
   width: 100%;
   height: 100%;
   display: flex;
@@ -38,10 +42,10 @@ const LoadingContainer = styled.div`
 `
 
 function LoadingDots() {
-    return (
-        <LoadingContainer color="#fff">
-            <Dots>Loading</Dots>
-        </LoadingContainer>
-    )
+  return (
+    <LoadingContainer color="#fff">
+      <Dots>Loading</Dots>
+    </LoadingContainer>
+  )
 }
 export default LoadingDots;

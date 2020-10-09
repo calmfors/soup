@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
-  transition-duration:0.5s;
+  transition-duration: 0.5s;
   padding: 10px 10px 0 10px;
   box-sizing: border-box;
   position: ${props => props.pay ? "static" : "absolute"};

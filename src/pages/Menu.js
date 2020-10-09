@@ -30,14 +30,14 @@ const OrderButtonContainer = styled.section`
   left: 0;
   height: 50px;
   width: 100%;
+  margin-left: calc((100vw - 100%)/2);
   @media(min-width: 600px) {
     max-width: 600px;
     left: 50%;
     transform: translate(-50%, 0);
+    
   }
 `;
-
-
 const OrderButton = styled.button`
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
@@ -56,9 +56,10 @@ const Fade = styled.div`
   background-color: #fff;
   opacity: ${props => props.loaded ? "0" : "1"};
   transition-duration: 0.5s;
-  top:0;
-  width:100%;
-  height:100%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: calc(100vw - (100vw - 100%));
 `
 
 
