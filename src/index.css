@@ -1,7 +1,10 @@
 body {
+  overflow-y: scroll;
+
   margin:0 auto;
   background-color: #fff;
   font-family: 'Rubik Mono One', sans-serif;
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -13,4 +16,7 @@ a{
 
 button{
   cursor: pointer;
+}
+p{
+  margin:0;
 }

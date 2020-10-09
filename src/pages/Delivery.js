@@ -147,6 +147,8 @@ function Delivery(props) {
     const [message, setMessage] = useState("")
     const [deliveryTime, setDeliveryTime] = useState("")
     const [checkout, setCheckout] = useState(false)
+    const [orderMessage, setOrderMessage] = useState("Checkout");
+
 
     const history = useHistory();
 
@@ -241,28 +243,43 @@ function Delivery(props) {
     }
 
     function handleOrder() {
-        const orderObj = {
-            deliveryTime,
-            delivery: deliveryOption === "delivery" ? {
-                name,
-                street,
-                zip,
-                city,
-            } : {
-                    pickup: true,
-                },
-            message,
-            order,
+        if (deliveryTime !== "Closed") {
+            let tempOrder = order
+            tempOrder.forEach(tempItem => {
+                delete tempItem.description
+                tempItem.toppings = tempItem.choosenToppings
+                delete tempItem.choosenToppings
+                delete tempItem.filter
+            })
+            const orderObj = {
+                deliveryTime,
+                delivery: deliveryOption === "delivery" ? {
+                    name,
+                    street,
+                    zip,
+                    city,
+                } : {
+                        pickup: true,
+                    },
+                message,
+                order: tempOrder
+            }
+            let tempUser = loggedInUser
+            // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
+            // else tempUser.orderHistory = [{ date, order }]
+            tempUser = { ...tempUser, street, zip, city }
+            console.log(orderObj)
+            console.log(tempUser)
+            localStorage.setItem('localOrder', JSON.stringify(orderObj))
+            localStorage.setItem('localUser', JSON.stringify(tempUser))
+            history.push('/payment');
+        } else {
+            setOrderMessage("Sorry we are closed")
+            setTimeout(
+                function () {
+                    setOrderMessage("Checkout")
+                }, 1000)
         }
-        let tempUser = loggedInUser
-        // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
-        // else tempUser.orderHistory = [{ date, order }]
-        tempUser = { ...tempUser, street, zip, city }
-        console.log(orderObj)
-        console.log(tempUser)
-        localStorage.setItem('localOrder', JSON.stringify(orderObj))
-        localStorage.setItem('localUser', JSON.stringify(tempUser))
-        history.push('/payment');
     }
 
     return !userLoaded ?
@@ -305,7 +322,7 @@ function Delivery(props) {
                             <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="pickup" checked={deliveryOption === "pickup"} />
                             <Label onClick={(r) => handleRadio(r)} id="pickup" htmlFor="pickup">Pick up at restaurant</Label><br />
                         </InputContainer>
-                        <OrderButton onClick={handleOrder}>Checkout</OrderButton>
+                        <OrderButton onClick={handleOrder}>{orderMessage}</OrderButton>
 
                     </DeliveryContainer>
                 </Wrapper>

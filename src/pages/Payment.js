@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import firebase from '../components/firebase';
 import logo from '../graphics/logo_white.svg';
+import OrderSummary from '../components/OrderSummary';
+import CardPayment from '../components/CardPayment';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -15,29 +17,35 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
   }
 `
-const DeliveryContainer = styled.div`
+const PaymentContainer = styled.div`
   box-sizing: border-box;
   padding-top:20px;
   position:relative;
-  margin-top: 38px;
+  margin-top: 32px;
   width: 100%;
   background-color: #6094AA;
+  text-align: left;
   height: calc(100vh - 38px);
   @media (min-width: 600px) {
     max-width: 600px;
-    }
+  }
 `
 const Label = styled.label`
+  font-family: 'Rubik Mono One', sans-serif;
   display:inline-block;
-  font-size:0.7 rem;
+  font-size:1rem;
   color: ${props => props.grey && props.bordert ? "#777" : "#fff"};
-  margin: 7px 0 8px 0;
+  margin: 13px 0 8px 0;
 `;
-
+const Title = styled.p`
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  margin: 15px 0 3px 10px;
+`;
 const InputContainer = styled.section`
   width:calc(100% - 20px);
-  margin-left:10px;
-  margin-bottom: 3px;
+  margin: 0 0 3px 10px;
   padding-bottom: ${props => props.border && "7px"}; 
   text-align:left;
   border-bottom: ${props => props.border && "1px solid #fff"};
@@ -65,12 +73,12 @@ const Message = styled.textarea`
   border-radius: 7px;
   resize: none;
   margin-bottom:12px;
-  `
+`
 const Text = styled.p`
   font-family: 'Rubik', sans-serif;
   color: #fff;
   font-size: 1rem;
-  margin:0 0 15px 0;
+  margin-bottom:4px;
   color: ${props => props.grey ? "#777" : "#fff"};
 `
 const OrderButton = styled.button`
@@ -85,7 +93,6 @@ const OrderButton = styled.button`
   border-top:1px solid #fff;
   color: #000;
   background-color: #FFCC00;
-
   &:hover{
     background-image: radial-gradient(#ffe066, #FFCC00);
   }
@@ -110,25 +117,25 @@ const Logo = styled.img`
   width: 50%;
   max-width:300px;
 `
-
+const Hide = styled.section`
+  max-height: ${props => props.hide ? "0px" : "220px"};
+  transition: max-height 0.3s ease-out;
+  overflow: hidden;
+  margin:0;
+  paddnig:0;
+`
 function Payment(props) {
 
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('localUser')));
     const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localOrder')));
     const [paymentOption, setPaymentOption] = useState("card")
-    const [inputGrey, setInputGrey] = useState(false)
-    const [name, setName] = useState("")
-    const [street, setStreet] = useState("")
-    const [zip, setZip] = useState("")
-    const [city, setCity] = useState("")
-    const [message, setMessage] = useState("")
+    const [swishNumber, setSwishNumber] = useState("")
+    const [personalNumber, setPersonalNumber] = useState("")
     const [checkout, setCheckout] = useState(false)
+    let card = {};
 
     const history = useHistory();
     let user = firebase.auth().currentUser;
-
-
-
 
     function handlePayment() {
 
@@ -137,37 +144,30 @@ function Payment(props) {
     function handleRadio(r) {
         let id = r.target.value || r.target.id
         setPaymentOption(id);
-        if (id === "pickup") setInputGrey(true);
-        else setInputGrey(false);
     }
-    // function handleName(e) {
-    //     setName(e.target.value)
-    // }
-    // function handleStreet(e) {
-    //     setStreet(e.target.value)
-    // }
-    // function handleZip(e) {
-    //     setZip(e.target.value)
-    // }
-    // function handleCity(e) {
-    //     setCity(e.target.value)
-    // }
-    function handleMessage(e) {
-        if (message.length <= 100) setMessage(e.target.value)
-        if (message.length === 100) setMessage(message.substring(0, 99))
-        if (message.length > 100) setMessage(message.substring(0, 99))
-    }
+
     function handleClick() {
         history.push('/delivery');
     }
 
+    function handleSwish(e) {
+        setSwishNumber(e.target.value)
+    }
+    function handlePersonalNumber(e) {
+        setPersonalNumber(e.target.value)
+    }
+
+
     function handleOrder() {
         let date = (new Date).toLocaleString()
-        const orderObj = { ...order, date, paymentOption }
+        let orderObj = { ...order, date, paymentOption }
+        if (paymentOption === "card" && card) orderObj = { ...orderObj, card }
+        if (paymentOption === "swish" && swishNumber) orderObj = { ...orderObj, swishNumber }
+        if (paymentOption === "invoice" && personalNumber) orderObj = { ...orderObj, personalNumber }
         date = date.substring(0, 10)
         let tempUser = loggedInUser
         if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
-        else tempUser.orderHistory = [{ date, order }]
+        else tempUser.orderHistory = [{ date, order: order.order }]
         console.log(orderObj)
         console.log(tempUser)
         localStorage.setItem('localOrder', JSON.stringify(orderObj))
@@ -180,33 +180,47 @@ function Payment(props) {
             }, 3000);
     }
 
+    function getObject(object) {
+        console.log(object)
+        card = object
+    }
+
     return (
         <>{!checkout ?
             <Wrapper>
                 <Header showLogin={false} hideProfile={true} back={true} handleClick={handleClick} text="Menu" />
-                <DeliveryContainer>
-                    <InputContainer>
+                <PaymentContainer>
+                    <InputContainer border={true}>
                         <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="card" checked={paymentOption === "card"} />
-                        <Label onClick={(r) => handleRadio(r)} id="card" htmlFor='card'>Card</Label><br />
-                        <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Enter zip code' required onChange={handlePayment} value={zip}></Input>
-                        {/* <label htmlFor='city'><Label>City</Label></label> */}
-                        <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "75%" }} type='text' placeholder='Enter city' required onChange={handlePayment} value={city}></Input><br />
+                        <Label onClick={(r) => handleRadio(r)} id="card" htmlFor='card'>Credit card</Label><br />
+                        <Hide hide={paymentOption !== "card"} >
+                            <CardPayment sendObject={getObject} hide={paymentOption !== "card"} />
+                        </Hide>
                     </InputContainer>
-                    <InputContainer border={true} bordert={true}>
+                    <InputContainer border={true}>
                         <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="swish" checked={paymentOption === "swish"} />
                         <Label onClick={(r) => handleRadio(r)} id="swish" htmlFor="swish">Swish</Label><br />
+                        <Hide hide={paymentOption !== "swish"} >
+                            <Text>Your phone number</Text>
+                            <Input type='text' placeholder='070-xxxxxxxx' required onChange={handleSwish} value={swishNumber}></Input>
+                        </Hide>
                     </InputContainer>
-                    <InputContainer border={true} bordert={true}>
+                    <InputContainer border={true}>
                         <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="invoice" checked={paymentOption === "invoice"} />
                         <Label onClick={(r) => handleRadio(r)} id="invoice" htmlFor="invoice">Invoice</Label><br />
+                        <Hide hide={paymentOption !== "invoice"}>
+                            <Text>Your personal identity number (10 digits)</Text>
+                            <Input type='text' placeholder='xxxxxx-xxxx' required onChange={handlePersonalNumber} value={personalNumber}></Input>
+                        </Hide>
                     </InputContainer>
+                    <Title>Order summary</Title>
+                    <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
                     <OrderButton onClick={handleOrder}>Pay</OrderButton>
-
-                </DeliveryContainer>
+                </PaymentContainer>
             </Wrapper>
             :
             <ThanksContainer>
-                <p>Thank you!</p>
+                <Title>Thank you!</Title>
                 <Logo src={logo} />
             </ThanksContainer>
         }

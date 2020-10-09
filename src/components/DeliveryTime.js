@@ -53,7 +53,7 @@ function DeliveryTime(props) {
         const timeStamp = Math.round(new Date(`${timeString} 21: 15`).getTime());
         const amountOf15Minutes = (timeStamp - roundedStartTime.getTime()) / 1000 / 60 / 15
 
-        if (amountOf15Minutes > 1 && amountOf15Minutes < 55) {
+        if (amountOf15Minutes > 1 && amountOf15Minutes < 56) {
 
             let timeArray = [roundedStartTime.toString().slice(16, 21)]
             for (let i = 1; i < amountOf15Minutes; i++) {

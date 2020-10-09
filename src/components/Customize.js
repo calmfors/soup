@@ -67,16 +67,17 @@ const CustomizeContainer = styled.section`
 function Customize(props) {
   const labels = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
   const [orderMessage, setOrderMessage] = useState("Order soup +0 toppings");
-  const [soup, setSoup] = useState(props.choosenSoup);
-  const toppings = [
+  const allToppings = [
     { "name": "sunflower seeds", "choosen": false },
     { "name": "pumpkin seeds", "choosen": false },
     { "name": "chili flakes", "choosen": false },
     { "name": "coconut flakes", "choosen": false },
-    { "name": "cheese", "choosen": false }
+    { "name": "cheese", "choosen": false },
+    { "name": "cilantro", "choosen": false }
   ];
+  let toppings = allToppings.filter(topping => props.choosenSoup.toppings.includes(topping.name))
   let toppingArray = []
-  toppings.map(topping => toppingArray.push(topping.choosen))
+  toppings.filter(topping => toppingArray.push(topping.choosen))
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
 
   function handleClick(i) {
@@ -104,14 +105,14 @@ function Customize(props) {
         title={props.choosenSoup.name} src={props.src} price={props.choosenSoup.price + " kr"} />
       <CustomizeContainer>
 
-        <Description>Butternut squash soup is like a golden pop of sunshine and comfort on a cold day. This soup with sweet apples, garlic, and thyme is the perfect cozy, light dinner.</Description>
+        <Description>{props.choosenSoup.description}</Description>
         {updateTopping.map((topping, i) =>
           <ToppingContainer key={"a" + i} choosen={topping} >
             <ToppingButton key={"b" + i} onClick={() => handleClick(i)} width="90" >{toppings[i].name}</ToppingButton>
             <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
           </ToppingContainer>
         )}
-        <OrderButton onClick={() => !props.loginMenu && props.handleOrder(updateTopping, toppings)}>{orderMessage}</OrderButton>
+        <OrderButton onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
 
     </>

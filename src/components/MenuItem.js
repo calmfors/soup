@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Order = styled.div`
@@ -96,20 +96,35 @@ const Price = styled.p`
 `;
 
 function MenuItem(props) {
+  const [loaded, setLoaded] = useState(false)
+
+
+  function handleLoad() {
+    setLoaded(true);
+  }
+  function tellMenuIfLoaded() {
+    return props.handleLoading(loaded);
+  }
+
   const labelTitles = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
   return (
     <SoupButton customize={props.customize} onClick={props.click}>
+
       <SoupContainer >
-        <SoupTitle>{props.title}</SoupTitle>
-        <Item src={props.src} />
-        <LabelBox>
-          {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
-        </LabelBox>
-        <Price>{props.price}</Price>
-        <Order><OrderText>{props.customize ? "Choose your favourite toppings!" : "Click to customize & order!"}</OrderText></Order>
+        <SoupTitle>{loaded && props.title}</SoupTitle>
+        <Item onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />
+        {!props.customize && tellMenuIfLoaded()}
+        {loaded &&
+          <div>
+            <LabelBox>
+              {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
+            </LabelBox>
+            <Price>{props.price}</Price>
+            <Order><OrderText>{props.customize ? "Choose your favourite toppings!" : "Click to customize & order!"}</OrderText></Order>
+          </div>}
       </SoupContainer>
     </SoupButton>
-  );
+  )
 }
 
 export default MenuItem;

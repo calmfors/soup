@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
@@ -6,13 +6,13 @@ const Wrapper = styled.div`
   transition-duration:0.5s;
   padding: 10px 10px 0 10px;
   box-sizing: border-box;
-  position: absolute;
+  position: ${props => props.pay ? "static" : "absolute"};
   display: flex;
   align-items: center;
   justify-content: center;
   bottom:${props => props.position ? "50px" : "-350px"};
   left:0;
-  z-index:-1;  
+  z-index: ${props => !props.pay && "-1"};  
   width: 100%;
   background-color: #6094AA;
   height:auto;
@@ -25,25 +25,43 @@ const Wrapper = styled.div`
   }
 `
 const Summary = styled.section`
+  position:relative;
+  box-sizing:border-box;
   overflow: auto;
   text-align: center;
-  font-family: 'Rubik', sans-serif;
-  height: calc(100% - 50px);
-  max-height:390px;
+  height: ${props => props.payHeight ? "calc(100vh - 530px)" : "calc(100 % - 50px)"};
+  max-height:${props => props.pay ? "calc(100vh - 390px)" : "390px"};
+  transition: height 0.3s ease-out;
   width:100%;
   background-color: #fff;
   border-radius: 5px;
+  padding-bottom: ${props => props.pay ? "0" : "50px"};
 `;
 
 const OrderThumb = styled.section`
+  font-family: 'Rubik', sans-serif;
+  box-sizing: border-box;
   width:calc(100% - 20px);
   display: flex;
-  align-items: ${props => props.total && "center"};
-  height:${props => props.total ? "50px" : "70px"};
+  height:70px;
   margin:10px;
-  border-bottom: ${props => props.total ? "none" : "1px solid grey"};
+  border-bottom: 1px solid grey;
   text-align: left;
 `
+const PlaceOrderContainer = styled(OrderThumb)`
+  display: ${props => props.pay && "none"};
+  width: calc(100% - 40px);
+  position:absolute;
+  left: 15px;
+  bottom: 0px;
+  align-items:center;
+  height: 60px;
+  padding: 0 10px 0 10px;
+  background-color: #fffe;
+  border-bottom:none;
+  margin:0;
+`
+
 const OrderImg = styled.img`
   display:inline;
   margin-right: 10px;
@@ -53,13 +71,15 @@ const OrderImg = styled.img`
   object-position: center;
 `
 const OrderText = styled.p`
+  font-size:${props => props.total ? "1rem" : "0.9rem"};
+  font-weight:${props => props.total && "500"};
+  font-weight:${props => props.total && "500"};
   width:calc(100% - 90px);
   margin:0;
-  font-size:0.9rem;
   line-height:1.2rem;
 `
 const Close = styled(OrderText)`
- font-size:1.2rem;
+ font-size: 1.2rem;
  color: red;
  width: 10px;
  height:10px; 
@@ -68,7 +88,6 @@ const Close = styled(OrderText)`
    font-weight: bold; 
  }
 `
-
 const PlaceOrder = styled.button`
   margin:0;
   width:60%;
@@ -81,14 +100,12 @@ const PlaceOrder = styled.button`
     background-image: radial-gradient(#ffe066, #FFCC00);
   }
 `
-
-
 const Alert = styled.div`
-  position:absolute;
-  left: ${props => props.left}px;
+  position: absolute;
+  left: 0px;
   top: ${props => props.top}px;
   height: 83px;
-  width:calc(100% - 20px);
+  width: 100%;
   background-color: #6094AAdd;  
 `
 const AlertButton = styled.button`
@@ -117,6 +134,10 @@ function OrderSummary(props) {
   let total = 0
   order.map(orderItem => total += parseInt(orderItem.price))
 
+  useEffect(() => {
+    if (!props.position) setPopup(false)
+  })
+
   function removeItem(i) {
     const clickedSection = document.getElementById(i)
     setCoordinates({
@@ -125,7 +146,6 @@ function OrderSummary(props) {
     })
     setItemToBeRemoved(i, coordinates)
     setPopup(true);
-    console.log("Do you really want to remove " + order[i].name + "?")
   }
 
   function handleRemove() {
@@ -138,37 +158,34 @@ function OrderSummary(props) {
   }
   return (
     <>
-      <div>
-        <Wrapper position={props.position}>
-          <Summary>
-            {order.map((orderItem, i) =>
-              <OrderThumb key={i + "a"} id={i}>
-                <OrderImg src={orderItem.img}></OrderImg>
-                <OrderText>{orderItem.name} with {orderItem.toppings.length > 0 ? orderItem.toppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
-                <Close onClick={() => removeItem(i)}>×</Close>
-              </OrderThumb>
-            )}
-            <OrderThumb total="true">
-
-              <OrderText style={{ "fontWeight": "bold" }}>TOTAL: {total} kr </OrderText>
-              <PlaceOrder><Link to={
-                {
-                  pathname: '/delivery',
-                  state: {
-                    loggedIn: props.loggedIn
-                  }
-                }
-              }>Place order</Link></PlaceOrder>
+      <Wrapper pay={props.pay} position={props.position}>
+        <Summary pay={props.pay} payHeight={props.payHeight}>
+          {order.map((orderItem, i) =>
+            <OrderThumb key={i + "a"} id={i}>
+              <OrderImg src={orderItem.img}></OrderImg>
+              <OrderText>{orderItem.name} with {orderItem.choosenToppings.length > 0 ? orderItem.choosenToppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
+              {!props.pay && <Close onClick={() => removeItem(i)}>×</Close>}
             </OrderThumb>
-          </Summary>
+          )}
           {popup &&
             <Alert left={coordinates.left - 10} top={coordinates.top - 12}>
               <AlertText>Remove {order[itemToBeRemoved].name}?</AlertText>
               <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => { setItemToBeRemoved(null); setPopup(false) }}>No</AlertButton>
-            </Alert>
-          }
-        </Wrapper>
-      </div>
+            </Alert>}
+        </Summary>
+        <PlaceOrderContainer pay={props.pay}>
+
+          <OrderText total={true}>TOTAL: {total} kr </OrderText>
+          <PlaceOrder><Link to={
+            {
+              pathname: '/delivery',
+              state: {
+                loggedIn: props.loggedIn
+              }
+            }
+          }>Place order</Link></PlaceOrder>
+        </PlaceOrderContainer>
+      </Wrapper>
     </>
   );
 }

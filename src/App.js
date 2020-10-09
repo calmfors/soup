@@ -4,6 +4,7 @@ import Menu from './pages/Menu'
 import Delivery from './pages/Delivery'
 import Payment from './pages/Payment'
 import {
+  HashRouter,
   Switch,
   Route
 } from "react-router-dom";
@@ -15,12 +16,12 @@ function App() {
   const [loadingPage, setLoading] = useState(true);
   const [fadeLogo, setFade] = useState(false);
 
-  setTimeout(() => setLoading(false), 4000);
-  setTimeout(() => setFade(true), 3000);
+  setTimeout(() => setLoading(false), 1000);
+  setTimeout(() => setFade(true), 500);
 
   return (
     <div className="App">
-
+      {/* <HashRouter> */}
       <Switch>
         <Route path="/delivery" component={Delivery} />
         <Route path="/payment" component={Payment} />
@@ -34,6 +35,7 @@ function App() {
           }
         </Route>
       </Switch>
+      {/* </HashRouter> */}
     </div>
   )
 }

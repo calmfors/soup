@@ -111,7 +111,7 @@ function Login(props) {
                 !loggedIn &&
                 <div>
                     <label htmlFor='uemail'><Label>Email</Label></label>
-                    <input type='text' placeholder='Enter Useremail' email='uemail' required onChange={handleemail} value={email}></input><br />
+                    <input type='text' placeholder='Enter Email' email='uemail' required onChange={handleemail} value={email}></input><br />
                     <label htmlFor='psw'><Label>Password</Label></label>
                     <input type='password' placeholder='Enter Password' email='psw' onChange={handlePsw} value={psw} required></input><br />
                 </div>
