@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 
 const LabelContainer = styled.div`
-  margin: 0 auto;
   box-sizing:border-box;
   padding-left: calc(100vw - 100% + 5px);
   padding-right: 5px;

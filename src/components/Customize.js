@@ -6,6 +6,8 @@ const Description = styled.p`
   box-sizing: border-box;
   width: 100%;
   padding:0 10px 0 10px;
+  margin: 15px 0 15px 0;
+  line-height: 1.4rem;
   font-family: 'Rubik', sans-serif;
   text-align:left;
   @media(min-width: 600px) {
