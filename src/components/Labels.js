@@ -1,41 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// const LabelContainer = styled.div`
-//   margin-left: calc(100vw - 100%);
-//   box-sizing:border-box;
-//   position: fixed;
-//   display: flex;
-//   justify-content: space-around;
-//   width: 100%;
-//   height: 28px;
-//   top: 40px;
-//   background-color: #fffe;
-//   z-index:1;
-//   padding: 10px 5px 5px 5px;
-//   @media (min-width: 600px) {
-//     justify-content: center;
-//     max-width: 1350px;
-//     left: 50%;
-//     transform: translate(-50%, 0);
-//   }
-// `;
-
-const LabelContainer = styled.header`
+const LabelContainer = styled.div`
   margin: 0 auto;
   box-sizing:border-box;
   padding-left: calc(100vw - 100% + 5px);
-  padding-top:10px;
   padding-right: 5px;
-  height: 35px;
+  height: 40px;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   position: fixed;
   top: 40px;
   z-index: 1;
   background-color: #fffe;
-  justify-content: space-between;
   @media (min-width: 600px) {
     justify-content: center;
     max-width: 1300px;
@@ -43,7 +22,6 @@ const LabelContainer = styled.header`
     transform: translate(-50%, 0);
    }
 `;
-
 
 const Label = styled.button`
   height: 25px;
