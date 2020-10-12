@@ -67,14 +67,10 @@ function CardPayment(props) {
       card.expDateYear = e.target.value
 
     }
-    console.log(e.target.id)
-    console.log(expDateMonth + "/" + expDateYear)
-    console.log(card)
   }
 
   function handleCode(e) {
     setCode(e.target.value)
-    console.log(code)
     card.code = e.target.value
 
   }

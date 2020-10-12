@@ -126,107 +126,111 @@ const Hide = styled.section`
 `
 function Payment(props) {
 
-    const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('localUser')));
-    const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localOrder')));
-    const [paymentOption, setPaymentOption] = useState("card")
-    const [swishNumber, setSwishNumber] = useState("")
-    const [personalNumber, setPersonalNumber] = useState("")
-    const [checkout, setCheckout] = useState(false)
-    let card = {};
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('localUser')));
+  const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localOrder')));
+  const [paymentOption, setPaymentOption] = useState("card")
+  const [swishNumber, setSwishNumber] = useState("")
+  const [personalNumber, setPersonalNumber] = useState("")
+  const [checkout, setCheckout] = useState(false)
+  let card = {};
 
-    const history = useHistory();
-    let user = firebase.auth().currentUser;
+  const history = useHistory();
+  let user = firebase.auth().currentUser;
 
-    function handlePayment() {
+  function handlePayment() {
 
+  }
+
+  function handleRadio(r) {
+    let id = r.target.value || r.target.id
+    setPaymentOption(id);
+  }
+
+  function handleClick() {
+    history.push('/delivery');
+  }
+
+  function handleSwish(e) {
+    setSwishNumber(e.target.value)
+  }
+  function handlePersonalNumber(e) {
+    setPersonalNumber(e.target.value)
+  }
+
+
+  function handleOrder() {
+    let date = (new Date).toLocaleString()
+    let orderObj = { ...order, date, paymentOption }
+    if (paymentOption === "card" && card) orderObj = { ...orderObj, card }
+    if (paymentOption === "swish" && swishNumber) orderObj = { ...orderObj, swishNumber }
+    if (paymentOption === "invoice" && personalNumber) orderObj = { ...orderObj, personalNumber }
+    date = date.substring(0, 10)
+    let tempUser = loggedInUser
+    if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order: order.order })
+    else tempUser.orderHistory = [{ date, order: order.order }]
+    localStorage.setItem('localOrder', JSON.stringify(orderObj))
+    localStorage.setItem('localUser', JSON.stringify(tempUser))
+    localStorage.removeItem('localSoups')
+    firebase.database().ref('/users/').child(user.uid).set(tempUser)
+      .then((data) => {
+        console.log('Saved Data', data)
+      })
+      .catch((error) => {
+        console.log('Storing Error', error)
+      })
+    setCheckout(true);
+    setTimeout(
+      function () {
+        history.push('/');
+      }, 3000);
+  }
+
+  function getObject(object) {
+    card = object
+  }
+
+  return (
+    <>{!checkout ?
+      <Wrapper>
+        <Header showLogin={false} hideProfile={true} back={true} handleClick={handleClick} text="Menu" />
+        <PaymentContainer>
+          <InputContainer border={true}>
+            <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="card" checked={paymentOption === "card"} />
+            <Label onClick={(r) => handleRadio(r)} id="card" htmlFor='card'>Credit card</Label><br />
+            <Hide hide={paymentOption !== "card"} >
+              <CardPayment sendObject={getObject} hide={paymentOption !== "card"} />
+            </Hide>
+          </InputContainer>
+          <InputContainer border={true}>
+            <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="swish" checked={paymentOption === "swish"} />
+            <Label onClick={(r) => handleRadio(r)} id="swish" htmlFor="swish">Swish</Label><br />
+            <Hide hide={paymentOption !== "swish"} >
+              <Text>Your phone number</Text>
+              <Input type='text' placeholder='070-xxxxxxxx' required onChange={handleSwish} value={swishNumber}></Input>
+            </Hide>
+          </InputContainer>
+          <InputContainer border={true}>
+            <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="invoice" checked={paymentOption === "invoice"} />
+            <Label onClick={(r) => handleRadio(r)} id="invoice" htmlFor="invoice">Invoice</Label><br />
+            <Hide hide={paymentOption !== "invoice"}>
+              <Text>Your personal identity number (10 digits)</Text>
+              <Input type='text' placeholder='xxxxxx-xxxx' required onChange={handlePersonalNumber} value={personalNumber}></Input>
+            </Hide>
+          </InputContainer>
+          <Title>Order summary</Title>
+          <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
+          <OrderButton onClick={handleOrder}>Pay</OrderButton>
+        </PaymentContainer>
+      </Wrapper>
+      :
+      <ThanksContainer>
+        <Title>Thank you!</Title>
+        <Logo src={logo} />
+      </ThanksContainer>
     }
+    </>
 
-    function handleRadio(r) {
-        let id = r.target.value || r.target.id
-        setPaymentOption(id);
-    }
-
-    function handleClick() {
-        history.push('/delivery');
-    }
-
-    function handleSwish(e) {
-        setSwishNumber(e.target.value)
-    }
-    function handlePersonalNumber(e) {
-        setPersonalNumber(e.target.value)
-    }
-
-
-    function handleOrder() {
-        let date = (new Date).toLocaleString()
-        let orderObj = { ...order, date, paymentOption }
-        if (paymentOption === "card" && card) orderObj = { ...orderObj, card }
-        if (paymentOption === "swish" && swishNumber) orderObj = { ...orderObj, swishNumber }
-        if (paymentOption === "invoice" && personalNumber) orderObj = { ...orderObj, personalNumber }
-        date = date.substring(0, 10)
-        let tempUser = loggedInUser
-        if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
-        else tempUser.orderHistory = [{ date, order: order.order }]
-        console.log(orderObj)
-        console.log(tempUser)
-        localStorage.setItem('localOrder', JSON.stringify(orderObj))
-        localStorage.setItem('localUser', JSON.stringify(tempUser))
-        localStorage.removeItem('localSoups')
-        setCheckout(true);
-        setTimeout(
-            function () {
-                history.push('/');
-            }, 3000);
-    }
-
-    function getObject(object) {
-        console.log(object)
-        card = object
-    }
-
-    return (
-        <>{!checkout ?
-            <Wrapper>
-                <Header showLogin={false} hideProfile={true} back={true} handleClick={handleClick} text="Menu" />
-                <PaymentContainer>
-                    <InputContainer border={true}>
-                        <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="card" checked={paymentOption === "card"} />
-                        <Label onClick={(r) => handleRadio(r)} id="card" htmlFor='card'>Credit card</Label><br />
-                        <Hide hide={paymentOption !== "card"} >
-                            <CardPayment sendObject={getObject} hide={paymentOption !== "card"} />
-                        </Hide>
-                    </InputContainer>
-                    <InputContainer border={true}>
-                        <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="swish" checked={paymentOption === "swish"} />
-                        <Label onClick={(r) => handleRadio(r)} id="swish" htmlFor="swish">Swish</Label><br />
-                        <Hide hide={paymentOption !== "swish"} >
-                            <Text>Your phone number</Text>
-                            <Input type='text' placeholder='070-xxxxxxxx' required onChange={handleSwish} value={swishNumber}></Input>
-                        </Hide>
-                    </InputContainer>
-                    <InputContainer border={true}>
-                        <Checkbox onChange={handleRadio} type='radio' name="paymentoptions" value="invoice" checked={paymentOption === "invoice"} />
-                        <Label onClick={(r) => handleRadio(r)} id="invoice" htmlFor="invoice">Invoice</Label><br />
-                        <Hide hide={paymentOption !== "invoice"}>
-                            <Text>Your personal identity number (10 digits)</Text>
-                            <Input type='text' placeholder='xxxxxx-xxxx' required onChange={handlePersonalNumber} value={personalNumber}></Input>
-                        </Hide>
-                    </InputContainer>
-                    <Title>Order summary</Title>
-                    <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
-                    <OrderButton onClick={handleOrder}>Pay</OrderButton>
-                </PaymentContainer>
-            </Wrapper>
-            :
-            <ThanksContainer>
-                <Title>Thank you!</Title>
-                <Logo src={logo} />
-            </ThanksContainer>
-        }
-        </>
-
-    )
+  )
 }
 
 export default Payment;

@@ -5,6 +5,7 @@ import firebase from './firebase';
 const Btn = styled.button`
   align-items: center;
   margin-top:10px;
+  margin-bottom:10px;
   border: 0;
   background-color:#E05A33;
   color:white;
@@ -26,6 +27,7 @@ const Label = styled.p`
 
 function Login(props) {
 
+    const [name, setName] = useState('');
     const [psw, setPsw] = useState('');
     const [email, setEmail] = useState('');
     const [register, setRegister] = useState(false);
@@ -53,7 +55,25 @@ function Login(props) {
         mainButton.current.focus();
         if (!register) setRegister(true);
         else {
-            firebase.auth().createUserWithEmailAndPassword(email, psw);
+            firebase.auth().createUserWithEmailAndPassword(email, psw)
+                .then(function (userCredential) {
+                    let tempUser = {
+                        name,
+                        "born": "",
+                        email,
+                        "street": "",
+                        "zip": "",
+                        "city": "",
+                        "orderHistory": []
+                    }
+                    firebase.database().ref('/users/').child(userCredential.user.uid).set(tempUser)
+                        .then((data) => {
+                            console.log('Saved Data', data)
+                        })
+                        .catch((error) => {
+                            console.log('Storing Error', error)
+                        })
+                })
             setRegister(false);
 
         }
@@ -91,18 +111,21 @@ function Login(props) {
 
     function getUsers(id) {
         console.log(id)
-        firebase.database().ref('/users/').once('value', (snapshot) => {
+        firebase.database().ref('/users/' + id).once('value', (snapshot) => {
             // console.log(user);
             const userObj = snapshot.val();
-            const user = userObj.filter(user => user.id === id)
-            setLoggedInUser(user[0]);
+            // const user = userObj.filter(user => user.id === id)
+            setLoggedInUser(userObj);
         });
     }
-    function handleemail(e) {
+    function handleEmail(e) {
         setEmail(e.target.value);
     }
     function handlePsw(e) {
         setPsw(e.target.value);
+    }
+    function handleName(e) {
+        setName(e.target.value);
     }
     return (
         < div >
@@ -110,8 +133,13 @@ function Login(props) {
             {
                 !loggedIn &&
                 <div>
-                    <label htmlFor='uemail'><Label>Email</Label></label>
-                    <input type='text' placeholder='Enter Email' email='uemail' required onChange={handleemail} value={email}></input><br />
+                    {register &&
+                        <>
+                            <label htmlFor='name'><Label>Name</Label></label>
+                            <input type='text' placeholder='Enter Name' email='name' required onChange={handleName} value={name}></input><br />
+                        </>}
+                    <label htmlFor='email'><Label>Email</Label></label>
+                    <input type='text' placeholder='Enter Email' email='email' required onChange={handleEmail} value={email}></input><br />
                     <label htmlFor='psw'><Label>Password</Label></label>
                     <input type='password' placeholder='Enter Password' email='psw' onChange={handlePsw} value={psw} required></input><br />
                 </div>

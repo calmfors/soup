@@ -47,7 +47,6 @@ const Item = styled.img`
 
 const ProfileMenu = styled.div`
 background-color: #fffe;  
-height: 150px;
   width: 200px;
   position: absolute;
   right:0;

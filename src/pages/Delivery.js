@@ -171,23 +171,22 @@ function Delivery(props) {
         let tempUser
 
         firebase.database().ref('/users').once('value', (snapshot) => {
-            //firebase.database().ref('/users/').on('value', (snapshot) => {
             setUserLoaded(true)
             let userObj = snapshot.val();
-            tempUser = userObj.filter(user => user.id === id)[0]
+            tempUser = userObj[id];
 
-            if (!tempUser) {
-                tempUser = {
-                    "id": id,
-                    "name": "",
-                    "age": "",
-                    "email": "",
-                    "street": "",
-                    "zip": "",
-                    "city": "",
-                    "orderHistory": []
-                }
-            }
+            // if (!tempUser) {
+            //     tempUser = {
+            //         "id": id,
+            //         "name": "",
+            //         "age": "",
+            //         "email": "",
+            //         "street": "",
+            //         "zip": "",
+            //         "city": "",
+            //         "orderHistory": []
+            //     }
+            // }
             if (tempUser) updateUser(tempUser)
         })
 
@@ -264,10 +263,18 @@ function Delivery(props) {
                 message,
                 order: tempOrder
             }
+
             let tempUser = loggedInUser
             // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
-            // else tempUser.orderHistory = [{ date, order }]
-            tempUser = { ...tempUser, street, zip, city }
+            // else tempUser.orderHistory = [{ date, order } 
+            tempUser = { ...tempUser, name, street, zip, city }
+            firebase.database().ref('/users/').child(user.uid).set(tempUser)
+                .then((data) => {
+                    console.log('Saved Data', data)
+                })
+                .catch((error) => {
+                    console.log('Storing Error', error)
+                })
             console.log(orderObj)
             console.log(tempUser)
             localStorage.setItem('localOrder', JSON.stringify(orderObj))
