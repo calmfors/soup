@@ -73,6 +73,7 @@ function Login(props) {
                         "city": "",
                         "orderHistory": []
                     }
+
                     firebase.database().ref('/users/').child(userCredential.user.uid).set(tempUser)
                         .then((data) => {
                             console.log('Saved Data', data)
@@ -80,8 +81,11 @@ function Login(props) {
                         .catch((error) => {
                             console.log('Storing Error', error)
                         })
+                    props.check(tempUser);
                 })
-            setRegister(false);
+            setLoggedIn(true);
+            setRegister(firebase.auth().currentUser);
+
 
         }
         console.log('email: ' + email + ' psw:' + psw);

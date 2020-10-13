@@ -169,28 +169,30 @@ function ProfilePage(props) {
     }
 
     return (
-        <ProfileMenu onClick={(e) => { e.stopPropagation() }}>
-            {userObj && name &&
-                <>
-                    <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
-                    <Hide hide={hideOrders}>
-                        {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
-                            <div style={{ "borderBottom": "1px solid lightgrey" }}>
-                                <Text key={"a" + i}>{order.date + ": "}
-                                    {order.order.map((soup, j) => (j + 1 !== order.order.length ? soup.name + ", " : soup.name))}</Text>
-                                <TextBtn key={"b" + i} onClick={() => handleClick(i)}>Order again</TextBtn>
-                            </div>
-                        ) : <Text>No previous orders</Text>}
-                    </Hide>
-                    <Title onClick={() => setHideAddress(!hideAddress)}><Rotate hide={hideAddress}>{'>'}</Rotate>Change Address</Title>
-                    <Hide hide={hideAddress}>
-                        {saved && <Saved><Text saved={true}>Address saved</Text></Saved>}
-                        {loaded && <Address sendAddress={getAddress} name={name} street={street} zip={zip} city={city} />}
-                    </Hide>
-                </>}
-            <Bottom top={name === "" || name === undefined}><Login getLoggedInUser={getLoggedInUser} check={props.check} /></Bottom>
+        <>
+            <ProfileMenu onClick={(e) => { e.stopPropagation() }}>
+                {userObj && name &&
+                    <>
+                        <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
+                        <Hide hide={hideOrders}>
+                            {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
+                                <div style={{ "borderBottom": "1px solid lightgrey" }}>
+                                    <Text key={"a" + i}>{order.date + ": "}
+                                        {order.order.map((soup, j) => (j + 1 !== order.order.length ? soup.name + ", " : soup.name))}</Text>
+                                    <TextBtn key={"b" + i} onClick={() => handleClick(i)}>Order again</TextBtn>
+                                </div>
+                            ) : <Text>No previous orders</Text>}
+                        </Hide>
+                        <Title onClick={() => setHideAddress(!hideAddress)}><Rotate hide={hideAddress}>{'>'}</Rotate>Change Address</Title>
+                        <Hide hide={hideAddress}>
+                            {saved && <Saved><Text saved={true}>Address saved</Text></Saved>}
+                            {loaded && <Address sendAddress={getAddress} name={name} street={street} zip={zip} city={city} />}
+                        </Hide>
+                    </>}
+                <Bottom top={name === "" || name === undefined}><Login getLoggedInUser={getLoggedInUser} check={props.check} /></Bottom>
 
-        </ProfileMenu >
+            </ProfileMenu >
+        </>
     )
 }
 export default ProfilePage; 
