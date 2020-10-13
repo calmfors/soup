@@ -33,7 +33,7 @@ function DeliveryTime(props) {
             setTime(timeArray[0])
             props.handleTime(timeArray[0])
         }
-    })
+    }, [time, timeArray, props])
 
     function roundTimeQuarterHour(time) {
         var timeToReturn = new Date(time);

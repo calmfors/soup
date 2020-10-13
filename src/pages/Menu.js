@@ -188,7 +188,7 @@ function Menu() {
     function handleLoad(loaded) {
         let loadedArray = []
         if (loaded) loadedArray.push(loaded)
-        if (loadedArray.length = localSoups.length) {
+        if (loadedArray.length === localSoups.length) {
             setTimeout(
                 function () {
                     setLoaded(true)

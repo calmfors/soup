@@ -136,7 +136,7 @@ function OrderSummary(props) {
 
   useEffect(() => {
     if (!props.position) setPopup(false)
-  })
+  }, [props.position])
 
   function removeItem(i) {
     const clickedSection = document.getElementById(i)

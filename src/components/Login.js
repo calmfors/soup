@@ -25,6 +25,12 @@ const Label = styled.p`
   margin: 10px 0 2px 0;
 `;
 
+const Text = styled.p`
+  font-family: 'Rubik', sans-serif;
+  color: #000;
+  font-size: 1rem;
+`
+
 function Login(props) {
 
     const [name, setName] = useState('');
@@ -35,7 +41,6 @@ function Login(props) {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const mainButton = React.createRef();
 
-    console.log("Login mounted")
     useEffect(() => {
 
         const unregisterAuthObserver = firebase.auth()
@@ -45,10 +50,12 @@ function Login(props) {
 
         const user = loggedIn && firebase.auth().currentUser
         if (user) getUsers(user.uid)
+        // props.getLoggedInUserObj(loggedInUser)
 
         return () => {
             unregisterAuthObserver();
         }
+
     }, [loggedIn]);
 
     function handleRegister() {
@@ -110,12 +117,15 @@ function Login(props) {
     };
 
     function getUsers(id) {
-        console.log(id)
         firebase.database().ref('/users/' + id).once('value', (snapshot) => {
             // console.log(user);
             const userObj = snapshot.val();
             // const user = userObj.filter(user => user.id === id)
-            setLoggedInUser(userObj);
+            console.log(id)
+            console.log(userObj)
+            if (!loggedInUser) setLoggedInUser(userObj);
+            if (props.getLoggedInUser) props.getLoggedInUser(id, userObj)
+
         });
     }
     function handleEmail(e) {
@@ -129,7 +139,7 @@ function Login(props) {
     }
     return (
         < div >
-            <p>{loggedInUser && 'Hello ' + loggedInUser.name} </p>
+            <Text>{loggedInUser && 'Logged in as ' + loggedInUser.name} </Text>
             {
                 !loggedIn &&
                 <div>

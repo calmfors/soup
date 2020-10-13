@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
@@ -66,14 +66,6 @@ const Checkbox = styled.input`
   margin-right:10px;
   box-sizing:border-box;
 `
-const Message = styled.textarea`
-  box-sizing:border-box;
-  width: 100%;
-  padding: 7px;
-  border-radius: 7px;
-  resize: none;
-  margin-bottom:12px;
-`
 const Text = styled.p`
   font-family: 'Rubik', sans-serif;
   color: #fff;
@@ -137,10 +129,6 @@ function Payment(props) {
   const history = useHistory();
   let user = firebase.auth().currentUser;
 
-  function handlePayment() {
-
-  }
-
   function handleRadio(r) {
     let id = r.target.value || r.target.id
     setPaymentOption(id);
@@ -159,7 +147,7 @@ function Payment(props) {
 
 
   function handleOrder() {
-    let date = (new Date).toLocaleString()
+    let date = (new Date()).toLocaleString()
     let orderObj = { ...order, date, paymentOption }
     if (paymentOption === "card" && card) orderObj = { ...orderObj, card }
     if (paymentOption === "swish" && swishNumber) orderObj = { ...orderObj, swishNumber }

@@ -109,7 +109,6 @@ function MenuItem(props) {
   const labelTitles = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
   return (
     <SoupButton customize={props.customize} onClick={props.click}>
-
       <SoupContainer >
         <SoupTitle>{loaded && props.title}</SoupTitle>
         <Item onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />

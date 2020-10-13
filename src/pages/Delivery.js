@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import firebase from '../components/firebase';
 import Login from '../components/Login';
 import DeliveryTime from '../components/DeliveryTime'
+import Address from '../components/Address';
 
 const LoginContainer = styled.div`
   width: 100vw;
@@ -79,16 +80,6 @@ const InputContainer = styled.section`
   border-top: ${props => props.bordert && "1px solid #fff"};
   padding-top: ${props => props.bordert && "10px"};
 `;
-const Input = styled.input`
-  box-sizing: border-box;
-  padding:11px;
-  border: none;
-  width:100%;
-  border-radius: 5px;
-  margin-bottom:10px;
-  color: ${props => props.grey ? "#777" : "#000"};
-`;
-
 const Checkbox = styled.input`
   margin-right:10px;
   box-sizing:border-box;
@@ -146,8 +137,9 @@ function Delivery(props) {
     const [city, setCity] = useState("")
     const [message, setMessage] = useState("")
     const [deliveryTime, setDeliveryTime] = useState("")
-    const [checkout, setCheckout] = useState(false)
+    // const [checkout, setCheckout] = useState(false)
     const [orderMessage, setOrderMessage] = useState("Checkout");
+    const [addressLoaded, setAddressLoaded] = useState(false);
 
 
     const history = useHistory();
@@ -155,12 +147,14 @@ function Delivery(props) {
 
     useEffect(() => {
         if (!loggedInUser && user) setLoggedInUser(getUserFromDatabase(user.uid));
+        if (name && street && zip && city) setAddressLoaded(true)
+        else if (loggedInUser && loggedInUser.city === "") setAddressLoaded(true)
+
         setTimeout(
             function () {
                 if (loggedInUser === null && user === null) setUserLoaded(true)
             }, 4000)
-    }, [user, loggedInUser, getUserFromDatabase]
-    );
+    }, [user, loggedInUser, getUserFromDatabase]);
 
 
     function handleLogin() {
@@ -219,18 +213,7 @@ function Delivery(props) {
         if (id === "pickup") setInputGrey(true);
         else setInputGrey(false);
     }
-    function handleName(e) {
-        setName(e.target.value)
-    }
-    function handleStreet(e) {
-        setStreet(e.target.value)
-    }
-    function handleZip(e) {
-        setZip(e.target.value)
-    }
-    function handleCity(e) {
-        setCity(e.target.value)
-    }
+
     function handleMessage(e) {
         if (message.length <= 100) setMessage(e.target.value)
         if (message.length === 100) setMessage(message.substring(0, 99))
@@ -263,7 +246,6 @@ function Delivery(props) {
                 message,
                 order: tempOrder
             }
-
             let tempUser = loggedInUser
             // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
             // else tempUser.orderHistory = [{ date, order } 
@@ -289,26 +271,29 @@ function Delivery(props) {
         }
     }
 
+    function getAddress(address) {
+        console.log(address)
+        const { name, street, zip, city } = address
+        setName(name)
+        setStreet(street)
+        setZip(zip)
+        setCity(city)
+    }
+
+
     return !userLoaded ?
         (
             <LoginContainer color={"#fff"}><LoadingDots>Loading</LoadingDots></LoginContainer>
         ) :
-        (loggedInUser ?
+        (addressLoaded && userLoaded ?
             <>
                 <Wrapper>
-                    <Header check={logOutOrInListener} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
+                    <Header hideProfile={true} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
                     <DeliveryContainer>
                         <InputContainer>
                             <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />
                             <Label onClick={(r) => handleRadio(r)} id="delivery" htmlFor='delivery'>Delivery</Label><br />
-                            {/* <label htmlFor='name'><Label>Name</Label></label> */}
-                            <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter name' required onChange={handleName} value={name}></Input><br />
-                            {/* <label htmlFor='street'><Label>Street</Label></label> */}
-                            <Input grey={inputGrey} disabled={inputGrey} type='text' placeholder='Enter street address' required onChange={handleStreet} value={street}></Input><br />
-                            {/* <label htmlFor='zip'><Label>Zip</Label></label> */}
-                            <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Enter zip code' required onChange={handleZip} value={zip}></Input>
-                            {/* <label htmlFor='city'><Label>City</Label></label> */}
-                            <Input grey={inputGrey} disabled={inputGrey} style={{ "width": "75%" }} type='text' placeholder='Enter city' required onChange={handleCity} value={city}></Input><br />
+                            {addressLoaded && <Address inputGrey={inputGrey} disabled={inputGrey} sendAddress={getAddress} name={name} street={street} zip={zip} city={city} />}
                         </InputContainer>
                         <InputContainer>
                             <DeliveryTime handleTime={handleTime} disabled={inputGrey}></DeliveryTime>

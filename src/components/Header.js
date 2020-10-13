@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import back from '../graphics/back.svg';
 import profile from '../graphics/profile.svg';
 import logo from '../graphics/logo_tomato.svg';
-import Login from './Login';
+import ProfilePage from './Profile';
 
 
 const HeaderContainer = styled.header`
@@ -44,15 +44,6 @@ const Item = styled.img`
   height: ${props => props.height}px;
   visibility: ${props => props.show ? "visible" : "hidden"};
 `;
-
-const ProfileMenu = styled.div`
-background-color: #fffe;  
-  width: 200px;
-  position: absolute;
-  right:0;
-  top:40px;
-  padding:5px;
-`;
 const Logo = styled.img`
   width: 110px;
   margin-bottom:-15px;
@@ -61,8 +52,6 @@ const Logo = styled.img`
 function Header(props) {
 
   function logOutOrInListener(check) {
-    console.log("From header")
-    console.log(check)
     props.check(check);
   }
 
@@ -73,7 +62,7 @@ function Header(props) {
       <Link to="/"><Logo onClick={props.handleClick} src={logo} /></Link>
       {!props.hideProfile ? <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
         : <Item width="35" />}
-      {props.showLogin && <ProfileMenu><Login check={logOutOrInListener} /></ProfileMenu>}
+      {props.showLogin && <ProfilePage check={logOutOrInListener} />}
     </HeaderContainer>
 
   );
