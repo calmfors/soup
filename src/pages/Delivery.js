@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
@@ -144,6 +144,18 @@ function Delivery(props) {
 
     const history = useHistory();
 
+    const getUserFromDatabase = useCallback((id) => {
+        let tempUser
+
+        firebase.database().ref('/users').once('value', (snapshot) => {
+            setUserLoaded(true)
+            let userObj = snapshot.val();
+            tempUser = userObj[id];
+            if (tempUser) updateUser(tempUser)
+        })
+
+        return tempUser
+    }, [])
 
     useEffect(() => {
         if (!loggedInUser && user) setLoggedInUser(getUserFromDatabase(user.uid));
@@ -154,38 +166,13 @@ function Delivery(props) {
             function () {
                 if (loggedInUser === null && user === null) setUserLoaded(true)
             }, 4000)
-    }, [user, loggedInUser, getUserFromDatabase]);
+    }, [user, loggedInUser, getUserFromDatabase, city, name, zip, street]);
 
 
     function handleLogin() {
         setLoginMenu(!loginMenu);
     }
 
-    function getUserFromDatabase(id) {
-        let tempUser
-
-        firebase.database().ref('/users').once('value', (snapshot) => {
-            setUserLoaded(true)
-            let userObj = snapshot.val();
-            tempUser = userObj[id];
-
-            // if (!tempUser) {
-            //     tempUser = {
-            //         "id": id,
-            //         "name": "",
-            //         "age": "",
-            //         "email": "",
-            //         "street": "",
-            //         "zip": "",
-            //         "city": "",
-            //         "orderHistory": []
-            //     }
-            // }
-            if (tempUser) updateUser(tempUser)
-        })
-
-        return tempUser
-    }
 
     function updateUser(user) {
         setLoggedInUser(user)
@@ -225,12 +212,11 @@ function Delivery(props) {
     }
 
     function handleOrder() {
+        console.log(order)
         if (deliveryTime !== "Closed") {
             let tempOrder = order
             tempOrder.forEach(tempItem => {
                 delete tempItem.description
-                tempItem.toppings = tempItem.choosenToppings
-                delete tempItem.choosenToppings
                 delete tempItem.filter
             })
             const orderObj = {
@@ -318,11 +304,6 @@ function Delivery(props) {
 
                     </DeliveryContainer>
                 </Wrapper>
-                {/* :
-                    <LoginContainer style={{ "color": "#fff" }}>
-                        Thank you!
-                    </LoginContainer>
-                } */}
             </>
             :
             <>

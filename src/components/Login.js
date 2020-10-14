@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import firebase from './firebase';
 
@@ -40,23 +40,33 @@ function Login(props) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const mainButton = React.createRef();
+    const { getLoggedInUser } = props
+
+    const getUsers = useCallback((id) => {
+        firebase.database().ref('/users/' + id).once('value', (snapshot) => {
+            // console.log(user);
+            const userObj = snapshot.val();
+            // const user = userObj.filter(user => user.id === id)
+            console.log(id)
+            console.log(userObj)
+            if (!loggedInUser) setLoggedInUser(userObj);
+            if (getLoggedInUser) getLoggedInUser(id, userObj)
+
+        });
+    }, [])
 
     useEffect(() => {
-
         const unregisterAuthObserver = firebase.auth()
             .onAuthStateChanged(
                 (user) => setLoggedIn(!!user)
             );
-
         const user = loggedIn && firebase.auth().currentUser
         if (user) getUsers(user.uid)
-        // props.getLoggedInUserObj(loggedInUser)
-
         return () => {
             unregisterAuthObserver();
         }
 
-    }, [loggedIn]);
+    }, [loggedIn, getUsers]);
 
     function handleRegister() {
         mainButton.current.focus();
@@ -95,8 +105,8 @@ function Login(props) {
         if (register) setRegister(false);
         mainButton.current.focus();
         if (loggedIn) firebase.auth().signOut().then(function () {
-            setLoggedIn(false);
-            setLoggedInUser(null);
+            //setLoggedIn(false);
+            //setLoggedInUser(null);
             console.log('Logged out!')
             props.check(false);
         }).catch(function (error) {
@@ -104,34 +114,22 @@ function Login(props) {
             console.log(error.message);
         });
         if (!loggedIn && email && psw) firebase.auth().signInWithEmailAndPassword(email, psw).then(function () {
-            var user = firebase.auth().currentUser;
-            setLoggedIn(true);
-            setEmail('')
-            setPsw('');
+            // var user = firebase.auth().currentUser;
+            //setLoggedIn(true);
+            // setEmail('')
+            // setPsw('');
             console.log('Logged in!')
-            getUsers(user.uid)
+            // getUsers(user.uid)
             props.check(firebase.auth().currentUser);
         }).catch(function (error) {
             // Handle Errors here.
             console.log(error.code);
             console.log(error.message);
         })
-        setEmail('')
-        setPsw('');
+        // setEmail('')
+        // setPsw('');
     };
 
-    function getUsers(id) {
-        firebase.database().ref('/users/' + id).once('value', (snapshot) => {
-            // console.log(user);
-            const userObj = snapshot.val();
-            // const user = userObj.filter(user => user.id === id)
-            console.log(id)
-            console.log(userObj)
-            if (!loggedInUser) setLoggedInUser(userObj);
-            if (props.getLoggedInUser) props.getLoggedInUser(id, userObj)
-
-        });
-    }
     function handleEmail(e) {
         setEmail(e.target.value);
     }

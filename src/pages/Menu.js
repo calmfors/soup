@@ -45,7 +45,8 @@ const OrderButton = styled.button`
   color: #fff;
   height: 100%;
   width: 100%;
-  background-color: #6094AA;
+  background-color: ${props => props.cartChange ? "#77b6d1" : "#6094AA"};
+  transition-duration: 0.5s;
   &:hover{
     background-image: radial-gradient(#81adbf, #6094AA);
   }
@@ -65,11 +66,11 @@ const Fade = styled.div`
 
 function Menu() {
 
-    let localSoups = JSON.parse(localStorage.getItem('localSoups')) || [];
+    let localSoups = [];
     const [loggedInUser, setLoggedInUser] = useState(false)
     const [seeOrder, setSeeOrder] = useState(false);
     const [cart, setCart] = useState(localSoups.length);
-    const [orderMessage, setOrderMessage] = useState(`See order (${cart})`);
+    const [orderMessage, setOrderMessage] = useState("");
     const [choosenSoup, setChoosenSoup] = useState(null);
     const [customize, setCustomize] = useState(false);
     const [back, setBack] = useState(false);
@@ -81,14 +82,32 @@ function Menu() {
         selected: null,
         filteredSoups: soups,
     });
+    const [orderAgain, setOrderAgain] = useState(false)
+    const [changeButton, setChangeButton] = useState(false)
 
     const labels = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
     const orderButton = React.createRef();
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
     useEffect(() => {
+        console.log(cart)
+        localSoups = JSON.parse(localStorage.getItem('localSoups'))
         if (firebase.auth().currentUser) setLoggedInUser(true)
-        if (localSoups) setCart(localSoups.length)
+        if (localSoups) {
+            setCart(localSoups.length)
+            if (orderAgain) {
+                setOrderMessage('Order added')
+                setTimeout(
+                    function () {
+                        setOrderAgain(false)
+                        setChangeButton(false)
+                        setOrderMessage(`See order (${localSoups.length})`)
+                    }, 1000)
+            } else if (!orderMessage) {
+                if (cart > 0) setOrderMessage(`See order (${cart})`)
+            }
+        }
+
     }, [localSoups])
 
     function handleClick(i) {
@@ -131,6 +150,7 @@ function Menu() {
     }
 
     function handleOrder(updateTopping, toppings) {
+        setChangeButton(true)
         const choosenToppings = []
         updateTopping.map((topping, i) => {
             if (topping === true) choosenToppings.push(toppings[i].name)
@@ -138,7 +158,7 @@ function Menu() {
         })
         choosenSoup.choosenToppings = choosenToppings
 
-        // if (!localSoups) localSoups = []
+        if (!localSoups) localSoups = []
         localSoups.push(choosenSoup)
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
         setBack(false)
@@ -152,6 +172,7 @@ function Menu() {
         setChoosenSoup(null)
         setTimeout(
             function () {
+                setChangeButton(false)
                 setOrderMessage(`See order (${localSoups.length})`)
             }, 1000)
     }
@@ -168,10 +189,11 @@ function Menu() {
     }
 
     function handleLogin() {
+        setSeeOrder(false)
         setLoginMenu(!loginMenu);
     }
 
-    function closeMenus() {
+    function closeMenus(value) {
         seeOrder && setSeeOrder(false)
         loginMenu && setLoginMenu(false)
     }
@@ -188,7 +210,7 @@ function Menu() {
     function handleLoad(loaded) {
         let loadedArray = []
         if (loaded) loadedArray.push(loaded)
-        if (loadedArray.length === localSoups.length) {
+        if (loadedArray.length === soups.length) {
             setTimeout(
                 function () {
                     setLoaded(true)
@@ -208,12 +230,17 @@ function Menu() {
                 }, 2000)
         }
     }
+    function closeOrderAgain() {
+        setLoginMenu(false)
+        setOrderAgain(true)
+        setChangeButton(true)
+    }
 
     return (
         <>
             <Wrapper onClick={closeMenus} customize={customize} orderButton={cart}>
 
-                <Header check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => !seeOrder && !loginMenu && handleClick(99)} text="Menu" />
+                <Header close={closeOrderAgain} check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => { setSeeOrder(false); setLoginMenu(false); handleClick(99); }} text="Menu" />
 
                 {!customize && <Labels selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize &&
@@ -227,7 +254,7 @@ function Menu() {
                 {!customize && cart > 0 &&
                     <OrderButtonContainer onClick={(e) => { e.stopPropagation() }}>
 
-                        <OrderButton ref={orderButton} onClick={showOrder}>
+                        <OrderButton cartChange={changeButton} ref={orderButton} onClick={showOrder}>
                             {orderMessage}
 
                         </OrderButton>

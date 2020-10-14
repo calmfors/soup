@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Address from './Address';
 import Login from './Login';
 import firebase from '../components/firebase';
+import { useHistory } from 'react-router-dom';
+
 
 const ProfileMenu = styled.div`
   box-sizing: border-box;
@@ -88,7 +90,7 @@ const Bottom = styled.div`
 function ProfilePage(props) {
     // console.log(props.loggedInUser)
     const [id, setId] = useState("")
-    const [userObj, setUserObj] = useState({})
+    const [userObj, setUserObj] = useState(null)
     const [name, setName] = useState("")
     const [street, setStreet] = useState("")
     const [zip, setZip] = useState("")
@@ -98,8 +100,20 @@ function ProfilePage(props) {
     const [hideAddress, setHideAddress] = useState(true)
     const [hideOrders, setHideOrders] = useState(true)
 
+    const history = useHistory();
+
+    const debounce = useCallback((callback, wait) => {
+        let timeout;
+        return (...args) => {
+            window.removeEventListener('keyup', debounce())
+
+            clearTimeout(timeout);
+            timeout = setTimeout(function () { callback.apply(this, args) }, wait);
+        };
+    }, [])
+
+
     useEffect(() => {
-        console.log(name)
         if (userObj && !name) {
             const { name, street, zip, city } = userObj
             console.log("USEEFFECT")
@@ -113,42 +127,32 @@ function ProfilePage(props) {
             //setup before functions
             console.log("USEEFFECT2")
 
-
             document.addEventListener('keyup', debounce(() => {
                 // code you would like to run xxxx ms after the keyup event has stopped firing
                 // further keyup events reset the timer, as expected
-                saveToFirebase(userObj)
+                // function saveToFirebase(user) {
+                let tempUser = userObj
+                tempUser = { ...tempUser, name, street, zip, city }
+                localStorage.setItem('localUser', JSON.stringify(tempUser))
+                firebase.database().ref('/users/').child(id).set(tempUser)
+                    .then((data) => {
+                        console.log('Saved Data', data)
+                    })
+                    .catch((error) => {
+                        console.log('Storing Error', error)
+                    })
+                setSaved(true)
+                setTimeout(
+                    function () {
+                        setSaved(false)
+                    }, 2000)
+                // }
             }, 2000))
         }
 
-    }, [userObj, name, id, debounce, saveToFirebase])
+    }, [userObj, name, id, city, street, zip, debounce])
 
-    function debounce(callback, wait) {
-        let timeout;
-        return (...args) => {
-            window.removeEventListener('keyup', debounce())
 
-            clearTimeout(timeout);
-            timeout = setTimeout(function () { callback.apply(this, args) }, wait);
-        };
-    }
-    function saveToFirebase(user) {
-        let tempUser = user
-        tempUser = { ...tempUser, name, street, zip, city }
-        localStorage.setItem('localUser', JSON.stringify(tempUser))
-        firebase.database().ref('/users/').child(id).set(tempUser)
-            .then((data) => {
-                console.log('Saved Data', data)
-            })
-            .catch((error) => {
-                console.log('Storing Error', error)
-            })
-        setSaved(true)
-        setTimeout(
-            function () {
-                setSaved(false)
-            }, 2000)
-    }
 
     function getLoggedInUser(id, userObj) {
         setId(id)
@@ -164,8 +168,16 @@ function ProfilePage(props) {
         setCity(city)
     }
     function handleClick(i) {
-        console.log(i)
-        // console.log(userObj.order[i])
+        let localSoups = JSON.parse(localStorage.getItem('localSoups'))
+        let tempOrder = userObj.orderHistory[i].order
+        tempOrder.forEach(order => {
+            if (!order.choosenToppings) order.choosenToppings = [];
+            if (localSoups) localSoups.push(order)
+        });
+        localStorage.setItem('localSoups', JSON.stringify(localSoups))
+        // history.push('/delivery');
+        //history.push('/');
+        props.close()
     }
 
     return (
@@ -176,7 +188,7 @@ function ProfilePage(props) {
                         <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
                         <Hide hide={hideOrders}>
                             {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
-                                <div style={{ "borderBottom": "1px solid lightgrey" }}>
+                                <div key={"c" + i} style={{ "borderBottom": "1px solid lightgrey" }}>
                                     <Text key={"a" + i}>{order.date + ": "}
                                         {order.order.map((soup, j) => (j + 1 !== order.order.length ? soup.name + ", " : soup.name))}</Text>
                                     <TextBtn key={"b" + i} onClick={() => handleClick(i)}>Order again</TextBtn>

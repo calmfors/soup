@@ -62,7 +62,7 @@ function Header(props) {
       <Link to="/"><Logo onClick={props.handleClick} src={logo} /></Link>
       {!props.hideProfile ? <HeaderItem show={true} onClick={props.handleLogin}><Item width="25" show={true} src={profile} /></HeaderItem>
         : <Item width="35" />}
-      {props.showLogin && <ProfilePage check={logOutOrInListener} />}
+      {props.showLogin && <ProfilePage close={props.close} check={logOutOrInListener} />}
     </HeaderContainer>
 
   );

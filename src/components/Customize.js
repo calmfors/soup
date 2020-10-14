@@ -25,7 +25,8 @@ const OrderButton = styled.button`
   height: 50px;
   width: 100%;
   color: #fff;
-  background-color: #6094AA;
+  background-color: ${props => props.toppingChange ? "#77b6d1" : "#6094AA"};
+  transition-duration: 0.1s;  
   @media(min-width: 600px) {
     max-width: 600px;
     bottom: 50px;
@@ -81,9 +82,11 @@ function Customize(props) {
   let toppingArray = []
   toppings.filter(topping => toppingArray.push(topping.choosen))
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
+  const [changeButton, setChangeButton] = useState(false)
 
   function handleClick(i) {
     if (!props.loginMenu) {
+      setChangeButton(true)
       updateTopping[i] = !updateTopping[i]
       setUpdateTopping(updateTopping)
       if (updateTopping[i]) setOrderMessage(`${toppings[i].name} added`)
@@ -92,6 +95,10 @@ function Customize(props) {
       updateTopping.map(topping => topping && numberOfToppings++)
       let message = `Order soup +${numberOfToppings} ${numberOfToppings > 1 ? "toppings" : "topping"}`
       if (numberOfToppings === 0) message = "Order soup +0 toppings"
+      setTimeout(
+        function () {
+          setChangeButton(false)
+        }, 200)
       setTimeout(
         function () {
           setOrderMessage(message)
@@ -114,7 +121,7 @@ function Customize(props) {
             <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
           </ToppingContainer>
         )}
-        <OrderButton onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
+        <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
 
     </>

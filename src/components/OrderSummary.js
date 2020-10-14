@@ -126,17 +126,19 @@ const AlertText = styled.p`
 `
 
 function OrderSummary(props) {
-  const [order, setOrder] = useState(JSON.parse(localStorage.getItem('localSoups')));
+  const [order, setOrder] = useState(null);
   const [popup, setPopup] = useState(false);
   const [itemToBeRemoved, setItemToBeRemoved] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
 
+  let localSoups = JSON.parse(localStorage.getItem('localSoups'))
   let total = 0
-  order.map(orderItem => total += parseInt(orderItem.price))
+  localSoups.map(orderItem => total += parseInt(orderItem.price))
 
   useEffect(() => {
+    setOrder(localSoups)
     if (!props.position) setPopup(false)
-  }, [props.position])
+  }, [props.position], order)
 
   function removeItem(i) {
     const clickedSection = document.getElementById(i)
@@ -156,7 +158,7 @@ function OrderSummary(props) {
     setItemToBeRemoved(null);
     props.isItemRemoved(itemToBeRemoved)
   }
-  return (
+  return order && (
     <>
       <Wrapper pay={props.pay} position={props.position}>
         <Summary pay={props.pay} payHeight={props.payHeight}>
