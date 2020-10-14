@@ -26,7 +26,10 @@ const OrderButton = styled.button`
   width: 100%;
   color: #fff;
   background-color: ${props => props.toppingChange ? "#77b6d1" : "#6094AA"};
-  transition-duration: 0.1s;  
+  transition-duration: 0.1s;
+  &:hover{
+    background-image: radial-gradient(#81adbf, #6094AA);
+  } 
   @media(min-width: 600px) {
     max-width: 600px;
     bottom: 50px;
@@ -76,7 +79,9 @@ function Customize(props) {
     { "name": "chili flakes", "choosen": false },
     { "name": "coconut flakes", "choosen": false },
     { "name": "cheese", "choosen": false },
-    { "name": "cilantro", "choosen": false }
+    { "name": "cilantro", "choosen": false },
+    { "name": "sour cream", "choosen": false },
+    { "name": "pesto", "choosen": false }
   ];
   let toppings = allToppings.filter(topping => props.choosenSoup.toppings.includes(topping.name))
   let toppingArray = []

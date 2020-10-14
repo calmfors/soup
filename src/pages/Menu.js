@@ -150,6 +150,9 @@ function Menu() {
     }
 
     function handleOrder(updateTopping, toppings) {
+        setLoaded(false);
+        setHideFade(false);
+        console.log(loaded)
         setChangeButton(true)
         const choosenToppings = []
         updateTopping.map((topping, i) => {
@@ -163,6 +166,8 @@ function Menu() {
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
         setBack(false)
         setCustomize(false);
+        console.log("HANDLEORDER")
+
         setSoupFilter({
             selected: null,
             filteredSoups: soups
