@@ -179,7 +179,7 @@ function Menu() {
             function () {
                 setChangeButton(false)
                 setOrderMessage(`See order (${localSoups.length})`)
-            }, 1000)
+            }, 2000)
     }
 
     function logOutOrInListener(check) {

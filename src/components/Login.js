@@ -30,6 +30,10 @@ const Text = styled.p`
   color: #000;
   font-size: 1rem;
 `
+const Error = styled(Text)`
+  font-size: 0.8rem;
+`
+
 
 function Login(props) {
 
@@ -41,6 +45,7 @@ function Login(props) {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const mainButton = React.createRef();
     const { getLoggedInUser } = props
+    const [errorMessage, setErrorMessage] = useState("\xa0");
 
     const getUsers = useCallback((id) => {
         firebase.database().ref('/users/' + id).once('value', (snapshot) => {
@@ -92,13 +97,17 @@ function Login(props) {
                             console.log('Storing Error', error)
                         })
                     props.check(tempUser);
-                })
-            setLoggedIn(true);
-            setRegister(firebase.auth().currentUser);
+                    setLoggedIn(true);
+                    setRegister(firebase.auth().currentUser);
 
+                }).catch(function (error) {
+                    console.log(error.code);
+                    console.log(error.message);
+                    if (error.message.includes("Password")) setErrorMessage("Password must be at least six characters long.")
+                    if (error.message.includes("mail")) setErrorMessage("Please enter a valid e-mail address.")
+                })
 
         }
-        console.log('email: ' + email + ' psw:' + psw);
     }
 
     function handleLogin(event) {
@@ -125,18 +134,39 @@ function Login(props) {
             // Handle Errors here.
             console.log(error.code);
             console.log(error.message);
+            setErrorMessage("Wrong password or e-mail address.")
+
         })
         // setEmail('')
         // setPsw('');
     };
 
     function handleEmail(e) {
+        if (errorMessage.length > 5) {
+            setTimeout(
+                function () {
+                    setErrorMessage("\xa0")
+                }, 1000)
+        }
         setEmail(e.target.value);
     }
     function handlePsw(e) {
+        if (errorMessage.length > 5) {
+            setTimeout(
+                function () {
+                    setErrorMessage("\xa0")
+                }, 1000)
+        }
         setPsw(e.target.value);
     }
     function handleName(e) {
+
+        if (errorMessage.length > 5) {
+            setTimeout(
+                function () {
+                    setErrorMessage("\xa0")
+                }, 1000)
+        }
         setName(e.target.value);
     }
     return (
@@ -164,6 +194,8 @@ function Login(props) {
                     !loggedIn && <TextBtn key='b' onClick={handleRegister}>Register</TextBtn>
                     ]
             }
+            <Error>{errorMessage}</Error>
+
         </div >
     );
 }
