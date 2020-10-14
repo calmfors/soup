@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
-  transition-duration: 0.5s;
+  transition-duration: ${props => props.height < -200 ? "0.4s" : "0.3s"};
   padding: 10px 10px 0 10px;
   box-sizing: border-box;
   position: ${props => props.pay ? "static" : "absolute"};
   display: flex;
   align-items: center;
   justify-content: center;
-  bottom:${props => props.position ? "50px" : "-350px"};
+  bottom:${props => props.position ? "50" : props.height}px;
   left:0;
   z-index: ${props => !props.pay && "-1"};  
   width: 100%;
@@ -130,12 +130,16 @@ function OrderSummary(props) {
   const [popup, setPopup] = useState(false);
   const [itemToBeRemoved, setItemToBeRemoved] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
+  const [height, setHeight] = useState(-350)
 
   let localSoups = JSON.parse(localStorage.getItem('localSoups'))
   let total = 0
   localSoups.map(orderItem => total += parseInt(orderItem.price))
 
   useEffect(() => {
+    let wrapper = document.getElementById("wrapper");
+    if (wrapper) setHeight(50 - wrapper.offsetHeight)
+    console.log(height)
     setOrder(localSoups)
     if (!props.position) setPopup(false)
   }, [props.position], order)
@@ -158,9 +162,10 @@ function OrderSummary(props) {
     setItemToBeRemoved(null);
     props.isItemRemoved(itemToBeRemoved)
   }
+
   return order && (
     <>
-      <Wrapper pay={props.pay} position={props.position}>
+      <Wrapper id="wrapper" height={height} pay={props.pay} position={props.position}>
         <Summary pay={props.pay} payHeight={props.payHeight}>
           {order.map((orderItem, i) =>
             <OrderThumb key={i + "a"} id={i}>
