@@ -88,8 +88,8 @@ function CardPayment(props) {
       <SmallInputs>
         <div style={{ "width": "40%" }}>
           <Label>Expiry date</Label><br />
-          <Input width="38" type='text' placeholder='xx' id="month" required onChange={handleExpDate} value={expDateMonth}></Input><span> / </span>
-          <Input width="38" type='text' placeholder='xx' id="year" required onChange={handleExpDate} value={expDateYear}></Input>
+          <Input width="38" type='text' placeholder='MM' id="month" required onChange={handleExpDate} value={expDateMonth}></Input><span> / </span>
+          <Input width="38" type='text' placeholder='YY' id="year" required onChange={handleExpDate} value={expDateYear}></Input>
         </div>
         <div style={{ "width": "40%" }}>
           <Label>Security code</Label><br />

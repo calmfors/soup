@@ -43,7 +43,7 @@ function Address(props) {
             {/* <label htmlFor='street'><Label>Street</Label></label> */}
             <Input grey={props.inputGrey} disabled={props.inputGrey} type='text' placeholder='Enter street address' required onChange={handleStreet} value={street}></Input><br />
             {/* <label htmlFor='zip'><Label>Zip</Label></label> */}
-            <Input grey={props.inputGrey} disabled={props.inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Enter zip code' required onChange={handleZip} value={zip}></Input>
+            <Input grey={props.inputGrey} disabled={props.inputGrey} style={{ "width": "23%", "marginRight": "2%" }} type='text' placeholder='Zip code' required onChange={handleZip} value={zip}></Input>
             {/* <label htmlFor='city'><Label>City</Label></label> */}
             <Input grey={props.inputGrey} disabled={props.inputGrey} style={{ "width": "75%" }} type='text' placeholder='Enter city' required onChange={handleCity} value={city}></Input><br />
         </div>

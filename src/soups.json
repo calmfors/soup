@@ -1,63 +1,5 @@
 [
     {
-        "name": "Butternut Soup",
-        "price": "100",
-        "filter": [
-            "vegetarian"
-        ],
-        "img": "img/1.png",
-        "description": "Butternut squash soup is like a golden pop of sunshine. This soup with sweet apples, garlic, and thyme is the perfect cozy, light dinner. Add cheese if you are hungry.",
-        "toppings": [
-            "sunflower seeds",
-            "pumpkin seeds",
-            "cheese",
-            "chili flakes"
-        ]
-    },
-    {
-        "name": "Noodle Soup",
-        "price": "100",
-        "filter": [
-            "chicken"
-        ],
-        "img": "img/2.png",
-        "description": "A spicy mix of gingery chicken and vegetables meets delicate rice noodles in this soup that will warm your heart in a cold day. Add chili flakes for even more heat.",
-        "toppings": [
-            "chili flakes",
-            "cilantro",
-            "coconut flakes"
-        ]
-    },
-    {
-        "name": "Broccoli Soup",
-        "price": "100",
-        "filter": [
-            "vegetarian",
-            "vegan"
-        ],
-        "img": "img/3.png",
-        "description": "This creamy vegan broccoli soup is a comforting bowl of goodness full with nutrients and cashew nuts instead of cream. Add some seeds and it gets even more healthy.",
-        "toppings": [
-            "sunflower seeds",
-            "pumpkin seeds",
-            "cheese"
-        ]
-    },
-    {
-        "name": "Ramen Soup",
-        "price": "100",
-        "filter": [
-            "meat"
-        ],
-        "img": "img/4.png",
-        "description": "Classic ramen soup with pakchoi and a poached egg to add a smooth and creamy addition to the umami-filled flavour of the miso soup base. Add chili to spice it up.",
-        "toppings": [
-            "chili flakes",
-            "cilantro",
-            "coconut flakes"
-        ]
-    },
-    {
         "name": "Carrot Soup",
         "price": "100",
         "filter": [
@@ -116,6 +58,64 @@
         "toppings": [
             "sunflower seeds",
             "pumpkin seeds",
+            "chili flakes",
+            "cilantro",
+            "coconut flakes"
+        ]
+    },
+    {
+        "name": "Butternut Soup",
+        "price": "100",
+        "filter": [
+            "vegetarian"
+        ],
+        "img": "img/1.png",
+        "description": "Butternut squash soup is like a golden pop of sunshine. This soup with sweet apples, garlic, and thyme is the perfect cozy, light dinner. Add cheese if you are hungry.",
+        "toppings": [
+            "sunflower seeds",
+            "pumpkin seeds",
+            "cheese",
+            "chili flakes"
+        ]
+    },
+    {
+        "name": "Noodle Soup",
+        "price": "100",
+        "filter": [
+            "chicken"
+        ],
+        "img": "img/2.png",
+        "description": "A spicy mix of gingery chicken and vegetables meets delicate rice noodles in this soup that will warm your heart in a cold day. Add chili flakes for even more heat.",
+        "toppings": [
+            "chili flakes",
+            "cilantro",
+            "coconut flakes"
+        ]
+    },
+    {
+        "name": "Broccoli Soup",
+        "price": "100",
+        "filter": [
+            "vegetarian",
+            "vegan"
+        ],
+        "img": "img/3.png",
+        "description": "This creamy vegan broccoli soup is a comforting bowl of goodness full with nutrients and cashew nuts instead of cream. Add some seeds and it gets even more healthy.",
+        "toppings": [
+            "sunflower seeds",
+            "pumpkin seeds",
+            "cheese"
+        ]
+    },
+    {
+        "name": "Ramen Soup",
+        "price": "100",
+        "filter": [
+            "meat"
+        ],
+        "img": "img/4.png",
+        "description": "Classic ramen soup with pakchoi and a poached egg to add a smooth and creamy addition to the umami-filled flavour of the miso soup base. Add chili to spice it up.",
+        "toppings": [
             "chili flakes",
             "cilantro",
             "coconut flakes"

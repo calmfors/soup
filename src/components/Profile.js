@@ -197,7 +197,7 @@ function ProfilePage(props) {
         <>
             <ProfileMenu open={open} onClick={(e) => { e.stopPropagation() }}>
                 <Fade visible={loginDelay} >
-                    <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
+                    <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title><br />
                     {userObj && name &&
                         <Hide hide={hideOrders}>
                             {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
