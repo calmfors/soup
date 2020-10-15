@@ -32,6 +32,7 @@ const Text = styled.p`
 `
 const Error = styled(Text)`
   font-size: 0.8rem;
+  color: ${props => props.color === "white" ? "#fff" : "#f00"};
 `
 
 
@@ -194,7 +195,7 @@ function Login(props) {
                     !loggedIn && <TextBtn key='b' onClick={handleRegister}>Register</TextBtn>
                     ]
             }
-            <Error>{errorMessage}</Error>
+            <Error color={props.color}>{errorMessage}</Error>
 
         </div >
     );

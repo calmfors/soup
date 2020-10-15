@@ -182,7 +182,7 @@ function OrderSummary(props) {
         </Summary>
         <PlaceOrderContainer pay={props.pay}>
 
-          <OrderText total={true}>TOTAL: {total} kr </OrderText>
+          <OrderText total={true}>TOTAL: {total} SEK </OrderText>
           <PlaceOrder><Link to={
             {
               pathname: '/delivery',

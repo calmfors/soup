@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
+import soups from '../soups.json';
 
 const Description = styled.p`
   box-sizing: border-box;
@@ -71,18 +72,21 @@ const CustomizeContainer = styled.section`
 `
 
 function Customize(props) {
-  const labels = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
+  const labels = [];
   const [orderMessage, setOrderMessage] = useState("Order soup +0 toppings");
-  const allToppings = [
-    { "name": "sunflower seeds", "choosen": false },
-    { "name": "pumpkin seeds", "choosen": false },
-    { "name": "chili flakes", "choosen": false },
-    { "name": "coconut flakes", "choosen": false },
-    { "name": "cheese", "choosen": false },
-    { "name": "cilantro", "choosen": false },
-    { "name": "sour cream", "choosen": false },
-    { "name": "pesto", "choosen": false }
-  ];
+  const allToppings = []
+  const tempToppings = []
+  soups.forEach(soup => {
+    soup.filter.forEach(filter => {
+      if (!labels.includes(filter)) labels.push(filter)
+    })
+    soup.toppings.forEach(topping => {
+      if (!tempToppings.includes(topping)) tempToppings.push(topping)
+    })
+  })
+  tempToppings.forEach(topping => {
+    allToppings.push({ "name": topping, "choosen": false })
+  })
   let toppings = allToppings.filter(topping => props.choosenSoup.toppings.includes(topping.name))
   let toppingArray = []
   toppings.filter(topping => toppingArray.push(topping.choosen))

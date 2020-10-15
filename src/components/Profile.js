@@ -6,30 +6,36 @@ import firebase from '../components/firebase';
 import { useHistory } from 'react-router-dom';
 
 
-const ProfileMenu = styled.div`
+const ProfileMenu = styled.div` 
   box-sizing: border-box;
   background-color: #fffe;  
   width: 100%;
   height: calc(100vh - 40px);
   position: absolute;
-  right:0;
+  right:${props => props.open ? "0" : "-400px"};
   top:40px;
   padding:15px;
   text-align:left;
+  transition: right 0.6s;
   @media (min-width: 600px) {
     // max-width: 50%;
     width: 400px;
     }
 `;
+const Fade = styled.section`
+  opacity: ${props => props.visible ? "1" : "0"};
+  transition-duration: 0.4s;
+
+`
 const Hide = styled.section`
-  position:relative; 
   max-height: ${props => props.hide ? "0px" : "200px"};
   transition: max-height 0.3s ease-out;
   overflow: auto;
   margin:0;
-  paddnig:0;
+  padding:0;
 `
 const Title = styled.p`
+  display: inline-block;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   color: #000;
@@ -53,7 +59,7 @@ const Text = styled.p`
   font-size: 1rem;
   line-height: 1.4rem;
   background-color: ${props => props.saved && "#E05A33cc"};
-  padding: ${props => props.saved && "5px"};
+  padding: ${props => props.saved ? "0" : "5px"};
   border-radius: 5px;
 `
 const Saved = styled.div`
@@ -75,14 +81,14 @@ const TextBtn = styled.button`
   color: #E05A33;
 `;
 const Bottom = styled.div`
- position: fixed;
- bottom: ${props => !props.top && "20px"};
- top: ${props => props.top && "60px"};
- left:20px;
- width:calc(100% - 40px);
- border-top: ${props => !props.top && "1px solid grey"};
- transition-duration: 0.3s;
- @media(min-width: 600px) {
+  opacity: ${props => props.visible ? "1" : "0"};
+  bottom: ${props => !props.top && "0px"};
+  position: ${props => props.top ? "static" : "absolute"};
+  left: 15px;
+  width:calc(100% - 40px);
+  border-top: ${props => !props.top && "1px solid grey"};
+  transition-duration: 0.3s;
+  @media(min-width: 600px) {
     margin-top: 20px;
     position: static;
 }
@@ -99,6 +105,8 @@ function ProfilePage(props) {
     const [loaded, setLoaded] = useState(false)
     const [hideAddress, setHideAddress] = useState(true)
     const [hideOrders, setHideOrders] = useState(true)
+    const [open, setOpen] = useState(false)
+    const [loginDelay, setLoginDelay] = useState(false)
 
     const history = useHistory();
 
@@ -114,6 +122,11 @@ function ProfilePage(props) {
 
 
     useEffect(() => {
+        setTimeout(
+            function () {
+                setLoginDelay(true)
+            }, 300)
+        setOpen(true)
         if (userObj && !name) {
             const { name, street, zip, city } = userObj
             console.log("USEEFFECT")
@@ -182,10 +195,10 @@ function ProfilePage(props) {
 
     return (
         <>
-            <ProfileMenu onClick={(e) => { e.stopPropagation() }}>
-                {userObj && name &&
-                    <>
-                        <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
+            <ProfileMenu open={open} onClick={(e) => { e.stopPropagation() }}>
+                <Fade visible={loginDelay} >
+                    <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>
+                    {userObj && name &&
                         <Hide hide={hideOrders}>
                             {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
                                 <div key={"c" + i} style={{ "borderBottom": "1px solid lightgrey" }}>
@@ -195,14 +208,17 @@ function ProfilePage(props) {
                                 </div>
                             ) : <Text>No previous orders</Text>}
                         </Hide>
-                        <Title onClick={() => setHideAddress(!hideAddress)}><Rotate hide={hideAddress}>{'>'}</Rotate>Change Address</Title>
+                    }
+                    <Title onClick={() => setHideAddress(!hideAddress)}><Rotate hide={hideAddress}>{'>'}</Rotate>Change Address</Title>
+                    {userObj && name &&
+
                         <Hide hide={hideAddress}>
                             {saved && <Saved><Text saved={true}>Address saved</Text></Saved>}
                             {loaded && <Address sendAddress={getAddress} name={name} street={street} zip={zip} city={city} />}
                         </Hide>
-                    </>}
-                <Bottom top={name === "" || name === undefined}><Login getLoggedInUser={getLoggedInUser} check={props.check} /></Bottom>
-
+                    }
+                </Fade>
+                {<Bottom visible={loginDelay} top={name === "" || name === undefined}><Login getLoggedInUser={getLoggedInUser} check={props.check} /></Bottom>}
             </ProfileMenu >
         </>
     )

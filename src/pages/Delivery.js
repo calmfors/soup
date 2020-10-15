@@ -14,6 +14,9 @@ const LoginContainer = styled.div`
   background-color: ${props => props.color || "#6094AA"};
   justify-content: center;
   align-items: center;  
+  @media (min-width: 600px) {
+    max-width: 600px;
+  }
 `
 const LoadingDots = styled.p`
 &:after {
@@ -269,12 +272,13 @@ function Delivery(props) {
 
     return !userLoaded ?
         (
-            <LoginContainer color={"#fff"}><LoadingDots>Loading</LoadingDots></LoginContainer>
-        ) :
-        (addressLoaded && userLoaded ?
-            <>
-                <Wrapper>
-                    <Header hideProfile={true} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
+            <Wrapper>
+                <LoginContainer color={"#fff"}><LoadingDots>Loading</LoadingDots></LoginContainer>
+            </Wrapper>
+        ) : (
+            <Wrapper>
+                <Header hideProfile={true} showLogin={loginMenu} back={true} handleLogin={handleLogin} text="Menu" />
+                {addressLoaded && userLoaded ?
                     <DeliveryContainer>
                         <InputContainer>
                             <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />
@@ -303,14 +307,15 @@ function Delivery(props) {
                         <OrderButton onClick={handleOrder}>{orderMessage}</OrderButton>
 
                     </DeliveryContainer>
-                </Wrapper>
-            </>
-            :
-            <>
-                <LoginContainer style={{ "color": "#fff" }}>
-                    <Login check={logOutOrInListener} />
-                </LoginContainer>
-            </>
+                    :
+
+                    <>
+                        <LoginContainer style={{ "color": "#fff" }}>
+                            <Login color="white" check={logOutOrInListener} />
+                        </LoginContainer>
+                    </>}
+            </Wrapper>
+
         )
 }
 

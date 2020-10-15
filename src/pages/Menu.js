@@ -59,7 +59,7 @@ const Fade = styled.div`
   transition-duration: 0.5s;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: calc(100vw - (100vw - 100%));
 `
 
@@ -85,7 +85,12 @@ function Menu() {
     const [orderAgain, setOrderAgain] = useState(false)
     const [changeButton, setChangeButton] = useState(false)
 
-    const labels = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
+    const labels = [];
+    soups.forEach(soup => {
+        soup.filter.forEach(filter => {
+            if (!labels.includes(filter)) labels.push(filter)
+        })
+    })
     const orderButton = React.createRef();
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
@@ -243,6 +248,7 @@ function Menu() {
 
     return (
         <>
+
             <Wrapper onClick={closeMenus} customize={customize} orderButton={cart}>
 
                 <Header close={closeOrderAgain} check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => { setSeeOrder(false); setLoginMenu(false); handleClick(99); }} text="Menu" />
@@ -268,6 +274,7 @@ function Menu() {
 
                     </OrderButtonContainer>}
                 {!hideFade && <Fade loaded={loaded}> <LoadingDots /></Fade>}
+
             </Wrapper>
         </>
     );
