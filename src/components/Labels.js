@@ -39,7 +39,7 @@ const Label = styled.button`
 `;
 
 function Labels(props) {
-  const labelTitles = ['Vegetarian', 'Vegan', 'Chicken', 'Fish', 'Meat']
+  const labelTitles = props.labels
   let labelRef = []
   for (let i = 0; i < labelTitles.length; i++) {
     labelRef.push(React.createRef());

@@ -253,14 +253,14 @@ function Menu() {
 
                 <Header close={closeOrderAgain} check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => { setSeeOrder(false); setLoginMenu(false); handleClick(99); }} text="Menu" />
 
-                {!customize && <Labels selected={soupFilter.selected} handleFilter={handleFilter} />}
+                {!customize && <Labels labels={labels} selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize &&
                     soupFilter.filteredSoups.map((item, i) =>
                         <MenuItem handleLoading={handleLoad} customize={customize} categories={labels.filter(label => item.filter.includes(label))}
                             click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " kr"} />
                     )}
                 {customize &&
-                    <Customize loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />
+                    <Customize labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />
                 }
                 {!customize && cart > 0 &&
                     <OrderButtonContainer onClick={(e) => { e.stopPropagation() }}>

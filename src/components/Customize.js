@@ -72,14 +72,11 @@ const CustomizeContainer = styled.section`
 `
 
 function Customize(props) {
-  const labels = [];
+  const labels = props.labels;
   const [orderMessage, setOrderMessage] = useState("Order soup +0 toppings");
   const allToppings = []
   const tempToppings = []
   soups.forEach(soup => {
-    soup.filter.forEach(filter => {
-      if (!labels.includes(filter)) labels.push(filter)
-    })
     soup.toppings.forEach(topping => {
       if (!tempToppings.includes(topping)) tempToppings.push(topping)
     })
