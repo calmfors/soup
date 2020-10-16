@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Address from './Address';
 import Login from './Login';
 import firebase from '../components/firebase';
-import { useHistory } from 'react-router-dom';
 
 
 const ProfileMenu = styled.div` 
@@ -59,7 +58,7 @@ const Text = styled.p`
   font-size: 1rem;
   line-height: 1.4rem;
   background-color: ${props => props.saved && "#E05A33cc"};
-  padding: ${props => props.saved ? "0" : "5px"};
+  padding: ${props => props.saved ? "5px" : "0"};
   border-radius: 5px;
 `
 const Saved = styled.div`
@@ -94,7 +93,6 @@ const Bottom = styled.div`
 }
 `
 function ProfilePage(props) {
-    // console.log(props.loggedInUser)
     const [id, setId] = useState("")
     const [userObj, setUserObj] = useState(null)
     const [name, setName] = useState("")
@@ -107,8 +105,7 @@ function ProfilePage(props) {
     const [hideOrders, setHideOrders] = useState(true)
     const [open, setOpen] = useState(false)
     const [loginDelay, setLoginDelay] = useState(false)
-
-    const history = useHistory();
+    const [edit, setEdit] = useState(false)
 
     const debounce = useCallback((callback, wait) => {
         let timeout;
@@ -129,17 +126,14 @@ function ProfilePage(props) {
         setOpen(true)
         if (userObj && !name) {
             const { name, street, zip, city } = userObj
-            console.log("USEEFFECT")
             setName(name)
             setStreet(street)
             setZip(zip)
             setCity(city)
             if (name) setLoaded(true)
         }
-        if (id && userObj && name) {
+        if (id && userObj && name && edit) {
             //setup before functions
-            console.log("USEEFFECT2")
-
             document.addEventListener('keyup', debounce(() => {
                 // code you would like to run xxxx ms after the keyup event has stopped firing
                 // further keyup events reset the timer, as expected
@@ -165,31 +159,30 @@ function ProfilePage(props) {
 
     }, [userObj, name, id, city, street, zip, debounce])
 
-
-
     function getLoggedInUser(id, userObj) {
         setId(id)
         setUserObj(userObj)
     }
 
     function getAddress(address) {
-        console.log(address)
-        const { name, street, zip, city } = address
+        const { name, street, zip, city, edit } = address
         setName(name)
         setStreet(street)
         setZip(zip)
         setCity(city)
+        setEdit(edit)
     }
     function handleClick(i) {
         let localSoups = JSON.parse(localStorage.getItem('localSoups'))
         let tempOrder = userObj.orderHistory[i].order
+        console.log(tempOrder)
+        console.log(localSoups)
         tempOrder.forEach(order => {
             if (!order.choosenToppings) order.choosenToppings = [];
             if (localSoups) localSoups.push(order)
         });
+        if (!localSoups) localSoups = tempOrder
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
-        // history.push('/delivery');
-        //history.push('/');
         props.close()
     }
 
