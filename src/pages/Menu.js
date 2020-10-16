@@ -95,7 +95,6 @@ function Menu() {
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
     useEffect(() => {
-        console.log(cart)
         localSoups = JSON.parse(localStorage.getItem('localSoups'))
         if (firebase.auth().currentUser) setLoggedInUser(true)
         if (localSoups) {
@@ -157,7 +156,6 @@ function Menu() {
     function handleOrder(updateTopping, toppings) {
         setLoaded(false);
         setHideFade(false);
-        console.log(loaded)
         setChangeButton(true)
         const choosenToppings = []
         updateTopping.map((topping, i) => {
@@ -171,8 +169,6 @@ function Menu() {
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
         setBack(false)
         setCustomize(false);
-        console.log("HANDLEORDER")
-
         setSoupFilter({
             selected: null,
             filteredSoups: soups

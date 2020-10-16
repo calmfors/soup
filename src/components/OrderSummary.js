@@ -139,7 +139,6 @@ function OrderSummary(props) {
   useEffect(() => {
     let wrapper = document.getElementById("wrapper");
     if (wrapper) setHeight(50 - wrapper.offsetHeight)
-    console.log(height)
     setOrder(localSoups)
     if (!props.position) setPopup(false)
   }, [props.position], order)

@@ -175,8 +175,6 @@ function ProfilePage(props) {
     function handleClick(i) {
         let localSoups = JSON.parse(localStorage.getItem('localSoups'))
         let tempOrder = userObj.orderHistory[i].order
-        console.log(tempOrder)
-        console.log(localSoups)
         tempOrder.forEach(order => {
             if (!order.choosenToppings) order.choosenToppings = [];
             if (localSoups) localSoups.push(order)

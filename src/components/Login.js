@@ -53,8 +53,6 @@ function Login(props) {
             // console.log(user);
             const userObj = snapshot.val();
             // const user = userObj.filter(user => user.id === id)
-            console.log(id)
-            console.log(userObj)
             if (!loggedInUser) setLoggedInUser(userObj);
             if (getLoggedInUser) getLoggedInUser(id, userObj)
 

@@ -176,7 +176,6 @@ function Delivery(props) {
         setLoginMenu(!loginMenu);
     }
 
-
     function updateUser(user) {
         setLoggedInUser(user)
         const { name, street, zip, city } = user;
@@ -215,7 +214,6 @@ function Delivery(props) {
     }
 
     function handleOrder() {
-        console.log(order)
         if (deliveryTime !== "Closed") {
             let tempOrder = order
             tempOrder.forEach(tempItem => {
@@ -246,8 +244,6 @@ function Delivery(props) {
                 .catch((error) => {
                     console.log('Storing Error', error)
                 })
-            console.log(orderObj)
-            console.log(tempUser)
             localStorage.setItem('localOrder', JSON.stringify(orderObj))
             localStorage.setItem('localUser', JSON.stringify(tempUser))
             history.push('/payment');
@@ -261,7 +257,6 @@ function Delivery(props) {
     }
 
     function getAddress(address) {
-        console.log(address)
         const { name, street, zip, city } = address
         setName(name)
         setStreet(street)
