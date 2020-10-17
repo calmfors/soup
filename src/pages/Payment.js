@@ -133,18 +133,15 @@ function Payment(props) {
     let id = r.target.value || r.target.id
     setPaymentOption(id);
   }
-
   function handleClick() {
     history.push('/delivery');
   }
-
   function handleSwish(e) {
     setSwishNumber(e.target.value)
   }
   function handlePersonalNumber(e) {
     setPersonalNumber(e.target.value)
   }
-
 
   function handleOrder() {
     let date = (new Date()).toLocaleString()

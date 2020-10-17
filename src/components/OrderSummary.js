@@ -50,9 +50,9 @@ const OrderThumb = styled.section`
 `
 const PlaceOrderContainer = styled(OrderThumb)`
   display: ${props => props.pay && "none"};
-  width: calc(100% - 40px);
+  width: ${props => `calc(100% - ${props.width}px)`};
   position:absolute;
-  left: 15px;
+  left: 10px;
   bottom: 0px;
   align-items:center;
   height: 60px;
@@ -60,6 +60,7 @@ const PlaceOrderContainer = styled(OrderThumb)`
   background-color: #fffe;
   border-bottom:none;
   margin:0;
+  border-radius:0 0 5px 5px;
 `
 
 const OrderImg = styled.img`
@@ -161,7 +162,6 @@ function OrderSummary(props) {
     setItemToBeRemoved(null);
     props.isItemRemoved(itemToBeRemoved)
   }
-
   return order && (
     <>
       <Wrapper id="wrapper" height={height} pay={props.pay} position={props.position}>
@@ -169,7 +169,12 @@ function OrderSummary(props) {
           {order.map((orderItem, i) =>
             <OrderThumb key={i + "a"} id={i}>
               <OrderImg src={orderItem.img}></OrderImg>
-              <OrderText>{orderItem.name} with {orderItem.choosenToppings.length > 0 ? orderItem.choosenToppings.map(topping => topping + ", ") : orderItem[0] ? orderItem[0] : "no topping"}<br /> {orderItem.price} kr</OrderText>
+              <OrderText id="order">{orderItem.name} with&nbsp;
+              {orderItem.choosenToppings.length > 0 ?
+                  orderItem.choosenToppings.map((topping, t) => t === orderItem.choosenToppings.length - 1 ? topping + "." : topping + " &\xa0") :
+                  orderItem[0] ? orderItem[0] : "no topping."}
+                {orderItem.choosenToppings.length > 2 && window.innerWidth < 400 ? " " : <br />}
+                {orderItem.price}&nbsp;SEK</OrderText>
               {!props.pay && <Close onClick={() => removeItem(i)}>×</Close>}
             </OrderThumb>
           )}
@@ -178,18 +183,11 @@ function OrderSummary(props) {
               <AlertText>Remove {order[itemToBeRemoved].name}?</AlertText>
               <AlertButton onClick={handleRemove}>Yes</AlertButton><AlertButton onClick={() => { setItemToBeRemoved(null); setPopup(false) }}>No</AlertButton>
             </Alert>}
-        </Summary>
-        <PlaceOrderContainer pay={props.pay}>
 
+        </Summary>
+        <PlaceOrderContainer width={window.innerWidth - document.documentElement.clientWidth + 20} pay={props.pay}>
           <OrderText total={true}>TOTAL: {total} SEK </OrderText>
-          <PlaceOrder><Link to={
-            {
-              pathname: '/delivery',
-              state: {
-                loggedIn: props.loggedIn
-              }
-            }
-          }>Place order</Link></PlaceOrder>
+          <PlaceOrder><Link to={'/delivery'}>Place order</Link></PlaceOrder>
         </PlaceOrderContainer>
       </Wrapper>
     </>

@@ -52,7 +52,7 @@ function CardPayment(props) {
   })
 
   function handleCard(e) {
-    setCardNumber(e.target.value)
+    if (e.target.value.length < 17) setCardNumber(e.target.value)
     card.cardNumber = e.target.value
   }
   function handleExpDate(e) {
@@ -70,7 +70,7 @@ function CardPayment(props) {
   }
 
   function handleCode(e) {
-    setCode(e.target.value)
+    if (e.target.value.length < 4) setCode(e.target.value)
     card.code = e.target.value
 
   }
@@ -78,8 +78,6 @@ function CardPayment(props) {
     setCardName(e.target.value)
     card.cardName = e.target.value
   }
-
-
 
   return (
     <InputContainer>

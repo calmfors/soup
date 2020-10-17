@@ -53,7 +53,7 @@ const OrderButton = styled.button`
 `;
 
 const Fade = styled.div`
-  position: absolute;
+  position: fixed;
   background-color: #fff;
   opacity: ${props => props.loaded ? "0" : "1"};
   transition-duration: 0.5s;
@@ -270,7 +270,6 @@ function Menu() {
 
                     </OrderButtonContainer>}
                 {!hideFade && <Fade loaded={loaded}> <LoadingDots /></Fade>}
-
             </Wrapper>
         </>
     );
