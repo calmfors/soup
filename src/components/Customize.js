@@ -4,11 +4,23 @@ import MenuItem from './MenuItem';
 import soups from '../soups.json';
 import Drinks from './Drinks';
 
+const SoupTitle = styled.p`
+  text-transform: uppercase;
+  font-family: 'Rubik Mono One', sans-serif;
+  font-size: 1rem;
+  padding: 0px 10px 0px 10px;
+  margin-top: 10px;
+  text-align:left;
+  @media (min-width: 600px) {
+    padding: 15px 10px 5px 0px;
+  }
+`;
+
 const Description = styled.p`
   box-sizing: border-box;
   width: 100%;
   padding:0 10px 0 10px;
-  margin: 15px 0 15px 0;
+  margin: 0 0 15px 0;
   line-height: 1.4rem;
   font-family: 'Rubik', sans-serif;
   text-align:left;
@@ -67,7 +79,6 @@ const CustomizeContainer = styled.section`
 @media(min-width: 600px) {
   display:inline-block;
   max-width: 290px;
-  margin-top: 40px;
 }
 `;
 
@@ -124,6 +135,7 @@ function Customize(props) {
       <MenuItem customize={true} categories={labels.filter(label => props.choosenSoup.filter.includes(label))}
         title={props.choosenSoup.name} src={props.src} price={props.choosenSoup.price + " kr"} />
       <CustomizeContainer>
+        <SoupTitle>{props.choosenSoup.name}</SoupTitle>
         <Description>{props.choosenSoup.description}</Description>
         <Drinks selectedDrink={getDrinks} />
         {updateTopping.map((topping, i) =>

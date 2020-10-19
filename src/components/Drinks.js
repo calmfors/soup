@@ -4,24 +4,17 @@ import check from '../graphics/check.svg';
 
 const ToppingButton = styled.span`
   display: inline-block;
-//   font-family: "'Rubik Mono One', sans-serif"};
-//   font-size: ${props => props.width === "10" && "2rem"};
-  text-align:left;
-  margin-top: 11px;
   padding-left: 10px;
   color: #fff;
 `;
 
 const ToppingContainer = styled.button`
-box-sizing:border-box;
+  text-align: left;
+  box-sizing:border-box;
   background-color:#E05A33;
   width: 100%;
-  display:flex;
   border:0;
-  justify-content: space-between;
-  align-content: center;
   font-family: 'Rubik Mono One', sans-serif;
-  margin-top: 5px;
   padding:0;
   height: 36px;
 `;

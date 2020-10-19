@@ -28,8 +28,8 @@ const Summary = styled.section`
   box-sizing:border-box;
   overflow: auto;
   text-align: center;
-  height: ${props => props.payHeight ? "calc(100vh - 530px)" : "calc(100 % - 50px)"};
-  max-height:${props => props.pay ? "calc(100vh - 390px)" : "390px"};
+  height: ${props => props.payHeight ? "calc(100vh - 525px)" : "calc(100% - 45px)"};
+  max-height:${props => props.pay ? "calc(100vh - 380px)" : "380px"};
   transition: height 0.3s ease-out;
   width:100%;
   background-color: #fff;

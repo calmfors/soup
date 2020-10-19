@@ -28,7 +28,7 @@ const OrderText = styled.span`
 const LabelBox = styled.section`
   position: absolute;
   left: 10px;
-  top: 50px;
+  top: ${props => props.customize ? '10px' : '50px'};
 `;
 const Label = styled.span`
   display:inline-block;
@@ -43,10 +43,10 @@ const Label = styled.span`
 const SoupButton = styled.button`
   border:0;
   padding:0;
-  height: ${props => props.customize ? '340px' : '480px'};
+  height: ${props => props.customize ? '300px' : '480px'};
   width:100%;
   background-color: Transparent;
-  margin-top:5px;
+  margin-top:${props => props.customize ? '0px' : '5px'};
   @media (min-width: 600px) {
     margin: 20px;
     height:480px;
@@ -78,7 +78,7 @@ const SoupTitle = styled.p`
   }
 `;
 const Item = styled.img`
-  height: calc(100% - 40px);
+  height: ${props => props.customize ? '100%' : 'calc(100% - 40px)'};
   object-fit: cover;
  `;
 const Price = styled.p`
@@ -110,12 +110,12 @@ function MenuItem(props) {
   return (
     <SoupButton customize={props.customize} onClick={props.click}>
       <SoupContainer >
-        <SoupTitle>{loaded && props.title}</SoupTitle>
-        <Item onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />
+        {!props.customize && <SoupTitle>{loaded && props.title}</SoupTitle>}
+        <Item customize={props.customize} onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />
         {!props.customize && tellMenuIfLoaded()}
         {loaded &&
           <div>
-            <LabelBox>
+            <LabelBox customize={props.customize}>
               {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
             </LabelBox>
             <Price>{props.price}</Price>

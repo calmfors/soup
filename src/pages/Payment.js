@@ -41,7 +41,7 @@ const Title = styled.p`
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   color: #fff;
-  margin: 15px 0 3px 10px;
+  margin: 15px 0 -2px 10px;
 `;
 const InputContainer = styled.section`
   width:calc(100% - 20px);
@@ -125,6 +125,8 @@ function Payment(props) {
   const [personalNumber, setPersonalNumber] = useState("")
   const [checkout, setCheckout] = useState(false)
   let card = {};
+  let total = 0
+  order && order.order.map(item => item.drink ? total += parseInt(item.price) + 20 : total += parseInt(item.price))
 
   const history = useHistory();
   let user = firebase.auth().currentUser;
@@ -173,7 +175,6 @@ function Payment(props) {
   function getObject(object) {
     card = object
   }
-
   return (
     <>{!checkout ?
       <Wrapper>
@@ -202,7 +203,7 @@ function Payment(props) {
               <Input type='text' placeholder='xxxxxx-xxxx' required onChange={handlePersonalNumber} value={personalNumber}></Input>
             </Hide>
           </InputContainer>
-          <Title>Order summary</Title>
+          <Title> Order total {total} SEK</Title>
           <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
           <OrderButton onClick={handleOrder}>Pay</OrderButton>
         </PaymentContainer>
