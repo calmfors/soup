@@ -33,10 +33,9 @@ const OrderButton = styled.button`
   } 
   @media(min-width: 600px) {
     max-width: 600px;
-    bottom: 50px;
-     left: 50%;
+    left: 50%;
     transform: translate(-50%, 0);
-    margin-left: 10px;
+    margin-left: calc(100vw - 100%);
   }
 `;
 
@@ -69,11 +68,11 @@ const CustomizeContainer = styled.section`
   max-width: 290px;
   margin-top: 40px;
 }
-`
+`;
 
 function Customize(props) {
   const labels = props.labels;
-  const [orderMessage, setOrderMessage] = useState("Order soup +0 toppings");
+  const [orderMessage, setOrderMessage] = useState("Add soup +0 toppings");
   const allToppings = []
   const tempToppings = []
   soups.forEach(soup => {

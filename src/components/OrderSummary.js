@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   bottom:${props => props.position ? "50" : props.height}px;
-  left:0;
   z-index: ${props => !props.pay && "-1"};  
   width: 100%;
   background-color: #6094AA;

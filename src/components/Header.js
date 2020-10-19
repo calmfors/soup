@@ -9,7 +9,6 @@ import ProfilePage from './Profile';
 
 const HeaderContainer = styled.header`
   margin: 0 auto;
-  padding-left: calc(100vw - 100%);
   height: 40px;
   width: 100%;
   position: fixed;
@@ -20,8 +19,12 @@ const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   border-bottom: 1px solid black;
-  @media (min-width: 600px) {
-    max-width: 1300px;
+  left:0;
+  padding-left: calc(50vw - 50%); 
+  @media (min-width: 1300px) {
+    padding:0;
+    margin-left: calc(50vw - 50%);
+    max-width: 1280px;
     left: 50%;
     transform: translate(-50%, 0);
    }
@@ -33,7 +36,7 @@ const HeaderItem = styled.button`
   font-size: 1rem;
   background: none;
   border: 0;
-  padding: 5px;
+  padding: 0 10px 0 10px;
   display: flex;
   outline: ${props => props.show ? "1" : "0"};
 `;
@@ -66,7 +69,7 @@ function Header(props) {
         <HeaderItem show={true} onClick={props.handleLogin}>
           <Item width="25" show={true} src={profile} />
         </HeaderItem>
-        : <Item width="35" />}
+        : <Item width="45" />}
       {props.showLogin && <ProfilePage close={props.close} check={logOutOrInListener} />}
     </HeaderContainer>
 

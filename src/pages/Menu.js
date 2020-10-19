@@ -30,12 +30,11 @@ const OrderButtonContainer = styled.section`
   left: 0;
   height: 50px;
   width: 100%;
-  margin-left: calc((100vw - 100%)/2);
   @media(min-width: 600px) {
+    margin-left: calc(50vw - 50%);
     max-width: 600px;
     left: 50%;
     transform: translate(-50%, 0);
-    
   }
 `;
 const OrderButton = styled.button`

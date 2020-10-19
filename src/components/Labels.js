@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 const LabelContainer = styled.div`
   box-sizing:border-box;
-  padding-left: calc(100vw - 100% + 5px);
-  padding-right: 5px;
   height: 40px;
   width: 100%;
   display: flex;
@@ -15,6 +13,7 @@ const LabelContainer = styled.div`
   z-index: 1;
   background-color: #fffe;
   @media (min-width: 600px) {
+    padding-left: calc(100vw - 100%);
     justify-content: center;
     max-width: 1300px;
     left: 50%;
