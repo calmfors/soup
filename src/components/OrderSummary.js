@@ -135,6 +135,7 @@ function OrderSummary(props) {
   let localSoups = JSON.parse(localStorage.getItem('localSoups'))
   let total = 0
   localSoups.map(orderItem => total += parseInt(orderItem.price))
+  localSoups.map(orderItem => orderItem.drink && (total += 20))
 
   useEffect(() => {
     let wrapper = document.getElementById("wrapper");
@@ -173,7 +174,8 @@ function OrderSummary(props) {
                   orderItem.choosenToppings.map((topping, t) => t === orderItem.choosenToppings.length - 1 ? topping + "." : topping + " &\xa0") :
                   orderItem[0] ? orderItem[0] : "no topping."}
                 {orderItem.choosenToppings.length > 2 && window.innerWidth < 400 ? " " : <br />}
-                {orderItem.price}&nbsp;SEK</OrderText>
+                {orderItem.drink ? "+" + orderItem.drink + ". " : "No drink. "}
+                {orderItem.drink ? parseInt(orderItem.price) + 20 : orderItem.price}&nbsp;SEK</OrderText>
               {!props.pay && <Close onClick={() => removeItem(i)}>×</Close>}
             </OrderThumb>
           )}

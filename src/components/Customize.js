@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
 import soups from '../soups.json';
+import Drinks from './Drinks';
 
 const Description = styled.p`
   box-sizing: border-box;
@@ -42,9 +43,9 @@ const OrderButton = styled.button`
 const ToppingButton = styled.span`
   display: inline-block;
   font-family: ${props => props.width === "10" ? "sans-serif" : "'Rubik Mono One', sans-serif"};
-  font-size: ${props => props.width === "10" && "2.3rem"};
+  font-size: ${props => props.width === "10" && "2rem"};
   text-align:left;
-  margin-top: ${props => props.width === "90" ? "16px" : "2px"};
+  margin-top: ${props => props.width === "90" ? "11px" : "0"};
   width: ${props => props.width}%;
   padding-left: 10px;
 `;
@@ -60,7 +61,7 @@ const ToppingContainer = styled.button`
   margin-bottom: 5px;
   padding:0;
   background-color: ${props => props.choosen ? "#FFCC00" : "#FFCC0077"};
-  height: 50px;
+  height: 36px;
 `;
 const CustomizeContainer = styled.section`
 @media(min-width: 600px) {
@@ -88,6 +89,8 @@ function Customize(props) {
   toppings.filter(topping => toppingArray.push(topping.choosen))
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
   const [changeButton, setChangeButton] = useState(false)
+  const [selectedDrink, setSelectedDrink] = useState(null)
+
 
   function handleClick(i) {
     if (!props.loginMenu) {
@@ -111,22 +114,25 @@ function Customize(props) {
     }
   }
 
-
+  function getDrinks(i) {
+    setSelectedDrink(i)
+    console.log(i)
+  }
 
   return (
     <>
       <MenuItem customize={true} categories={labels.filter(label => props.choosenSoup.filter.includes(label))}
         title={props.choosenSoup.name} src={props.src} price={props.choosenSoup.price + " kr"} />
       <CustomizeContainer>
-
         <Description>{props.choosenSoup.description}</Description>
+        <Drinks selectedDrink={getDrinks} />
         {updateTopping.map((topping, i) =>
           <ToppingContainer key={"a" + i} choosen={topping} >
             <ToppingButton key={"b" + i} onClick={() => handleClick(i)} width="90" >{toppings[i].name}</ToppingButton>
             <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
           </ToppingContainer>
         )}
-        <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
+        <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
 
     </>

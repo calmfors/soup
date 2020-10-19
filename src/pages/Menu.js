@@ -152,7 +152,7 @@ function Menu() {
         setSeeOrder(!seeOrder)
     }
 
-    function handleOrder(updateTopping, toppings) {
+    function handleOrder(updateTopping, toppings, selectedDrink) {
         setLoaded(false);
         setHideFade(false);
         setChangeButton(true)
@@ -162,6 +162,7 @@ function Menu() {
             return choosenToppings
         })
         choosenSoup.choosenToppings = choosenToppings
+        choosenSoup.drink = selectedDrink
 
         if (!localSoups) localSoups = []
         localSoups.push(choosenSoup)
