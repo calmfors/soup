@@ -69,16 +69,21 @@ const ToppingContainer = styled.button`
   justify-content: space-between;
   align-content: center;
   font-family: 'Rubik Mono One', sans-serif;
+  color: #fff;
   margin-top: 5px;
   margin-bottom: 5px;
   padding:0;
-  background-color: ${props => props.choosen ? "#FFCC00" : "#FFCC0077"};
+  background-color: ${props => props.choosen ? "#01BB06" : "#FFCC00"};
   height: 36px;
+  &:hover{
+    background-color:${props => props.choosen ? "#01BB06cc" : "#FFCC00cc"};
+  }
 `;
 const CustomizeContainer = styled.section`
 @media(min-width: 600px) {
   display:inline-block;
   max-width: 290px;
+  margin-top:40px;
 }
 `;
 
@@ -105,15 +110,23 @@ function Customize(props) {
 
   function handleClick(i) {
     if (!props.loginMenu) {
+      let initialToppings = updateTopping;
+      let initialNumberOfToppings = initialToppings.filter(topping => topping === true)
       setChangeButton(true)
-      updateTopping[i] = !updateTopping[i]
-      setUpdateTopping(updateTopping)
-      if (updateTopping[i]) setOrderMessage(`${toppings[i].name} added`)
-      if (!updateTopping[i]) setOrderMessage(`${toppings[i].name} removed`)
+      if (initialNumberOfToppings.length < 2) {
+        updateTopping[i] = !updateTopping[i]
+        setUpdateTopping(updateTopping)
+        if (updateTopping[i]) setOrderMessage(`${toppings[i].name} added`)
+        if (!updateTopping[i]) setOrderMessage(`${toppings[i].name} removed`)
+      } else if (!initialToppings[i]) setOrderMessage(`Sorry, max two toppings`)
+      if (initialNumberOfToppings.length > 1 && updateTopping[i] === true) {
+        updateTopping[i] = !updateTopping[i]
+        setOrderMessage(`${toppings[i].name} removed`)
+      }
       let numberOfToppings = 0;
       updateTopping.map(topping => topping && numberOfToppings++)
-      let message = `Order soup +${numberOfToppings} ${numberOfToppings > 1 ? "toppings" : "topping"}`
-      if (numberOfToppings === 0) message = "Order soup +0 toppings"
+      let message = `Add soup +${numberOfToppings} ${numberOfToppings > 1 ? "toppings" : "topping"}`
+      if (numberOfToppings === 0) message = "Add soup +0 toppings"
       setTimeout(
         function () {
           setChangeButton(false)
@@ -123,11 +136,24 @@ function Customize(props) {
           setOrderMessage(message)
         }, 1000)
     }
+
   }
 
   function getDrinks(i) {
     setSelectedDrink(i)
     console.log(i)
+    setChangeButton(true)
+    let message = orderMessage
+    if (i === null) setOrderMessage('Drink removed')
+    else setOrderMessage('Drink added')
+    setTimeout(
+      function () {
+        setChangeButton(false)
+      }, 200)
+    setTimeout(
+      function () {
+        setOrderMessage(message)
+      }, 1000)
   }
 
   return (

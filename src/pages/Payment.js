@@ -41,7 +41,7 @@ const Title = styled.p`
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   color: #fff;
-  margin: 15px 0 -2px 10px;
+  margin: 15px 10px -2px 10px;
 `;
 const InputContainer = styled.section`
   width:calc(100% - 20px);
@@ -146,7 +146,8 @@ function Payment(props) {
   }
 
   function handleOrder() {
-    let date = (new Date()).toLocaleString()
+    let d = new Date();
+    let date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
     let orderObj = { ...order, date, paymentOption }
     if (paymentOption === "card" && card) orderObj = { ...orderObj, card }
     if (paymentOption === "swish" && swishNumber) orderObj = { ...orderObj, swishNumber }
@@ -210,7 +211,7 @@ function Payment(props) {
       </Wrapper>
       :
       <ThanksContainer>
-        <Title>Thank you!</Title>
+        <Title style={{ "marginBottom": "10px" }}>Thank you!</Title>
         <Logo src={logo} />
       </ThanksContainer>
     }

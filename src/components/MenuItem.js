@@ -48,7 +48,7 @@ const SoupButton = styled.button`
   background-color: Transparent;
   margin-top:${props => props.customize ? '0px' : '5px'};
   @media (min-width: 600px) {
-    margin: 20px;
+    margin: ${props => props.customize ? "60px 20px 20px 2px" : "20px"};
     height:480px;
     width:auto;
   }
