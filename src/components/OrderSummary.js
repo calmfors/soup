@@ -174,7 +174,7 @@ function OrderSummary(props) {
                   orderItem.choosenToppings.map((topping, t) => t === orderItem.choosenToppings.length - 1 ? topping + "." : topping + " &\xa0") :
                   orderItem[0] ? orderItem[0] : "no topping."}
                 {orderItem.choosenToppings.length > 2 && window.innerWidth < 400 ? " " : <br />}
-                {orderItem.drink ? "+" + orderItem.drink + ". " : "No drink. "}
+                {orderItem.drink ? "+ " + orderItem.drink + ". " : "No drink. "}
                 {orderItem.drink ? parseInt(orderItem.price) + 20 : orderItem.price}&nbsp;SEK</OrderText>
               {!props.pay && <Close onClick={() => removeItem(i)}>×</Close>}
             </OrderThumb>

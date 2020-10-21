@@ -4,6 +4,11 @@ import MenuItem from './MenuItem';
 import soups from '../soups.json';
 import Drinks from './Drinks';
 
+export const red = '#e3714f';
+export const green = '#60c663';
+export const yellow = '#FFCC00';
+
+
 const SoupTitle = styled.p`
   text-transform: uppercase;
   font-family: 'Rubik Mono One', sans-serif;
@@ -55,28 +60,29 @@ const OrderButton = styled.button`
 const ToppingButton = styled.span`
   display: inline-block;
   font-family: ${props => props.width === "10" ? "sans-serif" : "'Rubik Mono One', sans-serif"};
-  font-size: ${props => props.width === "10" && "2rem"};
+  font-size: ${props => props.width === "10" && "1.6rem"};
   text-align:left;
-  margin-top: ${props => props.width === "90" ? "11px" : "0"};
+  margin-top: ${props => props.width === "90" ? "9px" : "0"};
   width: ${props => props.width}%;
   padding-left: 10px;
 `;
 
 const ToppingContainer = styled.button`
   width: 100%;
-  display:flex;
+  display: ${props => props.hide ? "block" : "flex"};
+  text-align: left;
   border:0;
   justify-content: space-between;
   align-content: center;
   font-family: 'Rubik Mono One', sans-serif;
-  color: #fff;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  color: ${props => props => props.hide ? "#fff" : props.choosen ? "#fff" : "#555"};
+  margin-top: 8px;
   padding:0;
-  background-color: ${props => props.choosen ? "#01BB06" : "#FFCC00"};
-  height: 36px;
+  background-color: ${props => props.hide ? red : props.choosen ? green : "#efefef"};
+  height: 30px;
   &:hover{
-    background-color:${props => props.choosen ? "#01BB06cc" : "#FFCC00cc"};
+    background-color:${props => !props.hide && !props.choosen && `${green}66`};
+    // color:${props => !props.hide && "#fff"};
   }
 `;
 const CustomizeContainer = styled.section`
@@ -86,6 +92,21 @@ const CustomizeContainer = styled.section`
   margin-top:40px;
 }
 `;
+const Rotate = styled.span`
+  display: inline-block;
+  margin-right:5px;
+  color: #fff;
+  transform: ${props => props.hide ? "rotate(90deg)" : "rotate(-90deg)"};
+  transition-duration: 0.3s;
+`;
+
+const HideContainer = styled.section`
+  height:auto;
+  max-height: ${props => props.hide ? "200px" : "0px"};
+  overflow: hidden;
+  transition: max-height 0.2s ease-in;
+  margin:0;
+`
 
 function Customize(props) {
   const labels = props.labels;
@@ -106,6 +127,7 @@ function Customize(props) {
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
   const [changeButton, setChangeButton] = useState(false)
   const [selectedDrink, setSelectedDrink] = useState(null)
+  const [hide, setHide] = useState(true);
 
 
   function handleClick(i) {
@@ -163,13 +185,18 @@ function Customize(props) {
       <CustomizeContainer>
         <SoupTitle>{props.choosenSoup.name}</SoupTitle>
         <Description>{props.choosenSoup.description}</Description>
+        <ToppingContainer id={"toppings"} hide={true} onClick={() => { setHide(!hide); document.getElementById("toppings").blur() }}>
+          <ToppingButton><Rotate hide={hide}>{'>'}</Rotate>Choose toppings</ToppingButton>
+        </ToppingContainer>
+        <HideContainer hide={hide}>
+          {updateTopping.map((topping, i) =>
+            <ToppingContainer key={"a" + i} choosen={topping} >
+              <ToppingButton key={"b" + i} onClick={() => handleClick(i)} width="90" >{toppings[i].name}</ToppingButton>
+              <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
+            </ToppingContainer>
+          )}
+        </HideContainer>
         <Drinks selectedDrink={getDrinks} />
-        {updateTopping.map((topping, i) =>
-          <ToppingContainer key={"a" + i} choosen={topping} >
-            <ToppingButton key={"b" + i} onClick={() => handleClick(i)} width="90" >{toppings[i].name}</ToppingButton>
-            <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
-          </ToppingContainer>
-        )}
         <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
 

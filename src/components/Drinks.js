@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import check from '../graphics/check.svg';
+// import { red, green, yellow } from "./Customize";
+
+const red = '#e3714f';
+const green = '#60c663';
+const yellow = '#ffda44';
+
 
 const ToppingButton = styled.span`
   display: inline-block;
@@ -11,12 +17,13 @@ const ToppingButton = styled.span`
 const ToppingContainer = styled.button`
   text-align: left;
   box-sizing:border-box;
-  background-color:#E05A33;
+  background-color:${red};
   width: 100%;
   border:0;
   font-family: 'Rubik Mono One', sans-serif;
   padding:0;
-  height: 36px;
+  height: 30px;
+  margin-top:15px;
 `;
 const Rotate = styled.span`
   display: inline-block;
@@ -30,7 +37,7 @@ const DrinkOptions = styled.section`
   display: flex;
   justify-content: space-around;
   height: ${props => props.hide ? "80px" : "0"};
-  border-bottom: ${props => props.hide && "5px solid #E05A33"};
+  border-bottom: ${props => props.hide && `5px solid ${red}`};
   transition: height 0.2s ease-out;
   cursor: pointer;
   margin: ${props => props.hide ? "10px 0 20px 0" : "0"};
@@ -60,44 +67,44 @@ const Check = styled.img`
 `
 
 function Drinks(props) {
-    const [hide, setHide] = useState(false);
-    const [checkPosition, setCheckPosition] = useState(null)
-    const [selectedDrink, setSelectedDrink] = useState(null)
-    const drinkArray = [
-        { "name": "Bonaqua natural (33cl)", "img": 1 },
-        { "name": "Bonaqua citrus (33cl)", "img": 2 },
-        { "name": "Coca Cola (33cl)", "img": 3 },
-        { "name": "Sprite (33cl)", "img": 4 },
-        { "name": "Alcohol free beer (33cl)", "img": 5 }];
+  const [hide, setHide] = useState(false);
+  const [checkPosition, setCheckPosition] = useState(null)
+  const [selectedDrink, setSelectedDrink] = useState(null)
+  const drinkArray = [
+    { "name": "Bonaqua natural (33cl)", "img": 1 },
+    { "name": "Bonaqua citrus (33cl)", "img": 2 },
+    { "name": "Coca Cola (33cl)", "img": 3 },
+    { "name": "Sprite (33cl)", "img": 4 },
+    { "name": "Alcohol free beer (33cl)", "img": 5 }];
 
-    function handleDrinks(i) {
-        if (i === -1) {
-            setSelectedDrink(null)
-            setCheckPosition(null)
-            props.selectedDrink(null)
-        } else {
-            setSelectedDrink(i)
-            setCheckPosition(document.getElementById(i).offsetLeft - 5)
-            props.selectedDrink(drinkArray[i].name)
-        }
+  function handleDrinks(i) {
+    if (i === -1) {
+      setSelectedDrink(null)
+      setCheckPosition(null)
+      props.selectedDrink(null)
+    } else {
+      setSelectedDrink(i)
+      setCheckPosition(document.getElementById(i).offsetLeft - 5)
+      props.selectedDrink(drinkArray[i].name)
     }
-    return (
-        <>
-            <ToppingContainer id={"drinks"} onClick={() => { setHide(!hide); document.getElementById("drinks").blur() }}>
-                <ToppingButton>
-                    <Rotate hide={hide}>{'>'}</Rotate>
-                    {'Add drink (+20 SEK)'}
-                </ToppingButton>
-            </ToppingContainer>
-            <DrinkOptions hide={hide}>
-                {drinkArray.map((drink, i) => <DrinkImg key={i} onClick={() =>
-                    handleDrinks(i)} hide={hide} id={i} title={drink.name} alt={drink.name} src={`img/drinks/${i}.png`} />)}
-                <CheckContainer hide={hide} position={checkPosition}>
-                    <Check src={check} onClick={() => handleDrinks(-1)} />
-                </CheckContainer>
+  }
+  return (
+    <>
+      <ToppingContainer id={"drinks"} onClick={() => { setHide(!hide); document.getElementById("drinks").blur() }}>
+        <ToppingButton>
+          <Rotate hide={hide}>{'>'}</Rotate>
+          {'Add drink (+20 SEK)'}
+        </ToppingButton>
+      </ToppingContainer>
+      <DrinkOptions hide={hide}>
+        {drinkArray.map((drink, i) => <DrinkImg key={i} onClick={() =>
+          handleDrinks(i)} hide={hide} id={i} title={drink.name} alt={drink.name} src={`img/drinks/${i}.png`} />)}
+        <CheckContainer hide={hide} position={checkPosition}>
+          <Check src={check} onClick={() => handleDrinks(-1)} />
+        </CheckContainer>
 
-            </DrinkOptions>
-        </>
-    )
+      </DrinkOptions>
+    </>
+  )
 }
 export default Drinks;
