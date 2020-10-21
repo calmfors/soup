@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const InputContainer = styled.section`
   width: 100%;
   margin-bottom: 3px;
-  text-align:left;
+  text-align: left;
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   color: #fff;
@@ -17,11 +17,11 @@ const Label = styled.label`
 `;
 const Input = styled.input`
   box-sizing: border-box;
-  padding:11px;
+  padding: 11px;
   border: none;
-  width:${props => props.width}%;
+  width: ${props => props.width}%;
   border-radius: 5px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   margin-right: ${props => props.width < 100 && "3px"};
 `;
 const SmallInputs = styled.section`

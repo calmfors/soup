@@ -5,10 +5,9 @@ import check from '../graphics/check.svg';
 
 const red = '#e3714f';
 const green = '#60c663';
-const yellow = '#ffda44';
-
 
 const ToppingButton = styled.span`
+  text-align: left;
   display: inline-block;
   padding-left: 10px;
   color: #fff;
@@ -20,10 +19,9 @@ const ToppingContainer = styled.button`
   background-color:${red};
   width: 100%;
   border:0;
-  font-family: 'Rubik Mono One', sans-serif;
   padding:0;
   height: 30px;
-  margin-top:15px;
+  margin-top:10px;
 `;
 const Rotate = styled.span`
   display: inline-block;
@@ -90,15 +88,17 @@ function Drinks(props) {
   }
   return (
     <>
-      <ToppingContainer id={"drinks"} onClick={() => { setHide(!hide); document.getElementById("drinks").blur() }}>
+      <ToppingContainer id={"drinks"} onClick={() => {
+        setHide(!hide); document.getElementById("drinks").blur();
+      }}>
         <ToppingButton>
           <Rotate hide={hide}>{'>'}</Rotate>
           {'Add drink (+20 SEK)'}
         </ToppingButton>
       </ToppingContainer>
       <DrinkOptions hide={hide}>
-        {drinkArray.map((drink, i) => <DrinkImg key={i} onClick={() =>
-          handleDrinks(i)} hide={hide} id={i} title={drink.name} alt={drink.name} src={`img/drinks/${i}.png`} />)}
+        {drinkArray.map((drink, i) => <DrinkImg id={i + "options"} key={i} onClick={() => handleDrinks(i)}
+          hide={hide} id={i} title={drink.name} alt={drink.name} src={`img/drinks/${i}.png`} />)}
         <CheckContainer hide={hide} position={checkPosition}>
           <Check src={check} onClick={() => handleDrinks(-1)} />
         </CheckContainer>

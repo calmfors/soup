@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const Dots = styled.p`
+const Dots = styled.h1`
+font-size: 1rem;
 &:after {
   
   content: '.';
@@ -38,7 +39,7 @@ const LoadingContainer = styled.div`
   display: flex;
   background-color: ${props => props.color || "#6094AA"};
   justify-content: center;
-  align-items: center;  
+  align-items: center;
 `
 
 function LoadingDots() {

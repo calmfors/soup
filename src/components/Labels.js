@@ -23,10 +23,8 @@ const LabelContainer = styled.div`
 
 const Label = styled.button`
   height: 25px;
-  font-family: 'Rubik Mono One', sans-serif;
   color: ${props => props.selected ? '#fff' : '#000'};
   background-color: ${props => props.selected ? '#6094AA' : '#FFCC00'};
-  border:0;
   border-radius: 5px;  
   font-size: 0.6rem;
   :hover{

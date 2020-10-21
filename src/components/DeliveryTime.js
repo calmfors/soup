@@ -4,15 +4,10 @@ import styled from 'styled-components';
 const Label = styled.label`
   display: inline-block;
   color: ${props => props.disabled ? "#777" : "#fff"};
-  margin:7px 10px 7px 0;
-//   @media (min-width: 600px) {
-//     margin:10 10px 7p 10px;
-//   }
+  margin: 7px 10px 7px 0;
 `;
 const Asap = styled.p`
-  font-family: 'Rubik', sans-serif;
   color: ${props => props.disabled ? "#777" : "#fff"};
-  font-size: 1rem;
   padding:0 0 15px 0;
   margin:0 0 10px 0;
   border-bottom: 1px solid #fff;

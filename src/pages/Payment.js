@@ -32,13 +32,12 @@ const PaymentContainer = styled.div`
 `
 const Label = styled.label`
   font-family: 'Rubik Mono One', sans-serif;
-  display:inline-block;
-  font-size:1rem;
+  display: inline-block;
+  font-size: 1rem;
   color: ${props => props.grey && props.bordert ? "#777" : "#fff"};
   margin: 13px 0 8px 0;
 `;
-const Title = styled.p`
-  font-family: 'Rubik Mono One', sans-serif;
+const Title = styled.h1`
   font-size: 1rem;
   color: #fff;
   margin: 15px 10px -2px 10px;
@@ -67,7 +66,6 @@ const Checkbox = styled.input`
   box-sizing:border-box;
 `
 const Text = styled.p`
-  font-family: 'Rubik', sans-serif;
   color: #fff;
   font-size: 1rem;
   margin-bottom:4px;
@@ -79,9 +77,7 @@ const OrderButton = styled.button`
   left:0;
   height: 50px;
   width: 100%;
-  font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
-  border:0;
   border-top:1px solid #fff;
   color: #000;
   background-color: #FFCC00;

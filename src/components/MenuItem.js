@@ -119,7 +119,7 @@ function MenuItem(props) {
               {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
             </LabelBox>
             <Price>{props.price}</Price>
-            <Order><OrderText>{props.customize ? "Choose your favourite toppings!" : "Click to customize & order!"}</OrderText></Order>
+            <Order><OrderText>{props.customize ? "Choose your favourite toppings!" : "Click to customize &\xa0order!"}</OrderText></Order>
           </div>}
       </SoupContainer>
     </SoupButton>

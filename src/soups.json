@@ -12,7 +12,6 @@
             "sunflower seeds",
             "pumpkin seeds",
             "chili flakes",
-            "cilantro",
             "coconut flakes"
         ]
     },
@@ -54,10 +53,8 @@
             "vegan"
         ],
         "img": "img/8.jpg",
-        "description": "Slowly cooked lentil soup is a culinary wonder — it is creamy without any dairy and warmly spiced. Add some cilatro for some extra freshness and chili for the sting.",
+        "description": "Slowly cooked lentil soup is a culinary wonder — it is creamy without any dairy and warmly spiced. Add some cilantro for some extra freshness and chili for the sting.",
         "toppings": [
-            "sunflower seeds",
-            "pumpkin seeds",
             "chili flakes",
             "cilantro",
             "coconut flakes"
@@ -74,7 +71,7 @@
         "toppings": [
             "sunflower seeds",
             "pumpkin seeds",
-            "cheese",
+            "feta cheese",
             "chili flakes"
         ]
     },
@@ -104,7 +101,7 @@
         "toppings": [
             "sunflower seeds",
             "pumpkin seeds",
-            "cheese"
+            "feta cheese"
         ]
     },
     {

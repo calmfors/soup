@@ -18,12 +18,11 @@ const LoginContainer = styled.div`
     max-width: 600px;
   }
 `
-const LoadingDots = styled.p`
+const LoadingDots = styled.h1`
+font-size: 1rem;
 &:after {
-  
   content: '.';
   animation: dots 1s steps(5, end) infinite;}
-
 @keyframes dots {
   0%, 20% {
     color: rgba(0,0,0,0);
@@ -54,7 +53,7 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
   }
 `
-const DeliveryContainer = styled.div`
+const DeliveryContainer = styled.main`
   box-sizing: border-box;
   padding-top:20px;
   position:relative;
@@ -96,29 +95,25 @@ const Message = styled.textarea`
   margin-bottom:12px;
   `
 const Text = styled.p`
-  font-family: 'Rubik', sans-serif;
   color: #fff;
-  font-size: 1rem;
   margin:0 0 15px 0;
   color: ${props => props.grey ? "#777" : "#fff"};
 `
 const OrderButton = styled.button`
   position:fixed;
   bottom: 0;
-  left:0;
+  left: 0;
   height: 50px;
   width: 100%;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
-  border:0;
   border-top:1px solid #fff;
   color: #000;
   background-color: #FFCC00;
-
   &:hover{
     background-image: radial-gradient(#ffe066, #FFCC00);
   }
-   @media(min-width: 600px) {
+  @media(min-width: 600px) {
     max-width: 600px;
     left: 50%;
     transform: translate(-50%, 0);

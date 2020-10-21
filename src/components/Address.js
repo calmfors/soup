@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 const Input = styled.input`
   box-sizing: border-box;
-  padding:11px;
+  padding: 11px;
   border: none;
-  width:100%;
+  width: 100%;
   border-radius: 5px;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   color: ${props => props.grey ? "#777" : "#000"};
 `;
 
@@ -39,7 +39,6 @@ function Address(props) {
         setEdit(true)
         setCity(e.target.value)
     }
-
 
     return (
         <div>

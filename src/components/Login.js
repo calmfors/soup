@@ -3,25 +3,26 @@ import styled from 'styled-components';
 import firebase from './firebase';
 
 const Btn = styled.button`
+  font-family: 'Rubik', sans-serif;
   align-items: center;
-  margin-top:10px;
-  margin-bottom:10px;
-  border: 0;
-  background-color:#E05A33;
-  color:white;
-  padding:2px 10px 2px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #E05A33;
+  color: white;
+  padding: 2px 10px 2px 10px;
   &:focus {
       outline-color: #F005;
   }
 `;
 
 const TextBtn = styled.button`
+  font-family: 'Rubik', sans-serif;
   font-size: 0.7rem;
   background: none;
-  border: 0;
 `;
 
-const Label = styled.p`
+const Label = styled.h1`
+  font-size: 1rem;
   margin: 10px 0 2px 0;
 `;
 
@@ -34,7 +35,6 @@ const Error = styled(Text)`
   font-size: 0.8rem;
   color: ${props => props.color === "white" ? "#fff" : "#f00"};
 `
-
 
 function Login(props) {
 

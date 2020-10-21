@@ -4,17 +4,16 @@ import Address from './Address';
 import Login from './Login';
 import firebase from '../components/firebase';
 
-
 const ProfileMenu = styled.div` 
   box-sizing: border-box;
   background-color: #fffe;  
   width: 100%;
   height: calc(100vh - 40px);
   position: absolute;
-  right:${props => props.open ? "0" : "-400px"};
-  top:40px;
-  padding:15px;
-  text-align:left;
+  right: ${props => props.open ? "0" : "-400px"};
+  top: 40px;
+  padding: 15px;
+  text-align: left;
   transition: right 0.6s;
   @media (min-width: 600px) {
     // max-width: 50%;
@@ -30,12 +29,11 @@ const Hide = styled.section`
   max-height: ${props => props.hide ? "0px" : "200px"};
   transition: max-height 0.3s ease-out;
   overflow: auto;
-  margin:0;
-  padding:0;
+  margin: 0;
+  padding: 0;
 `
-const Title = styled.p`
+const Title = styled.h1`
   display: inline-block;
-  font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   color: #000;
   margin: 20px 0 20px 0;
@@ -45,7 +43,7 @@ const Title = styled.p`
 `;
 const Rotate = styled.span`
   display: inline-block;
-  margin-right:5px;
+  margin-right: 5px;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   color: #000;
@@ -53,7 +51,6 @@ const Rotate = styled.span`
   transition-duration: 0.3s;
 `;
 const Text = styled.p`
-  font-family: 'Rubik', sans-serif;
   color: ${props => props.saved ? "#fff" : "#000"};
   font-size: 1rem;
   line-height: 1.4rem;
@@ -71,10 +68,10 @@ const Saved = styled.div`
   text-align: center;
 `
 const TextBtn = styled.button`
+  font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   font-weight: 500;
   background: none;
-  border: 0;
   margin: 0 0 10px 0;
   padding: 0;
   color: #E05A33;

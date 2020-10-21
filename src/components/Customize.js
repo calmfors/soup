@@ -6,43 +6,39 @@ import Drinks from './Drinks';
 
 export const red = '#e3714f';
 export const green = '#60c663';
-export const yellow = '#FFCC00';
+// export const yellow = '#FFCC00';
 
-
-const SoupTitle = styled.p`
+const SoupTitle = styled.h1`
   text-transform: uppercase;
-  font-family: 'Rubik Mono One', sans-serif;
   font-size: 1rem;
   padding: 0px 10px 0px 10px;
   margin-top: 10px;
   text-align:left;
   @media (min-width: 600px) {
-    padding: 15px 10px 5px 0px;
+    padding: 7px 10px 5px 0px;
   }
 `;
 
 const Description = styled.p`
   box-sizing: border-box;
   width: 100%;
-  padding:0 10px 0 10px;
-  margin: 0 0 15px 0;
+  padding: 0 10px 0 10px;
+  margin: 0 0 10px 0;
   line-height: 1.4rem;
-  font-family: 'Rubik', sans-serif;
-  text-align:left;
+  text-align: left;
   @media(min-width: 600px) {
     padding: 0;
+    margin: 0 0 29px 0;
 }
 `;
 
 const OrderButton = styled.button`
-  font-family: 'Rubik Mono One', sans-serif;
-  font-size: 1rem;
   position: fixed;
   bottom: 0;
   left:0;
-  border:0;
   height: 50px;
   width: 100%;
+  font-size: 1rem;
   color: #fff;
   background-color: ${props => props.toppingChange ? "#77b6d1" : "#6094AA"};
   transition-duration: 0.1s;
@@ -59,37 +55,33 @@ const OrderButton = styled.button`
 
 const ToppingButton = styled.span`
   display: inline-block;
-  font-family: ${props => props.width === "10" ? "sans-serif" : "'Rubik Mono One', sans-serif"};
-  font-size: ${props => props.width === "10" && "1.6rem"};
+  text-align: left;
+  font-family: ${props => props.width === "8" ? "sans-serif" : "'Rubik Mono One', sans-serif"};
+  font-size: ${props => props.width === "8" && "1.5rem"};
   text-align:left;
-  margin-top: ${props => props.width === "90" ? "9px" : "0"};
+  margin-top: ${props => props.width === "92" ? "6px" : "0"};
   width: ${props => props.width}%;
-  padding-left: 10px;
 `;
 
 const ToppingContainer = styled.button`
   width: 100%;
-  display: ${props => props.hide ? "block" : "flex"};
   text-align: left;
-  border:0;
+  display: ${props => props.hide ? "block" : "flex"};
   justify-content: space-between;
   align-content: center;
-  font-family: 'Rubik Mono One', sans-serif;
   color: ${props => props => props.hide ? "#fff" : props.choosen ? "#fff" : "#555"};
   margin-top: 8px;
-  padding:0;
   background-color: ${props => props.hide ? red : props.choosen ? green : "#efefef"};
   height: 30px;
   &:hover{
     background-color:${props => !props.hide && !props.choosen && `${green}66`};
-    // color:${props => !props.hide && "#fff"};
   }
 `;
 const CustomizeContainer = styled.section`
 @media(min-width: 600px) {
-  display:inline-block;
+  display: inline-block;
   max-width: 290px;
-  margin-top:40px;
+  margin-top: 40px;
 }
 `;
 const Rotate = styled.span`
@@ -190,16 +182,15 @@ function Customize(props) {
         </ToppingContainer>
         <HideContainer hide={hide}>
           {updateTopping.map((topping, i) =>
-            <ToppingContainer key={"a" + i} choosen={topping} >
-              <ToppingButton key={"b" + i} onClick={() => handleClick(i)} width="90" >{toppings[i].name}</ToppingButton>
-              <ToppingButton key={"c" + i} onClick={() => handleClick(i)} width="10">{topping ? "–" : "+"}</ToppingButton>
+            <ToppingContainer id={i + "topping"} key={"a" + i} onClick={() => { document.getElementById(i + "topping").blur(); handleClick(i) }} choosen={topping} >
+              <ToppingButton key={"b" + i} width="92" >{toppings[i].name}</ToppingButton>
+              <ToppingButton key={"c" + i} width="8">{topping ? "–" : "+"}</ToppingButton>
             </ToppingContainer>
           )}
         </HideContainer>
         <Drinks selectedDrink={getDrinks} />
         <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
-
     </>
   );
 }

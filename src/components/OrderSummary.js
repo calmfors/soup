@@ -38,7 +38,6 @@ const Summary = styled.section`
 `;
 
 const OrderThumb = styled.section`
-  font-family: 'Rubik', sans-serif;
   box-sizing: border-box;
   width:calc(100% - 20px);
   display: flex;
@@ -61,7 +60,6 @@ const PlaceOrderContainer = styled(OrderThumb)`
   margin:0;
   border-radius:0 0 5px 5px;
 `
-
 const OrderImg = styled.img`
   display:inline;
   margin-right: 10px;
@@ -93,8 +91,6 @@ const PlaceOrder = styled.button`
   width:60%;
   height: 30px;
   background-color: #FFCC00;
-  border:none;
-  font-family: 'Rubik Mono One', sans-serif;
   font-size: 0.8rem;
    &:hover{
     background-image: radial-gradient(#ffe066, #FFCC00);
@@ -111,18 +107,16 @@ const Alert = styled.div`
 const AlertButton = styled.button`
   display:inline-block;
   font-family: 'Rubik', sans-serif;
-  color:white;
-  width:25%;
-  font-size:1rem;
-  border:none;
+  color: white;
+  width: 25%;
+  font-size: 1rem;
   background-color: Transparent;
 `
 const AlertText = styled.p`
-  margin:15px 10px 10px 10px;
-  font-family: 'Rubik', sans-serif;
-  color:white;
+  margin: 15px 10px 10px 10px;
+  color: white;
   width: calc(100% - 20px);
-  font-size:1rem;
+  font-size: 1rem;
 `
 
 function OrderSummary(props) {
