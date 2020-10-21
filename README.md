@@ -1,3 +1,5 @@
+Figma Prototype: https://www.figma.com/proto/kgZVmY3Tr6EQUgLsXTVPgo/Soup?node-id=208%3A1703&scaling=min-zoom
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
