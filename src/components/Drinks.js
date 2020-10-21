@@ -101,7 +101,7 @@ function Drinks(props) {
         </ToppingButton>
       </ToppingContainer>
       <DrinkOptions hide={hide}>
-        {drinkArray.map((drink, i) => <DrinkImg id={i + "options"} key={i} onClick={() => handleDrinks(i)}
+        {drinkArray.map((drink, i) => <DrinkImg key={i} onClick={() => handleDrinks(i)}
           hide={hide} id={i} title={drink.name} alt={drink.name} src={`img/drinks/${i}.png`} />)}
         <CheckContainer hide={hide} position={checkPosition}>
           <Check src={check} onClick={() => handleDrinks(-1)} />

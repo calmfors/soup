@@ -136,7 +136,11 @@ function ProfilePage(props) {
                 // further keyup events reset the timer, as expected
                 // function saveToFirebase(user) {
                 let tempUser = userObj
-                tempUser = { ...tempUser, name, street, zip, city }
+                console.log(street.length)
+                let tempStreet = street.length > 2 ? street : ""
+                let tempZip = zip.length > 2 ? zip : ""
+                let tempCity = city.length > 2 ? city : ""
+                tempUser = { ...tempUser, name, street: tempStreet, zip: tempZip, city: tempCity }
                 localStorage.setItem('localUser', JSON.stringify(tempUser))
                 firebase.database().ref('/users/').child(id).set(tempUser)
                     .then((data) => {

@@ -158,7 +158,7 @@ function Delivery(props) {
     useEffect(() => {
         if (!loggedInUser && user) setLoggedInUser(getUserFromDatabase(user.uid));
         if (name && street && zip && city) setAddressLoaded(true)
-        else if (loggedInUser && loggedInUser.city === "") setAddressLoaded(true)
+        else if (loggedInUser && (loggedInUser.city === "" || loggedInUser.zip === "" || loggedInUser.street === "")) setAddressLoaded(true)
 
         setTimeout(
             function () {
@@ -210,38 +210,47 @@ function Delivery(props) {
 
     function handleOrder() {
         if (deliveryTime !== "Closed") {
-            let tempOrder = order
-            tempOrder.forEach(tempItem => {
-                delete tempItem.description
-                delete tempItem.filter
-            })
-            const orderObj = {
-                deliveryTime,
-                delivery: deliveryOption === "delivery" ? {
-                    name,
-                    street,
-                    zip,
-                    city,
-                } : {
-                        pickup: true,
-                    },
-                message,
-                order: tempOrder
+            if (deliveryOption === "pickup" || (name.length > 1 && street.length > 1 && zip.length > 4 && city.length > 1)) {
+                console.log(street + zip + city)
+                let tempOrder = order
+                tempOrder.forEach(tempItem => {
+                    delete tempItem.description
+                    delete tempItem.filter
+                })
+                const orderObj = {
+                    deliveryTime,
+                    delivery: deliveryOption === "delivery" ? {
+                        name,
+                        street,
+                        zip,
+                        city,
+                    } : {
+                            pickup: true,
+                        },
+                    message,
+                    order: tempOrder
+                }
+                let tempUser = loggedInUser
+                // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
+                // else tempUser.orderHistory = [{ date, order } 
+                tempUser = { ...tempUser, name, street, zip, city }
+                firebase.database().ref('/users/').child(user.uid).set(tempUser)
+                    .then((data) => {
+                        console.log('Saved Data', data)
+                    })
+                    .catch((error) => {
+                        console.log('Storing Error', error)
+                    })
+                localStorage.setItem('localOrder', JSON.stringify(orderObj))
+                localStorage.setItem('localUser', JSON.stringify(tempUser))
+                history.push('/payment');
+            } else {
+                setOrderMessage("No delivery address")
+                setTimeout(
+                    function () {
+                        setOrderMessage("Checkout")
+                    }, 1000)
             }
-            let tempUser = loggedInUser
-            // if (tempUser.orderHistory) tempUser.orderHistory.push({ date, order })
-            // else tempUser.orderHistory = [{ date, order } 
-            tempUser = { ...tempUser, name, street, zip, city }
-            firebase.database().ref('/users/').child(user.uid).set(tempUser)
-                .then((data) => {
-                    console.log('Saved Data', data)
-                })
-                .catch((error) => {
-                    console.log('Storing Error', error)
-                })
-            localStorage.setItem('localOrder', JSON.stringify(orderObj))
-            localStorage.setItem('localUser', JSON.stringify(tempUser))
-            history.push('/payment');
         } else {
             setOrderMessage("Sorry we are closed")
             setTimeout(
@@ -273,7 +282,8 @@ function Delivery(props) {
                         <InputContainer>
                             <Checkbox onChange={handleRadio} type='radio' name="deliveryoptions" value="delivery" checked={deliveryOption === "delivery"} />
                             <Label onClick={(r) => handleRadio(r)} id="delivery" htmlFor='delivery'>Delivery</Label><br />
-                            {addressLoaded && <Address inputGrey={inputGrey} disabled={inputGrey} sendAddress={getAddress} name={name} street={street} zip={zip} city={city} />}
+                            {addressLoaded && loggedInUser && <Address inputGrey={inputGrey} disabled={inputGrey} sendAddress={getAddress}
+                                name={name} street={street || loggedInUser.street} zip={zip || loggedInUser.zip} city={city || loggedInUser.city} />}
                         </InputContainer>
                         <InputContainer>
                             <DeliveryTime handleTime={handleTime} disabled={inputGrey}></DeliveryTime>
