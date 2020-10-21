@@ -17,7 +17,7 @@ const Btn = styled.button`
 
 const TextBtn = styled.button`
   font-family: 'Rubik', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   background: none;
 `;
 

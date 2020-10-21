@@ -90,6 +90,10 @@ function Drinks(props) {
     <>
       <ToppingContainer id={"drinks"} onClick={() => {
         setHide(!hide); document.getElementById("drinks").blur();
+        setTimeout(
+          function () {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+          }, 300)
       }}>
         <ToppingButton>
           <Rotate hide={hide}>{'>'}</Rotate>
