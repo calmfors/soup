@@ -6,7 +6,8 @@ import Drinks from './Drinks';
 
 export const red = '#e3714f';
 export const green = '#60c663';
-// export const yellow = '#FFCC00';
+export const yellow = '#FFCC00';
+export const blue = '#6094AA';
 
 const SoupTitle = styled.h1`
   text-transform: uppercase;
@@ -58,8 +59,7 @@ const ToppingButton = styled.span`
   text-align: left;
   font-family: ${props => props.width === "8" ? "sans-serif" : "'Rubik Mono One', sans-serif"};
   font-size: ${props => props.width === "8" && "1.5rem"};
-  text-align:left;
-  margin-top: ${props => props.width === "92" ? "6px" : "0"};
+  // margin-top: ${props => props.width === "92" ? "6px" : "0"};
   width: ${props => props.width}%;
 `;
 
@@ -68,7 +68,7 @@ const ToppingContainer = styled.button`
   text-align: left;
   display: ${props => props.hide ? "block" : "flex"};
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   color: ${props => props => props.hide ? "#fff" : props.choosen ? "#fff" : "#555"};
   margin-top: 8px;
   background-color: ${props => props.hide ? red : props.choosen ? green : "#efefef"};
@@ -99,28 +99,33 @@ const HideContainer = styled.section`
   transition: max-height 0.2s ease-in;
   margin:0;
 `
+export const EditButton = styled.button`
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 70px;
+  left: 30px;
+  border-radius:50%;
+  background-color: ${blue};
+  color:#fff;
+`
 
 function Customize(props) {
   const labels = props.labels;
   const [orderMessage, setOrderMessage] = useState("Add soup +0 toppings");
-  const allToppings = []
-  const tempToppings = []
-  soups.forEach(soup => {
-    soup.toppings.forEach(topping => {
-      if (!tempToppings.includes(topping)) tempToppings.push(topping)
-    })
+  const toppings = []
+  props.choosenSoup.toppings.forEach(topping => {
+    toppings.push({ "name": topping, "choosen": false })
   })
-  tempToppings.forEach(topping => {
-    allToppings.push({ "name": topping, "choosen": false })
-  })
-  let toppings = allToppings.filter(topping => props.choosenSoup.toppings.includes(topping.name))
   let toppingArray = []
   toppings.filter(topping => toppingArray.push(topping.choosen))
   const [updateTopping, setUpdateTopping] = useState(toppingArray);
   const [changeButton, setChangeButton] = useState(false)
   const [selectedDrink, setSelectedDrink] = useState(null)
   const [hide, setHide] = useState(true);
-
 
   function handleClick(i) {
     if (!props.loginMenu) {
@@ -191,6 +196,7 @@ function Customize(props) {
         <Drinks selectedDrink={getDrinks} />
         <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
+      <EditButton onClick={() => { props.handleEdit(); setUpdateTopping(null); }}>Edit</EditButton>
     </>
   );
 }

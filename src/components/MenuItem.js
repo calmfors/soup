@@ -98,7 +98,6 @@ const Price = styled.p`
 function MenuItem(props) {
   const [loaded, setLoaded] = useState(false)
 
-
   function handleLoad() {
     setLoaded(true);
   }
@@ -106,17 +105,17 @@ function MenuItem(props) {
     return props.handleLoading(loaded);
   }
 
-  const labelTitles = ['vegetarian', 'vegan', 'chicken', 'fish', 'meat'];
   return (
     <SoupButton customize={props.customize} onClick={props.click}>
       <SoupContainer >
         {!props.customize && <SoupTitle>{loaded && props.title}</SoupTitle>}
         <Item customize={props.customize} onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />
         {!props.customize && tellMenuIfLoaded()}
-        {loaded &&
+        {props.edit && <LabelBox customize={true}><Label>EDIT</Label></LabelBox>}
+        {loaded && !props.edit &&
           <div>
             <LabelBox customize={props.customize}>
-              {labelTitles.map((title, i) => props.categories.includes(title) && <Label key={i}>{title}</Label>)}
+              {props.categories.map((title, i) => <Label key={i}>{title}</Label>)}
             </LabelBox>
             <Price>{props.price}</Price>
             <Order><OrderText>{props.customize ? "Choose your favourite toppings!" : "Click to customize &\xa0order!"}</OrderText></Order>

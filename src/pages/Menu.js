@@ -5,9 +5,10 @@ import MenuItem from '../components/MenuItem';
 import firebase from '../components/firebase';
 import Customize from '../components/Customize';
 import Labels from '../components/Labels';
-import soups from '../soups.json';
+// import soups from '../soups.json';
 import OrderSummary from '../components/OrderSummary';
 import LoadingDots from '../components/LoadingDots';
+import Edit from '../components/Edit';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -64,6 +65,7 @@ const Fade = styled.div`
 
 
 function Menu() {
+    const soups = JSON.parse(localStorage.getItem('soups'))
 
     let localSoups = [];
     const [loggedInUser, setLoggedInUser] = useState(false)
@@ -83,7 +85,7 @@ function Menu() {
     });
     const [orderAgain, setOrderAgain] = useState(false)
     const [changeButton, setChangeButton] = useState(false)
-
+    const [edit, setEdit] = useState(false)
     const labels = [];
     soups.forEach(soup => {
         soup.filter.forEach(filter => {
@@ -94,6 +96,8 @@ function Menu() {
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
     useEffect(() => {
+        // localStorage.setItem('soups', JSON.stringify(soups))
+
         localSoups = JSON.parse(localStorage.getItem('localSoups'))
         if (firebase.auth().currentUser) setLoggedInUser(true)
         if (localSoups) {
@@ -123,6 +127,7 @@ function Menu() {
             setChoosenSoup(null)
             setBack(false)
             setCustomize(false);
+            setEdit(false);
             setSoupFilter({
                 selected: null,
                 filteredSoups: soups
@@ -242,6 +247,18 @@ function Menu() {
         setChangeButton(true)
     }
 
+    function handleEdit() {
+        if (edit) {
+            setTimeout(
+                function () {
+                    setEdit(false);
+                }, 2000)
+            console.log(edit)
+        } else {
+            setEdit(true)
+        }
+    }
+
     return (
         <>
 
@@ -255,9 +272,9 @@ function Menu() {
                         <MenuItem handleLoading={handleLoad} customize={customize} categories={labels.filter(label => item.filter.includes(label))}
                             click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " kr"} />
                     )}
-                {customize &&
-                    <Customize labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />
-                }
+                {customize && !edit && <Customize handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
+                {customize && edit && <Edit handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
+
                 {!customize && cart > 0 &&
                     <OrderButtonContainer onClick={(e) => { e.stopPropagation() }}>
 
