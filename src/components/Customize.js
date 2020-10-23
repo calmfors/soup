@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
-import soups from '../soups.json';
 import Drinks from './Drinks';
+import edit from '../graphics/edit.svg';
 
 export const red = '#e3714f';
 export const green = '#60c663';
@@ -100,19 +100,35 @@ const HideContainer = styled.section`
   margin:0;
 `
 export const EditButton = styled.button`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   top: 70px;
-  left: 30px;
+  right: 30px;
   border-radius:50%;
-  background-color: ${blue};
+  background-color: ${yellow}ee;
+  box-shadow: 0 0 15px #0005;
   color:#fff;
-`
+  @media(min-width: 600px) {
+    box-shadow: none;
+    display: inline-block;
+    max-width: 290px;
+    top: 520px;
+    left: calc(50% + 240px);
+    &:hover{
+      background-image: radial-gradient(#FFCC00,#ffe066);
+      transition-duration: 0.2s;
+    }
 
+}
+`
+const EditImg = styled.img`
+  width:70%;
+  padding: 3px 0 0 3px;
+`
 function Customize(props) {
   const labels = props.labels;
   const [orderMessage, setOrderMessage] = useState("Add soup +0 toppings");
@@ -178,7 +194,7 @@ function Customize(props) {
   return (
     <>
       <MenuItem customize={true} categories={labels.filter(label => props.choosenSoup.filter.includes(label))}
-        title={props.choosenSoup.name} src={props.src} price={props.choosenSoup.price + " kr"} />
+        title={props.choosenSoup.name} src={props.src} price={props.choosenSoup.price + " SEK"} />
       <CustomizeContainer>
         <SoupTitle>{props.choosenSoup.name}</SoupTitle>
         <Description>{props.choosenSoup.description}</Description>
@@ -196,7 +212,7 @@ function Customize(props) {
         <Drinks selectedDrink={getDrinks} />
         <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
-      <EditButton onClick={() => { props.handleEdit(); setUpdateTopping(null); }}>Edit</EditButton>
+      <EditButton onClick={() => { props.handleEdit(); setUpdateTopping(null); }}><EditImg src={edit} title='Edit content' alt='Edit content' /></EditButton>
     </>
   );
 }

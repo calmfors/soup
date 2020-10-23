@@ -5,7 +5,7 @@ import MenuItem from '../components/MenuItem';
 import firebase from '../components/firebase';
 import Customize from '../components/Customize';
 import Labels from '../components/Labels';
-// import soups from '../soups.json';
+import soupsJSON from '../soups.json';
 import OrderSummary from '../components/OrderSummary';
 import LoadingDots from '../components/LoadingDots';
 import Edit from '../components/Edit';
@@ -65,8 +65,13 @@ const Fade = styled.div`
 
 
 function Menu() {
-    const soups = JSON.parse(localStorage.getItem('soups'))
 
+    let soups = JSON.parse(localStorage.getItem('soups'))
+    if (!soups) {
+        console.log('Reset')
+        soups = soupsJSON
+        localStorage.setItem('soups', JSON.stringify(soups))
+    }
     let localSoups = [];
     const [loggedInUser, setLoggedInUser] = useState(false)
     const [seeOrder, setSeeOrder] = useState(false);
@@ -96,9 +101,7 @@ function Menu() {
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
     useEffect(() => {
-        // localStorage.setItem('soups', JSON.stringify(soups))
-
-        localSoups = JSON.parse(localStorage.getItem('localSoups'))
+        // localSoups = JSON.parse(localStorage.getItem('localSoups'))
         if (firebase.auth().currentUser) setLoggedInUser(true)
         if (localSoups) {
             setCart(localSoups.length)
@@ -270,7 +273,7 @@ function Menu() {
                 {!customize &&
                     soupFilter.filteredSoups.map((item, i) =>
                         <MenuItem handleLoading={handleLoad} customize={customize} categories={labels.filter(label => item.filter.includes(label))}
-                            click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " kr"} />
+                            click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " SEK"} />
                     )}
                 {customize && !edit && <Customize handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
                 {customize && edit && <Edit handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
