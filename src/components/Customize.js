@@ -106,10 +106,10 @@ export const EditButton = styled.button`
   align-items: center;
   justify-content: center;
   position: fixed;
-  top: 70px;
-  right: 30px;
+  top: 50px;
+  right: 10px;
   border-radius:50%;
-  background-color: ${yellow}ee;
+  background-color: ${yellow}dd;
   box-shadow: 0 0 15px #0005;
   color:#fff;
   @media(min-width: 600px) {
