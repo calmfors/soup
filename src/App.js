@@ -21,11 +21,11 @@ function App() {
 
   return (
     <div className="App">
-      {/* <HashRouter> */}
-      <Switch>
-        <Route path="/delivery" component={Delivery} />
-        <Route path="/payment" component={Payment} />
-        <Route path="/">
+      <HashRouter>
+        {/* <Switch> */}
+        <Route exact path="/delivery" component={Delivery} />
+        <Route exact path="/payment" component={Payment} />
+        <Route exact path="/">
           {loadingPage ?
             <header className="App-header">
               <img src={logo} className={fadeLogo ? "App-logo-fade" : "App-logo"} alt="logo" />
@@ -34,8 +34,8 @@ function App() {
             <Menu />
           }
         </Route>
-      </Switch>
-      {/* </HashRouter> */}
+        {/* </Switch> */}
+      </HashRouter>
     </div>
   )
 }
