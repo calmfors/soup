@@ -60,10 +60,8 @@ const ToppingContainer = styled.section`
 `;
 
 const Text = styled.span`
-  display: block;
   text-align: left;
   font-face: 'Rubik', sans-serif;
-  font-size: 0.7rem;
   text-transform: uppercase;
 `;
 
@@ -128,7 +126,7 @@ const Price = styled.section`
   align-items:center;
   padding:5px;
   @media(min-width: 600px) {
-      left: 269px;
+      left: calc(50% - 124px);
       top: 538px;
       height: 20px;
   }

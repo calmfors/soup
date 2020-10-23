@@ -102,7 +102,7 @@ function MenuItem(props) {
     setLoaded(true);
   }
   function tellMenuIfLoaded() {
-    return props.handleLoading(loaded);
+    if (loaded) return props.handleLoading(props.itemId, loaded);
   }
 
   return (

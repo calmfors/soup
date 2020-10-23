@@ -116,7 +116,7 @@ export const EditButton = styled.button`
     box-shadow: none;
     display: inline-block;
     max-width: 290px;
-    top: 520px;
+    top: 518px;
     left: calc(50% + 240px);
     &:hover{
       background-image: radial-gradient(#FFCC00,#ffe066);
@@ -212,7 +212,7 @@ function Customize(props) {
         <Drinks selectedDrink={getDrinks} />
         <OrderButton toppingChange={changeButton} onClick={() => { !props.loginMenu && props.handleOrder(updateTopping, toppings, selectedDrink); setUpdateTopping(null) }}>{orderMessage}</OrderButton>
       </CustomizeContainer>
-      <EditButton onClick={() => { props.handleEdit(); setUpdateTopping(null); }}><EditImg src={edit} title='Edit content' alt='Edit content' /></EditButton>
+      {props.user && <EditButton onClick={() => { props.handleEdit(); setUpdateTopping(null); }}><EditImg src={edit} title='Edit content' alt='Edit content' /></EditButton>}
     </>
   );
 }

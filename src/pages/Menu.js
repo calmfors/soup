@@ -73,6 +73,8 @@ function Menu() {
         localStorage.setItem('soups', JSON.stringify(soups))
     }
     let localSoups = [];
+    let loadedArray = [];
+
     const [loggedInUser, setLoggedInUser] = useState(false)
     const [seeOrder, setSeeOrder] = useState(false);
     const [cart, setCart] = useState(localSoups.length);
@@ -101,7 +103,7 @@ function Menu() {
     let user = firebase.auth().currentUser ? firebase.auth().currentUser : 'no user';
 
     useEffect(() => {
-        // localSoups = JSON.parse(localStorage.getItem('localSoups'))
+        localSoups = JSON.parse(localStorage.getItem('localSoups'))
         if (firebase.auth().currentUser) setLoggedInUser(true)
         if (localSoups) {
             setCart(localSoups.length)
@@ -127,6 +129,8 @@ function Menu() {
             setCustomize(true);
             setChoosenSoup(soupFilter.filteredSoups[i]);
         } else {
+            setHideFade(false)
+            setLoaded(false)
             setChoosenSoup(null)
             setBack(false)
             setCustomize(false);
@@ -161,6 +165,8 @@ function Menu() {
     }
 
     function handleOrder(updateTopping, toppings, selectedDrink) {
+        console.log(cart)
+        console.log(customize)
         setLoaded(false);
         setHideFade(false);
         setChangeButton(true)
@@ -221,9 +227,8 @@ function Menu() {
         localStorage.setItem('localSoups', JSON.stringify(tempLocalSoups))
         if (tempLocalSoups.length === 0) setSeeOrder(false)
     }
-    function handleLoad(loaded) {
-        let loadedArray = []
-        if (loaded) loadedArray.push(loaded)
+    function handleLoad(i, loaded) {
+        loadedArray[i] = loaded
         if (loadedArray.length === soups.length) {
             setTimeout(
                 function () {
@@ -272,10 +277,10 @@ function Menu() {
                 {!customize && <Labels labels={labels} selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize &&
                     soupFilter.filteredSoups.map((item, i) =>
-                        <MenuItem handleLoading={handleLoad} customize={customize} categories={labels.filter(label => item.filter.includes(label))}
+                        <MenuItem handleLoading={handleLoad} itemId={i} customize={customize} categories={labels.filter(label => item.filter.includes(label))}
                             click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " SEK"} />
                     )}
-                {customize && !edit && <Customize handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
+                {customize && !edit && <Customize user={loggedInUser} handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
                 {customize && edit && <Edit handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
 
                 {!customize && cart > 0 &&
