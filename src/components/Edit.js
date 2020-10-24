@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuItem from './MenuItem';
 import soups from '../soups.json';
+import Labels from './Labels';
 
 export const red = '#e3714f';
 export const green = '#60c663';
@@ -136,6 +137,10 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   while (editToppings.length < 4) editToppings.push("")
   let editFilter = [...choosenSoup.filter]
   while (editFilter.length < 2) editFilter.push("")
+  let tempArrayOfIndex = []
+  editFilter.map(filter => {
+    tempArrayOfIndex.push(labels.indexOf(filter))
+  })
 
   const [changeButton, setChangeButton] = useState(false)
   const [orderMessage, setOrderMessage] = useState("Save changes");
@@ -145,8 +150,8 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   const [soupFilter, setSoupFilter] = useState(editFilter)
   const [soupPrice, setSoupPrice] = useState(choosenSoup.price)
   const [soupImg, setSoupImg] = useState(choosenSoup.img)
-
   const [selectedDrink, setSelectedDrink] = useState(null)
+  const [selectedFilterIndex, setSelectedFilterIndex] = useState(tempArrayOfIndex)
 
 
   function handleName(e) {
@@ -204,6 +209,30 @@ function Edit({ handleEdit, labels, choosenSoup }) {
 
   }
 
+
+  function handleFilter(i) {
+    let tempFilter = [...soupFilter]
+    tempArrayOfIndex = []
+    if (!selectedFilterIndex.includes(i) && i !== null) {
+      tempFilter.push(labels[i])
+      setSoupFilter(tempFilter)
+      console.log(soupFilter)
+    } else {
+      tempFilter = soupFilter.filter(filter => filter !== labels[i])
+      // tempFilter.slice(tempFilter.indexOf(labels[i]))
+      console.log(tempFilter)
+      setSoupFilter(tempFilter)
+    }
+    tempFilter.map(filter => {
+      tempArrayOfIndex.push(labels.indexOf(filter))
+    })
+    tempFilter.map(filter => {
+      tempArrayOfIndex.push(labels.indexOf(filter))
+    })
+
+    setSelectedFilterIndex(tempArrayOfIndex)
+  }
+
   return (
     <>
       <MenuItem customize={true} edit={true} categories={choosenSoup.filter}
@@ -229,14 +258,16 @@ function Edit({ handleEdit, labels, choosenSoup }) {
             <Input mono="true" type='text' placeholder='+ topping' required onChange={(e) => handleToppings(e, i)} value={topping}></Input><br />
           </ToppingContainer>
         )}
-        <ToppingContainer filter="true">
+        <ToppingContainer red="true">
           <Text>Edit categories</Text>
         </ToppingContainer>
-        {soupFilter.map((filter, i) =>
+        <Labels edit="true" labels={labels} selected={selectedFilterIndex} handleFilter={handleFilter} />
+
+        {/* {soupFilter.map((filter, i) =>
           <ToppingContainer key={"b" + i} >
             <Input mono={true} type='text' placeholder='+ category' required onChange={(e) => handleFilter(e, i)} value={filter}></Input><br />
           </ToppingContainer>
-        )}
+        )} */}
         <Price>
           <Input type='text' mono="true" title="true" width="60" placeholder='xxx' required onChange={handlePrice} value={soupPrice}></Input>SEK
         </Price>

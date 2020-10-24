@@ -36,7 +36,8 @@ const Label = styled.span`
   height: 13px;
   font-family: 'Rubik Mono One', sans-serif;
   padding:7px 6px 5px 6px;
-  background-color: #FFCC00CC;
+  background-color: ${props => props.edit ? "#e3714f" : "#FFCC00CC"};
+  color: ${props => props.edit ? "#fff" : "#000"};
   border-radius: 5px;  
   font-size: 0.6rem;
 `;
@@ -111,7 +112,7 @@ function MenuItem(props) {
         {!props.customize && <SoupTitle>{loaded && props.title}</SoupTitle>}
         <Item customize={props.customize} onLoad={handleLoad} style={{ display: loaded ? 'block' : 'none' }} src={props.src} />
         {!props.customize && tellMenuIfLoaded()}
-        {props.edit && <LabelBox customize={true}><Label>EDIT</Label></LabelBox>}
+        {props.edit && <LabelBox customize={true}><Label edit="true">EDIT</Label></LabelBox>}
         {loaded && !props.edit &&
           <div>
             <LabelBox customize={props.customize}>

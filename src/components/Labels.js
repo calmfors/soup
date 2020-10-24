@@ -8,16 +8,19 @@ const LabelContainer = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  position: fixed;
+  position: ${props => props.edit ? "static" : "fixed"};
   top: 40px;
   z-index: 1;
-  background-color: #fffe;
+  margin-top: ${props => props.edit && "8px"};
+  background-color:   ${props => props.edit ? "#efefef" : "#fffe"};
   @media (min-width: 600px) {
-    padding-left: calc(100vw - 100%);
+    height: ${props => props.edit ? "91px" : "40px"};
+    padding: ${props => props.edit ? "7px 0 7px 0" : "0 0 0 calc(100vw - 100%)"};
+    flex-wrap:${props => props.edit && "wrap"};
     justify-content: center;
-    max-width: 1300px;
+    max-width: ${props => props.edit ? "100%" : "1300px"};
     left: 50%;
-    transform: translate(-50%, 0);
+    transform: ${props => !props.edit && "translate(-50%, 0)"};
    }
 `;
 
@@ -31,7 +34,7 @@ const Label = styled.button`
     background-color:${props => props.selected ? '#81adbf' : '#ffe066'};
   }
   @media (min-width: 600px) {
-    margin:0 10px 0 10px;
+    margin: 0 10px 0 10px;
   }
 `;
 
@@ -43,9 +46,9 @@ function Labels(props) {
   }
 
   return (
-    <LabelContainer>
+    <LabelContainer edit={props.edit} >
       {labelTitles.map((title, i) =>
-        <Label ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={i === props.selected}>{title}</Label>)}
+        <Label ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={props.selected && props.selected.includes(i)}>{title}</Label>)}
     </LabelContainer>
   );
 }

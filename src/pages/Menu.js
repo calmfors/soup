@@ -147,7 +147,7 @@ function Menu() {
                 let tempSoups = soups
                 const selectedSoups = tempSoups.filter(tempSoup => tempSoup.filter.includes(labels[i]))
                 setSoupFilter({
-                    selected: i,
+                    selected: [i],
                     filteredSoups: selectedSoups
                 })
             }
@@ -281,7 +281,7 @@ function Menu() {
                             click={() => !seeOrder && !loginMenu && handleClick(i)} key={i} title={item.name} src={item.img} price={item.price + " SEK"} />
                     )}
                 {customize && !edit && <Customize user={loggedInUser} handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
-                {customize && edit && <Edit handleEdit={handleEdit} labels={labels} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
+                {customize && edit && <Edit handleEdit={handleEdit} labels={labels.length === 5 ? labels : ["vegetarian", "vegan", "fish", "chicken", "meat"]} loginMenu={loginMenu} customize={customize} handleOrder={handleOrder} choosenSoup={choosenSoup} src={choosenSoup.img} />}
 
                 {!customize && cart > 0 &&
                     <OrderButtonContainer onClick={(e) => { e.stopPropagation() }}>
