@@ -143,8 +143,6 @@ function Menu() {
     }
     function handleFilter(i) {
         if (!seeOrder && !loginMenu) {
-            console.log(i)
-            console.log(soupFilter.selected)
             if (i !== null && !soupFilter.selected) {
                 let tempSoups = soups
                 const selectedSoups = tempSoups.filter(tempSoup => tempSoup.filter.includes(labels[i]))
@@ -167,8 +165,6 @@ function Menu() {
     }
 
     function handleOrder(updateTopping, toppings, selectedDrink) {
-        console.log(cart)
-        console.log(customize)
         setLoaded(false);
         setHideFade(false);
         setChangeButton(true)
@@ -263,7 +259,6 @@ function Menu() {
                 function () {
                     setEdit(false);
                 }, 2000)
-            console.log(edit)
         } else {
             setEdit(true)
         }

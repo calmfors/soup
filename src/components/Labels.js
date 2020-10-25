@@ -12,7 +12,7 @@ const LabelContainer = styled.div`
   top: 40px;
   z-index: 1;
   margin-top: ${props => props.edit && "8px"};
-  background-color:   ${props => props.edit ? "#efefef" : "#fffe"};
+  background-color: ${props => props.edit ? "#efefef" : "#fffe"};
   @media (min-width: 600px) {
     height: ${props => props.edit ? "91px" : "40px"};
     padding: ${props => props.edit ? "7px 0 7px 0" : "0 0 0 calc(100vw - 100%)"};
@@ -26,12 +26,13 @@ const LabelContainer = styled.div`
 
 const Label = styled.button`
   height: 25px;
-  color: ${props => props.selected ? '#fff' : '#000'};
-  background-color: ${props => props.selected ? '#6094AA' : '#FFCC00'};
+  color: ${props => props.selected ? (props.edit ? '#000' : '#fff') : (props.edit ? '#777' : '#000')};
+  background-color: ${props => props.selected ? (props.edit ? '#FFCC00' : '#6094AA') : (props.edit ? 'transparent' : '#FFCC00')};
+  border: ${props => props.edit && (props.selected ? '2px solid transparent' : '2px solid #777')};
   border-radius: 5px;  
   font-size: 0.6rem;
   :hover{
-    background-color:${props => props.selected ? '#81adbf' : '#ffe066'};
+    background-color:${props => !props.edit && (props.selected ? '#81adbf' : '#ffe066')};
   }
   @media (min-width: 600px) {
     margin: 0 10px 0 10px;
@@ -48,7 +49,7 @@ function Labels(props) {
   return (
     <LabelContainer edit={props.edit} >
       {labelTitles.map((title, i) =>
-        <Label ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={props.selected && props.selected.includes(i)}>{title}</Label>)}
+        <Label edit={props.edit} ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={props.selected && props.selected.includes(i)}>{title}</Label>)}
     </LabelContainer>
   );
 }

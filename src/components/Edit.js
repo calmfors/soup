@@ -136,7 +136,6 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   let editToppings = [...choosenSoup.toppings]
   while (editToppings.length < 4) editToppings.push("")
   let editFilter = [...choosenSoup.filter]
-  while (editFilter.length < 2) editFilter.push("")
   let tempArrayOfIndex = []
   editFilter.map(filter => {
     tempArrayOfIndex.push(labels.indexOf(filter))
@@ -182,13 +181,11 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   function handleSave() {
     let tempToppings = soupToppings.filter(topping => topping.length > 2)
     let tempFilter = soupFilter.filter(filter => filter.length > 2)
-    console.log(tempFilter)
     if (choosenSoup.filter !== tempFilter) choosenSoup.filter = tempFilter
     if (choosenSoup.toppings !== tempToppings) choosenSoup.toppings = tempToppings
     if (choosenSoup.name !== soupName) choosenSoup.name = soupName
     if (choosenSoup.description !== soupDescription) choosenSoup.description = soupDescription
     if (choosenSoup.price !== soupPrice) choosenSoup.price = soupPrice
-    console.log(choosenSoup)
     let tempSoups = [...soups]
     let indexOfSoup = soups.findIndex(soup => soup.id === choosenSoup.id)
     // tempSoups.slice(indexOfSoup)
@@ -196,7 +193,6 @@ function Edit({ handleEdit, labels, choosenSoup }) {
     localStorage.setItem('soups', JSON.stringify(tempSoups))
     setChangeButton(true)
     setOrderMessage('Saved')
-    console.log(choosenSoup)
     setTimeout(
       function () {
         setChangeButton(false)
@@ -216,11 +212,9 @@ function Edit({ handleEdit, labels, choosenSoup }) {
     if (!selectedFilterIndex.includes(i) && i !== null) {
       tempFilter.push(labels[i])
       setSoupFilter(tempFilter)
-      console.log(soupFilter)
     } else {
       tempFilter = soupFilter.filter(filter => filter !== labels[i])
       // tempFilter.slice(tempFilter.indexOf(labels[i]))
-      console.log(tempFilter)
       setSoupFilter(tempFilter)
     }
     tempFilter.map(filter => {
