@@ -202,9 +202,7 @@ function Edit({ handleEdit, labels, choosenSoup }) {
         setOrderMessage('Save changes')
       }, 2000)
     handleEdit(choosenSoup)
-
   }
-
 
   function handleFilter(i) {
     let tempFilter = [...soupFilter]

@@ -142,8 +142,11 @@ function Menu() {
         }
     }
     function handleFilter(i) {
+        console.log(i)
+        console.log(soupFilter.selected)
+        let tempSelected = soupFilter.selected ? soupFilter.selected : []
         if (!seeOrder && !loginMenu) {
-            if (i !== null && !soupFilter.selected) {
+            if (i !== null && !tempSelected.includes(i)) {
                 let tempSoups = soups
                 const selectedSoups = tempSoups.filter(tempSoup => tempSoup.filter.includes(labels[i]))
                 setSoupFilter({

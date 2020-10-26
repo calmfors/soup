@@ -26,9 +26,9 @@ const LabelContainer = styled.div`
 
 const Label = styled.button`
   height: 25px;
-  color: ${props => props.selected ? (props.edit ? '#000' : '#fff') : (props.edit ? '#777' : '#000')};
+  color: ${props => props.selected ? (props.edit ? '#000' : '#fff') : (props.edit ? '#666' : '#000')};
   background-color: ${props => props.selected ? (props.edit ? '#FFCC00' : '#6094AA') : (props.edit ? 'transparent' : '#FFCC00')};
-  border: ${props => props.edit && (props.selected ? '2px solid transparent' : '2px solid #777')};
+  border: ${props => props.edit && (props.selected ? '1px solid transparent' : '1px solid #666')};
   border-radius: 5px;  
   font-size: 0.6rem;
   :hover{
