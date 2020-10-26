@@ -142,8 +142,6 @@ function Menu() {
         }
     }
     function handleFilter(i) {
-        console.log(i)
-        console.log(soupFilter.selected)
         let tempSelected = soupFilter.selected ? soupFilter.selected : []
         if (!seeOrder && !loginMenu) {
             if (i !== null && !tempSelected.includes(i)) {

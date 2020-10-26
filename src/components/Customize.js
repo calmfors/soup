@@ -71,6 +71,7 @@ const ToppingContainer = styled.button`
   align-items: center;
   color: ${props => props => props.hide ? "#fff" : props.choosen ? "#fff" : "#555"};
   margin-top: 8px;
+  padding-left: 10px;
   background-color: ${props => props.hide ? red : props.choosen ? green : "#efefef"};
   height: 30px;
   &:hover{

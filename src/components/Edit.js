@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import MenuItem from './MenuItem';
 import soups from '../soups.json';
 import Labels from './Labels';
+import firebase from '../components/firebase';
+
 
 export const red = '#e3714f';
 export const green = '#60c663';
@@ -42,7 +44,7 @@ const OrderButton = styled.button`
 
 const ToppingContainer = styled.section`
   box-sizing:border-box;
-  padding-left:6px;
+  padding-left:10px;
   font-size:0.83rem;
   width: 100%;
   display: flex;
@@ -55,14 +57,12 @@ const ToppingContainer = styled.section`
     background-color:${props => !props.red && `${green}66`};
   }
   @media(min-width: 600px) {
-    padding-left:10px;
     margin-top: ${props => props.filter ? "30px" : "8px"};
   }
 `;
 
 const Text = styled.span`
   text-align: left;
-  font-face: 'Rubik', sans-serif;
   text-transform: uppercase;
 `;
 
@@ -191,6 +191,13 @@ function Edit({ handleEdit, labels, choosenSoup }) {
     // tempSoups.slice(indexOfSoup)
     tempSoups[indexOfSoup] = choosenSoup
     localStorage.setItem('soups', JSON.stringify(tempSoups))
+    firebase.database().ref('/soups/').set(tempSoups)
+      .then((data) => {
+        console.log('Saved Data', data)
+      })
+      .catch((error) => {
+        console.log('Storing Error', error)
+      })
     setChangeButton(true)
     setOrderMessage('Saved')
     setTimeout(
