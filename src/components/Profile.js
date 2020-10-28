@@ -29,7 +29,7 @@ const Fade = styled.section`
 const Hide = styled.section`
   max-height: ${props => props.hide ? "0px" : "200px"};
   transition: max-height 0.3s ease-out;
-  overflow: auto;
+  overflow: ${props => props.orders ? "auto" : "hidden"};
   margin: 0;
   padding: 0;
 `
@@ -201,7 +201,7 @@ function ProfilePage(props) {
                     </Hide>
                     {userObj && name && <Title id="orders" onClick={setHide}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>}
                     {userObj && name &&
-                        <Hide hide={hideOrders}>
+                        <Hide orders={!hideOrders} hide={hideOrders}>
                             {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
                                 <div key={"c" + i} style={{ "borderBottom": "1px solid lightgrey" }}>
                                     <Text key={"a" + i}>{order.date + ": "}
