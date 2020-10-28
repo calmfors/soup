@@ -177,7 +177,6 @@ function Customize(props) {
 
   function getDrinks(i) {
     setSelectedDrink(i)
-    console.log(i)
     setChangeButton(true)
     let message = orderMessage
     if (i === null) setOrderMessage('Drink removed')

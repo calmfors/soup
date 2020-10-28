@@ -200,7 +200,7 @@ function Payment(props) {
               <Input type='text' placeholder='xxxxxx-xxxx' required onChange={handlePersonalNumber} value={personalNumber}></Input>
             </Hide>
           </InputContainer>
-          <Title> Order total {total} SEK</Title>
+          <Title> Order total: {total} SEK</Title>
           <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
           <OrderButton onClick={handleOrder}>Pay</OrderButton>
         </PaymentContainer>

@@ -211,7 +211,6 @@ function Delivery(props) {
     function handleOrder() {
         if (deliveryTime !== "Closed") {
             if (deliveryOption === "pickup" || (name.length > 1 && street.length > 1 && zip.length > 4 && city.length > 1)) {
-                console.log(street + zip + city)
                 let tempOrder = order
                 tempOrder.forEach(tempItem => {
                     delete tempItem.description

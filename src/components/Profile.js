@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Address from './Address';
 import Login from './Login';
+import fb from '../graphics/facebook.png';
+import insta from '../graphics/instagram.png';
 
 const ProfileMenu = styled.div` 
   box-sizing: border-box;
@@ -36,9 +38,9 @@ const Title = styled.h1`
   font-size: 1rem;
   color: #000;
   margin: 20px 0 20px 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid grey;
   cursor:pointer;
-  
+  width:100%;
 `;
 const Rotate = styled.span`
   display: inline-block;
@@ -80,13 +82,18 @@ const Bottom = styled.div`
   bottom: ${props => !props.top && "0px"};
   position: ${props => props.top ? "static" : "absolute"};
   left: 15px;
-  width:calc(100% - 40px);
+  width:calc(100% - 30px);
   border-top: ${props => !props.top && "1px solid grey"};
   transition-duration: 0.3s;
   @media(min-width: 600px) {
+    width: 100%;
     margin-top: 20px;
     position: static;
 }
+`
+const Image = styled.img`
+  width: 6%;
+  margin:10px 10px 10px 0;
 `
 function ProfilePage(props) {
     const [id, setId] = useState("")
@@ -99,6 +106,7 @@ function ProfilePage(props) {
     const [loaded, setLoaded] = useState(false)
     const [hideAddress, setHideAddress] = useState(true)
     const [hideOrders, setHideOrders] = useState(true)
+    const [hideContact, setHideContact] = useState(true)
     const [open, setOpen] = useState(false)
     const [loginDelay, setLoginDelay] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -115,7 +123,6 @@ function ProfilePage(props) {
 
 
     useEffect(() => {
-        console.log(userObj)
         setTimeout(
             function () {
                 setLoginDelay(true)
@@ -136,7 +143,6 @@ function ProfilePage(props) {
                 // further keyup events reset the timer, as expected
                 // function saveToFirebase(user) {
                 let tempUser = userObj
-                console.log(street.length)
                 let tempStreet = street.length > 2 ? street : ""
                 let tempZip = zip.length > 2 ? zip : ""
                 let tempCity = city.length > 2 ? city : ""
@@ -154,7 +160,6 @@ function ProfilePage(props) {
     }, [userObj, name, id, city, street, zip, debounce])
 
     function getLoggedInUser(id, userObj) {
-        console.log(id)
         setId(id)
         setUserObj(userObj)
     }
@@ -178,12 +183,23 @@ function ProfilePage(props) {
         localStorage.setItem('localSoups', JSON.stringify(localSoups))
         props.close()
     }
+    function setHide(e) {
+        setHideAddress(e.target.id === 'address' ? !hideAddress : true);
+        setHideContact(e.target.id === 'contact' ? !hideContact : true)
+        setHideOrders(e.target.id === 'orders' ? !hideOrders : true)
+    }
 
     return (
         <>
             <ProfileMenu open={open} onClick={(e) => { e.stopPropagation() }}>
                 <Fade visible={loginDelay} >
-                    <Title onClick={() => setHideOrders(!hideOrders)}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title><br />
+                    <Title id="contact" onClick={setHide}><Rotate hide={hideContact}>{'>'}</Rotate>Contact</Title><br />
+                    <Hide hide={hideContact}>
+                        <Text>Pickup: Ringvägen 100</Text>
+                        <Text>Follow us on Facebook and Instagram for offers and latest news!</Text>
+                        <Image src={fb} /><Image src={insta} />
+                    </Hide>
+                    {userObj && name && <Title id="orders" onClick={setHide}><Rotate hide={hideOrders}>{'>'}</Rotate>My Orders</Title>}
                     {userObj && name &&
                         <Hide hide={hideOrders}>
                             {userObj.orderHistory ? userObj.orderHistory.map((order, i) =>
@@ -195,7 +211,7 @@ function ProfilePage(props) {
                             ) : <Text>No previous orders</Text>}
                         </Hide>
                     }
-                    <Title onClick={() => setHideAddress(!hideAddress)}><Rotate hide={hideAddress}>{'>'}</Rotate>Change Address</Title>
+                    {userObj && name && <Title id="address" onClick={setHide}><Rotate hide={hideAddress}>{'>'}</Rotate>My Address</Title>}
                     {userObj && name &&
 
                         <Hide hide={hideAddress}>

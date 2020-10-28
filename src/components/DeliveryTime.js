@@ -40,7 +40,7 @@ function DeliveryTime(props) {
     }
     function getTimeArray() {
         var currentDate = new Date();
-        let startTime = new Date(currentDate.getTime() + 30 * 60 * 1000)
+        let startTime = new Date(currentDate.getTime() + 15 * 60 * 1000)
         let roundedStartTime = roundTimeQuarterHour(startTime)
 
         let tempTimeArray = []
