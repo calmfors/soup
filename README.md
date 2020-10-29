@@ -9,6 +9,10 @@ An online food delivery app built with react and firebase.
 
 * Order is only possible during the opening hours of the (fictive) restaurant.
 
+* Choose between pick up or delivery.
+
+* Possible to send as a soupogram with attached message to a friend.
+
 * Everyone can browse the soups but only signed in users can order. 
 
 * Signed in users with order history can order their favourite order again.
@@ -19,6 +23,6 @@ An online food delivery app built with react and firebase.
 
 * [UX-prototype made in Figma.](https://www.figma.com/proto/kgZVmY3Tr6EQUgLsXTVPgo/Soup?node-id=208%3A1703&scaling=min-zoom)
 
-* [App is published at calmfors.se/soup.](http://calmfors.se/soup/) 
+* [App is deployed at calmfors.se/soup.](http://calmfors.se/soup/) 
 
 * This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
