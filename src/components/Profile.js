@@ -167,7 +167,7 @@ function ProfilePage(props) {
             }, 2000))
         }
 
-    }, [userObj, name, id, city, street, zip, debounce])
+    }, [userObj, name, id, city, street, zip, edit, debounce])
 
     function getLoggedInUser(id, userObj) {
         setId(id)

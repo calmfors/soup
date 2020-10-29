@@ -10,17 +10,6 @@ export const red = '#e3714f';
 export const green = '#60c663';
 export const yellow = '#FFCC00';
 
-const SoupTitle = styled.h1`
-  text-transform: uppercase;
-  font-size: 1rem;
-  padding: 0px 10px 0px 10px;
-  margin-top: 10px;
-  text-align:left;
-  @media (min-width: 600px) {
-    padding: 7px 10px 5px 0px;
-  }
-`;
-
 const OrderButton = styled.button`
   position: fixed;
   bottom: 0;
@@ -106,12 +95,6 @@ const Description = styled.textarea`
       padding: 0;
   }
 `
-const Label = styled.label`
-  display:inline-block;
-  font-size:0.7 rem;
-  color: ${props => props.grey && props.bordert ? "#777" : "#fff"};
-  margin: 7px 0 8px 0;
-`;
 const Price = styled.section`
   width:95px;
   position: absolute;
@@ -138,7 +121,7 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   let editFilter = [...choosenSoup.filter]
   let tempArrayOfIndex = []
   editFilter.map(filter => {
-    tempArrayOfIndex.push(labels.indexOf(filter))
+    return tempArrayOfIndex.push(labels.indexOf(filter))
   })
 
   const [changeButton, setChangeButton] = useState(false)
@@ -149,7 +132,6 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   const [soupFilter, setSoupFilter] = useState(editFilter)
   const [soupPrice, setSoupPrice] = useState(choosenSoup.price)
   const [soupImg, setSoupImg] = useState(choosenSoup.img)
-  const [selectedDrink, setSelectedDrink] = useState(null)
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(tempArrayOfIndex)
 
 
@@ -167,11 +149,7 @@ function Edit({ handleEdit, labels, choosenSoup }) {
     tempArr[i] = e.target.value.toLowerCase(); // replace e.target.value with whatever you want to change it to
     setSoupToppings(tempArr)
   }
-  function handleFilter(e, i) {
-    let tempArr = [...soupFilter]; // copying the old datas array
-    tempArr[i] = e.target.value.toLowerCase(); // replace e.target.value with whatever you want to change it to
-    setSoupFilter(tempArr)
-  }
+
   function handlePrice(e) {
     setSoupPrice(e.target.value)
   }
@@ -188,7 +166,6 @@ function Edit({ handleEdit, labels, choosenSoup }) {
     if (choosenSoup.price !== soupPrice) choosenSoup.price = soupPrice
     let tempSoups = [...soups]
     let indexOfSoup = soups.findIndex(soup => soup.id === choosenSoup.id)
-    // tempSoups.slice(indexOfSoup)
     tempSoups[indexOfSoup] = choosenSoup
     localStorage.setItem('soups', JSON.stringify(tempSoups))
     firebase.database().ref('/soups/').set(tempSoups)
@@ -219,14 +196,13 @@ function Edit({ handleEdit, labels, choosenSoup }) {
       setSoupFilter(tempFilter)
     } else {
       tempFilter = soupFilter.filter(filter => filter !== labels[i])
-      // tempFilter.slice(tempFilter.indexOf(labels[i]))
       setSoupFilter(tempFilter)
     }
     tempFilter.map(filter => {
-      tempArrayOfIndex.push(labels.indexOf(filter))
+      return tempArrayOfIndex.push(labels.indexOf(filter))
     })
     tempFilter.map(filter => {
-      tempArrayOfIndex.push(labels.indexOf(filter))
+      return tempArrayOfIndex.push(labels.indexOf(filter))
     })
 
     setSelectedFilterIndex(tempArrayOfIndex)
@@ -237,11 +213,7 @@ function Edit({ handleEdit, labels, choosenSoup }) {
       <MenuItem customize={true} edit={true} categories={choosenSoup.filter}
         title={choosenSoup.name} src={choosenSoup.img} price={choosenSoup.price + " kr"} />
       <EditContainer>
-        {/* <SoupTitle>{props.choosenSoup.name}</SoupTitle> */}
-        {/* <label htmlFor='name'><Label>Name</Label></label> */}
         <Input mono="true" title="true" type='text' placeholder='Soup name' required onChange={handleName} value={soupName}></Input><br />
-        {/* <Description>{props.choosenSoup.description}</Description> */}
-        {/* <Label bordert={true} grey={inputGrey}>Send a soup❤gram</Label> */}
         <Description
           id="description"
           value={soupDescription}
@@ -261,16 +233,9 @@ function Edit({ handleEdit, labels, choosenSoup }) {
           <Text>Edit categories</Text>
         </ToppingContainer>
         <Labels edit="true" labels={labels} selected={selectedFilterIndex} handleFilter={handleFilter} />
-
-        {/* {soupFilter.map((filter, i) =>
-          <ToppingContainer key={"b" + i} >
-            <Input mono={true} type='text' placeholder='+ category' required onChange={(e) => handleFilter(e, i)} value={filter}></Input><br />
-          </ToppingContainer>
-        )} */}
         <Price>
           <Input type='text' mono="true" title="true" width="60" placeholder='xxx' required onChange={handlePrice} value={soupPrice}></Input>SEK
         </Price>
-        {/* <Drinks selectedDrink={getDrinks} /> */}
         <OrderButton toppingChange={changeButton} onClick={handleSave}>{orderMessage}</OrderButton>
       </EditContainer>
     </>
