@@ -4,7 +4,7 @@ import Menu from './pages/Menu'
 import Delivery from './pages/Delivery'
 import Payment from './pages/Payment'
 import {
-  HashRouter,
+  BrowserRouter,
   Switch,
   Route
 } from "react-router-dom";
@@ -21,21 +21,21 @@ function App() {
 
   return (
     <div className="App">
-      {/* <HashRouter> */}
-      <Switch>
-        <Route path="/delivery" component={Delivery} />
-        <Route path="/payment" component={Payment} />
-        <Route path="/">
-          {loadingPage ?
-            <header className="App-header">
-              <img src={logo} className={fadeLogo ? "App-logo-fade" : "App-logo"} alt="logo" />
-            </header>
-            :
-            <Menu />
-          }
-        </Route>
-      </Switch>
-      {/* </HashRouter> */}
+      <BrowserRouter basename='/soup/'>
+        <Switch>
+          <Route path="/delivery" component={Delivery} />
+          <Route path="/payment" component={Payment} />
+          <Route path="/">
+            {loadingPage ?
+              <header className="App-header">
+                <img src={logo} className={fadeLogo ? "App-logo-fade" : "App-logo"} alt="logo" />
+              </header>
+              :
+              <Menu />
+            }
+          </Route>
+        </Switch>
+      </BrowserRouter>
     </div>
   )
 }

@@ -4,6 +4,8 @@ import Address from './Address';
 import Login from './Login';
 import fb from '../graphics/facebook.png';
 import insta from '../graphics/instagram.png';
+import firebase from '../components/firebase';
+
 
 const ProfileMenu = styled.div` 
   box-sizing: border-box;
@@ -27,6 +29,7 @@ const Fade = styled.section`
 
 `
 const Hide = styled.section`
+  position: relative;
   max-height: ${props => props.hide ? "0px" : "200px"};
   transition: max-height 0.3s ease-out;
   overflow: ${props => props.orders ? "auto" : "hidden"};
@@ -148,6 +151,13 @@ function ProfilePage(props) {
                 let tempCity = city.length > 2 ? city : ""
                 tempUser = { ...tempUser, name, street: tempStreet, zip: tempZip, city: tempCity }
                 localStorage.setItem('localUser', JSON.stringify(tempUser))
+                firebase.database().ref('/users/').child(id).set(tempUser)
+                    .then((data) => {
+                        console.log('Saved Data', data)
+                    })
+                    .catch((error) => {
+                        console.log('Storing Error', error)
+                    })
                 setSaved(true)
                 setTimeout(
                     function () {
