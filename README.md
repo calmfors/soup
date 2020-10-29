@@ -1,5 +1,5 @@
 ## Soup Delivery
-An easy, less-is-more and straight forward online food delivery app built with react and firebase.
+An easy, less-is-more and straight forward online food delivery app built with react and firebase. No tutorial was used, all code is written by me, Erik Calmfors.
 
 * Eight soups divided in five categories.
 
