@@ -3,13 +3,19 @@ An online food delivery app built with react and firebase.
 
 * Eight soups divided in five categories.
 
+* Fast and easy soup filtering based on categories.
+
 * Maximum four optional toppings for each soup.
 
 * Five different choices of drinks.
 
-* Order is only possible during the opening hours of the (fictive) restaurant.
+* Clear order overview with possibility to remove items.
+
+* Order is only possible during opening hours of the (fictive) restaurant.
 
 * Choose between pick up or delivery.
+
+* Choose preferred delivery time.
 
 * Possible to send as a soupogram with attached message to a friend.
 
