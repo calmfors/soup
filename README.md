@@ -21,8 +21,8 @@ An online food delivery app built with react and firebase.
 
 * Tracking page will be implemented in the future.
 
-* [UX-prototype made in Figma.](https://www.figma.com/proto/kgZVmY3Tr6EQUgLsXTVPgo/Soup?node-id=208%3A1703&scaling=min-zoom)
+* [UX-prototype](https://www.figma.com/proto/kgZVmY3Tr6EQUgLsXTVPgo/Soup?node-id=208%3A1703&scaling=min-zoom) and logo made in Figma.
 
-* [App is deployed at calmfors.se/soup.](http://calmfors.se/soup/) 
+* App is deployed at [calmfors.se/soup](http://calmfors.se/soup/). 
 
 * This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
