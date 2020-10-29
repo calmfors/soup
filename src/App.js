@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
+import logo from './graphics/logo.svg';
 import Menu from './pages/Menu'
 import Delivery from './pages/Delivery'
 import Payment from './pages/Payment'
@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter basename='/soup/'>
+      <BrowserRouter>
         <Switch>
           <Route path="/delivery" component={Delivery} />
           <Route path="/payment" component={Payment} />
