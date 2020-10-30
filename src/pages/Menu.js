@@ -10,7 +10,7 @@ import OrderSummary from '../components/OrderSummary';
 import LoadingDots from '../components/LoadingDots';
 import Edit from '../components/Edit';
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   margin: 0 auto;
   margin-top: ${props => props.customize ? '38px' : '75px'};
   width: 100%;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
     max-width: 1350px;
     flex-wrap: wrap;
   }
-`
+`;
 const OrderButtonContainer = styled.section`
   margin: 0 auto;
   position:fixed;
@@ -61,8 +61,7 @@ const Fade = styled.div`
   left: 0;
   height: 100vh;
   width: calc(100vw - (100vw - 100%));
-`
-
+`;
 
 function Menu() {
 
@@ -267,12 +266,10 @@ function Menu() {
 
     return (
         <>
+            <Header close={closeOrderAgain} check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => { setSeeOrder(false); setLoginMenu(false); handleClick(99); }} text="Menu" />
 
+            {!customize && <Labels labels={labels} selected={soupFilter.selected} handleFilter={handleFilter} />}
             <Wrapper onClick={closeMenus} customize={customize} orderButton={cart}>
-
-                <Header close={closeOrderAgain} check={logOutOrInListener} showLogin={loginMenu} back={back} handleLogin={handleLogin} handleClick={() => { setSeeOrder(false); setLoginMenu(false); handleClick(99); }} text="Menu" />
-
-                {!customize && <Labels labels={labels} selected={soupFilter.selected} handleFilter={handleFilter} />}
                 {!customize &&
                     soupFilter.filteredSoups.map((item, i) =>
                         <MenuItem handleLoading={handleLoad} itemId={i} customize={customize} categories={labels.filter(label => item.filter.includes(label))}

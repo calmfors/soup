@@ -17,7 +17,7 @@ const LoginContainer = styled.div`
   @media (min-width: 600px) {
     max-width: 600px;
   }
-`
+`;
 const LoadingDots = styled.h1`
 font-size: 1rem;
 &:after {
@@ -42,7 +42,7 @@ font-size: 1rem;
     text-shadow:
       .5em 0 0 black,
       1em 0 0 black;}}
-`
+`;
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 100%;
@@ -52,7 +52,7 @@ const Wrapper = styled.div`
     max-width: 1350px;
     flex-wrap: wrap;
   }
-`
+`;
 const DeliveryContainer = styled.main`
   box-sizing: border-box;
   padding-top:20px;
@@ -64,14 +64,13 @@ const DeliveryContainer = styled.main`
   @media (min-width: 600px) {
     max-width: 600px;
     }
-`
+`;
 const Label = styled.label`
   display:inline-block;
   font-size:0.7 rem;
   color: ${props => props.grey && props.bordert ? "#777" : "#fff"};
   margin: 7px 0 8px 0;
 `;
-
 const InputContainer = styled.section`
   width:calc(100% - 20px);
   margin-left:10px;
@@ -85,7 +84,7 @@ const InputContainer = styled.section`
 const Checkbox = styled.input`
   margin-right:10px;
   box-sizing:border-box;
-`
+`;
 const Message = styled.textarea`
   box-sizing:border-box;
   width: 100%;
@@ -93,12 +92,12 @@ const Message = styled.textarea`
   border-radius: 7px;
   resize: none;
   margin-bottom:12px;
-  `
+`;
 const Text = styled.p`
   color: #fff;
   margin:0 0 15px 0;
   color: ${props => props.grey ? "#777" : "#fff"};
-`
+`;
 const OrderButton = styled.button`
   position:fixed;
   bottom: 0;

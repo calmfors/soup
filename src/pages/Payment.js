@@ -16,8 +16,8 @@ const Wrapper = styled.div`
     max-width: 1350px;
     flex-wrap: wrap;
   }
-`
-const PaymentContainer = styled.div`
+`;
+const PaymentContainer = styled.main`
   box-sizing: border-box;
   padding-top:20px;
   position:relative;
@@ -29,7 +29,7 @@ const PaymentContainer = styled.div`
   @media (min-width: 600px) {
     max-width: 600px;
   }
-`
+`;
 const Label = styled.label`
   font-family: 'Rubik Mono One', sans-serif;
   display: inline-block;
@@ -60,17 +60,16 @@ const Input = styled.input`
   margin-bottom:10px;
   color: ${props => props.grey ? "#777" : "#000"};
 `;
-
 const Checkbox = styled.input`
   margin-right:10px;
   box-sizing:border-box;
-`
+`;
 const Text = styled.p`
   color: #fff;
   font-size: 1rem;
   margin-bottom:4px;
   color: ${props => props.grey ? "#777" : "#fff"};
-`
+`;
 const OrderButton = styled.button`
   position:fixed;
   bottom: 0;
@@ -99,19 +98,20 @@ const ThanksContainer = styled.div`
   justify-content: center;
   align-items: center;  
   color: #fff;
-`
+`;
 const Logo = styled.img`
   display:block;  
   width: 50%;
   max-width:300px;
-`
+`;
 const Hide = styled.section`
   max-height: ${props => props.hide ? "0px" : "220px"};
   transition: max-height 0.3s ease-out;
   overflow: hidden;
   margin:0;
   paddnig:0;
-`
+`;
+
 function Payment(props) {
 
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem('localUser')));

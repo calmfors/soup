@@ -23,7 +23,6 @@ const LabelContainer = styled.div`
     transform: ${props => !props.edit && "translate(-50%, 0)"};
    }
 `;
-
 const Label = styled.button`
   height: 25px;
   color: ${props => props.selected ? (props.edit ? '#000' : '#fff') : (props.edit ? '#666' : '#000')};
@@ -49,7 +48,11 @@ function Labels(props) {
   return (
     <LabelContainer edit={props.edit} >
       {labelTitles.map((title, i) =>
-        <Label edit={props.edit} ref={labelRef[i]} key={"d" + i} onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }} selected={props.selected && props.selected.includes(i)}>{title}</Label>)}
+        <Label edit={props.edit} ref={labelRef[i]} key={"d" + i}
+          onClick={() => { props.handleFilter(i); labelRef[i].current.blur() }}
+          selected={props.selected && props.selected.includes(i)}>
+          {title}
+        </Label>)}
     </LabelContainer>
   );
 }

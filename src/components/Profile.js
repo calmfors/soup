@@ -26,8 +26,7 @@ const ProfileMenu = styled.div`
 const Fade = styled.section`
   opacity: ${props => props.visible ? "1" : "0"};
   transition-duration: 0.4s;
-
-`
+`;
 const Hide = styled.section`
   position: relative;
   max-height: ${props => props.hide ? "0px" : "200px"};
@@ -35,7 +34,7 @@ const Hide = styled.section`
   overflow: ${props => props.orders ? "auto" : "hidden"};
   margin: 0;
   padding: 0;
-`
+`;
 const Title = styled.h1`
   display: inline-block;
   font-size: 1rem;
@@ -61,7 +60,7 @@ const Text = styled.p`
   background-color: ${props => props.saved && "#E05A33cc"};
   padding: ${props => props.saved ? "5px" : "0"};
   border-radius: 5px;
-`
+`;
 const Saved = styled.div`
   position: absolute;
   left: 0;
@@ -70,7 +69,7 @@ const Saved = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-`
+`;
 const TextBtn = styled.button`
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
@@ -93,11 +92,12 @@ const Bottom = styled.div`
     margin-top: 20px;
     position: static;
 }
-`
+`;
 const Image = styled.img`
   width: 6%;
   margin:10px 10px 10px 0;
-`
+`;
+
 function ProfilePage(props) {
     const [id, setId] = useState("")
     const [userObj, setUserObj] = useState(null)

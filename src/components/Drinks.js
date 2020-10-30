@@ -12,7 +12,6 @@ const ToppingButton = styled.span`
   padding-left: 10px;
   color: #fff;
 `;
-
 const ToppingContainer = styled.button`
   text-align: left;
   box-sizing:border-box;
@@ -40,7 +39,7 @@ const DrinkOptions = styled.section`
   cursor: pointer;
   margin: ${props => props.hide ? "10px 0 20px 0" : "0"};
   padding: 0 10px 0 10px;
-`
+`;
 const DrinkImg = styled.img`
   height: 90%;
   opacity: ${props => props.hide ? "1" : "0"};
@@ -48,7 +47,7 @@ const DrinkImg = styled.img`
   &:hover{
     transform: scale(1.2);
   }
-`
+`;
 const CheckContainer = styled.section`
   display: ${props => props.position && props.hide ? "flex" : "none"};
   align-items: center;
@@ -59,15 +58,17 @@ const CheckContainer = styled.section`
   top: -5px;
   height: calc(100% + 5px);
   width: 62px;
-`
+`;
 const Check = styled.img`
   height:40px; 
-`
+`;
 
 function Drinks(props) {
   const [hide, setHide] = useState(false);
-  const [checkPosition, setCheckPosition] = useState(null)
-  const [selectedDrink, setSelectedDrink] = useState(null)
+  const [checkPosition, setCheckPosition] = useState(null);
+  const [selectedDrink, setSelectedDrink] = useState(null);
+
+  //To be added to database...
   const drinkArray = [
     { "name": "Bonaqua natural (33cl)", "img": 1 },
     { "name": "Bonaqua citrus (33cl)", "img": 2 },

@@ -15,30 +15,6 @@ var config = {
 // Initialize Firebase
 firebase.initializeApp(config);
 
-// class Firebase {
-//     constructor() {
-//         app.initializeApp(config);
-
-//         this.auth = app.auth();
-//     }
-
-//     // *** Auth API ***
-
-//     doCreateUserWithEmailAndPassword = (email, password) =>
-//         this.auth.createUserWithEmailAndPassword(email, password);
-
-//     doSignInWithEmailAndPassword = (email, password) =>
-//         this.auth.signInWithEmailAndPassword(email, password);
-
-//     doSignOut = () => this.auth.signOut();
-
-//     doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
-
-//     doPasswordUpdate = password =>
-//         this.auth.currentUser.updatePassword(password);
-// }
-
-
 export const database = firebase.database();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const auth = firebase.auth();

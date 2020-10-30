@@ -79,10 +79,10 @@ const ToppingContainer = styled.button`
   }
 `;
 const CustomizeContainer = styled.section`
-@media(min-width: 600px) {
-  display: inline-block;
-  max-width: 290px;
-  margin-top: 40px;
+  @media(min-width: 600px) {
+    display: inline-block;
+    max-width: 290px;
+    margin-top: 40px;
 }
 `;
 const Rotate = styled.span`
@@ -123,7 +123,6 @@ export const EditButton = styled.button`
       background-image: radial-gradient(#FFCC00,#ffe066);
       transition-duration: 0.2s;
     }
-
 }
 `
 const EditImg = styled.img`
@@ -172,7 +171,6 @@ function Customize(props) {
           setOrderMessage(message)
         }, 1000)
     }
-
   }
 
   function getDrinks(i) {

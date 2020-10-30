@@ -5,10 +5,9 @@ import soups from '../soups.json';
 import Labels from './Labels';
 import firebase from '../components/firebase';
 
-
-export const red = '#e3714f';
-export const green = '#60c663';
-export const yellow = '#FFCC00';
+const red = '#e3714f';
+const green = '#60c663';
+const yellow = '#FFCC00';
 
 const OrderButton = styled.button`
   position: fixed;
@@ -30,7 +29,6 @@ const OrderButton = styled.button`
     margin-left: calc(100vw - 100%);
   }
 `;
-
 const ToppingContainer = styled.section`
   box-sizing:border-box;
   padding-left:10px;
@@ -56,10 +54,10 @@ const Text = styled.span`
 `;
 
 const EditContainer = styled.section`
-@media(min-width: 600px) {
-  display: inline-block;
-  width: 290px;
-  margin-top: 40px;
+  @media(min-width: 600px) {
+    display: inline-block;
+    width: 290px;
+    margin-top: 40px;
 }
 `;
 const Input = styled.input`
@@ -74,7 +72,6 @@ const Input = styled.input`
     padding: ${props => props.title ? props.width ? "0" : "0px" : "6px 0 6px 0"};
     margin-top:${props => props.title ? props.width ? "0" : "16px" : "0"};
     margin-bottom:${props => props.title ? props.width ? "0" : "4px" : "0"};
-
 }
 `;
 const Description = styled.textarea`
@@ -94,7 +91,7 @@ const Description = styled.textarea`
       margin: 2px 0 15px 0;
       padding: 0;
   }
-`
+`;
 const Price = styled.section`
   width:95px;
   position: absolute;
@@ -110,11 +107,12 @@ const Price = styled.section`
   align-items:center;
   padding:5px;
   @media(min-width: 600px) {
-      left: calc(50% - 124px);
-      top: 538px;
-      height: 20px;
+    left: calc(50% - 124px);      
+    top: 538px;
+    height: 20px;
   }
 `;
+
 function Edit({ handleEdit, labels, choosenSoup }) {
   let editToppings = [...choosenSoup.toppings]
   while (editToppings.length < 4) editToppings.push("")
@@ -133,7 +131,6 @@ function Edit({ handleEdit, labels, choosenSoup }) {
   const [soupPrice, setSoupPrice] = useState(choosenSoup.price)
   const [soupImg, setSoupImg] = useState(choosenSoup.img)
   const [selectedFilterIndex, setSelectedFilterIndex] = useState(tempArrayOfIndex)
-
 
   function handleName(e) {
     setSoupName(e.target.value)

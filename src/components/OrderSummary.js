@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     max-width: 1350px;
     flex-wrap: wrap;
   }
-`
+`;
 const Summary = styled.section`
   position:relative;
   box-sizing:border-box;
@@ -36,7 +36,6 @@ const Summary = styled.section`
   border-radius: 5px;
   padding-bottom: ${props => props.pay ? "0" : "50px"};
 `;
-
 const OrderThumb = styled.section`
   box-sizing: border-box;
   width:calc(100% - 20px);
@@ -45,7 +44,7 @@ const OrderThumb = styled.section`
   margin:10px;
   border-bottom: 1px solid grey;
   text-align: left;
-`
+`;
 const PlaceOrderContainer = styled(OrderThumb)`
   display: ${props => props.pay && "none"};
   width: ${props => `calc(100% - ${props.width}px)`};
@@ -59,7 +58,7 @@ const PlaceOrderContainer = styled(OrderThumb)`
   border-bottom:none;
   margin:0;
   border-radius:0 0 5px 5px;
-`
+`;
 const OrderImg = styled.img`
   display:inline;
   margin-right: 10px;
@@ -67,7 +66,7 @@ const OrderImg = styled.img`
   height: 60px;
   object-fit: cover;
   object-position: center;
-`
+`;
 const OrderText = styled.p`
   font-size:${props => props.total ? "1rem" : "0.9rem"};
   font-weight:${props => props.total && "500"};
@@ -75,7 +74,7 @@ const OrderText = styled.p`
   width:calc(100% - 90px);
   margin:0;
   line-height:1.2rem;
-`
+`;
 const Close = styled(OrderText)`
  font-size: 1.2rem;
  color: red;
@@ -85,7 +84,7 @@ const Close = styled(OrderText)`
  &:hover{
    font-weight: bold; 
  }
-`
+`;
 const PlaceOrder = styled.button`
   margin:0;
   width:60%;
@@ -95,7 +94,7 @@ const PlaceOrder = styled.button`
    &:hover{
     background-image: radial-gradient(#ffe066, #FFCC00);
   }
-`
+`;
 const Alert = styled.div`
   position: absolute;
   left: 0px;
@@ -103,7 +102,7 @@ const Alert = styled.div`
   height: 83px;
   width: 100%;
   background-color: #6094AAdd;  
-`
+`;
 const AlertButton = styled.button`
   display:inline-block;
   font-family: 'Rubik', sans-serif;
@@ -111,13 +110,13 @@ const AlertButton = styled.button`
   width: 25%;
   font-size: 1rem;
   background-color: Transparent;
-`
+`;
 const AlertText = styled.p`
   margin: 15px 10px 10px 10px;
   color: white;
   width: calc(100% - 20px);
   font-size: 1rem;
-`
+`;
 
 function OrderSummary(props) {
   const [order, setOrder] = useState(null);

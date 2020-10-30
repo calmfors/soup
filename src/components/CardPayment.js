@@ -8,7 +8,6 @@ const InputContainer = styled.section`
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
   color: #fff;
- 
 `;
 const Label = styled.label`
   display:inline-block;
@@ -65,7 +64,6 @@ function CardPayment(props) {
     if (e.target.id === "year") {
       if (e.target.value.length < 3) setExpDateYear(e.target.value)
       card.expDateYear = e.target.value
-
     }
   }
 

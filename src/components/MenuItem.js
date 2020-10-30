@@ -17,14 +17,14 @@ const Order = styled.div`
   border-radius: 50%;
   box-shadow: 0 0 10px #5557;
   transition-duration: 0.2s;
-`
+`;
 const OrderText = styled.span`
   display: inline-block;
   text-transform: uppercase;
   font-family: 'Rubik Mono One', sans-serif;
   font-size: 0.8rem;
   color: #fff;
-`
+`;
 const LabelBox = styled.section`
   position: absolute;
   left: 10px;

@@ -6,7 +6,6 @@ import profile from '../graphics/profile.svg';
 import logo from '../graphics/logo_tomato.svg';
 import ProfilePage from './Profile';
 
-
 const HeaderContainer = styled.header`
   margin: 0 auto;
   height: 40px;
@@ -29,7 +28,6 @@ const HeaderContainer = styled.header`
     transform: translate(-50%, 0);
    }
 `;
-
 const HeaderItem = styled.button`
   text-transform: uppercase; 
   font-family: 'Rubik Mono One', sans-serif;
@@ -40,7 +38,6 @@ const HeaderItem = styled.button`
   display: flex;
   outline: ${props => props.show ? "1" : "0"};
 `;
-
 const Item = styled.img`
   margin-top: ${props => props.width === "12" ? "4" : "0"}px;
   width: ${props => props.width}px;
@@ -50,7 +47,7 @@ const Item = styled.img`
 const Logo = styled.img`
   width: 110px;
   margin-bottom:-15px;
-`
+`;
 
 function Header(props) {
 

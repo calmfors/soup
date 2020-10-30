@@ -11,30 +11,27 @@ const Btn = styled.button`
   color: white;
   padding: 2px 10px 2px 10px;
   &:focus {
-      outline-color: #F005;
+    outline-color: #F005;
   }
 `;
-
 const TextBtn = styled.button`
   font-family: 'Rubik', sans-serif;
   font-size: 0.8rem;
   background: none;
 `;
-
 const Label = styled.h1`
   font-size: 1rem;
   margin: 10px 0 2px 0;
 `;
-
 const Text = styled.p`
   font-family: 'Rubik', sans-serif;
   color: #000;
   font-size: 1rem;
-`
+`;
 const Error = styled(Text)`
   font-size: 0.8rem;
   color: ${props => props.color === "white" ? "#fff" : "#f00"};
-`
+`;
 
 function Login(props) {
 

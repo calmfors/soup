@@ -13,10 +13,10 @@ const Asap = styled.p`
   border-bottom: 1px solid #fff;
 `
 const Select = styled.select`
-width: 90px; 
-padding: 2px;
-color: ${props => props.closed ? "#f00" : "#000"};
-max-height: 200px;
+  width: 90px; 
+  padding: 2px;
+  color: ${props => props.closed ? "#f00" : "#000"};
+  max-height: 200px;
 `
 function DeliveryTime(props) {
     const [closed, setClosed] = useState(false)
