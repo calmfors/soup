@@ -206,6 +206,7 @@ function ProfilePage(props) {
                     <Title id="contact" onClick={setHide}><Rotate hide={hideContact}>{'>'}</Rotate>Contact</Title><br />
                     <Hide hide={hideContact}>
                         <Text>Pickup: Ringvägen 100</Text>
+                        <Text>Orders open 7:00–20:30, delivery starts at 10:00.</Text>
                         <Text>Follow us on Facebook and Instagram for offers and latest news!</Text>
                         <Image src={fb} /><Image src={insta} />
                     </Hide>
