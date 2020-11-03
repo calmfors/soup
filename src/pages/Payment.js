@@ -202,7 +202,7 @@ function Payment(props) {
           </InputContainer>
           <Title> Order total: {total} SEK</Title>
           <OrderSummary pay={true} payHeight={paymentOption === "card"} position={true}></OrderSummary>
-          <OrderButton onClick={handleOrder}>Pay</OrderButton>
+          <OrderButton onClick={handleOrder}>Pay {total} SEK</OrderButton>
         </PaymentContainer>
       </Wrapper>
       :

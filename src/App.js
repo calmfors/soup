@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename="/soup/">
         <Switch>
           <Route path="/delivery" component={Delivery} />
           <Route path="/payment" component={Payment} />
